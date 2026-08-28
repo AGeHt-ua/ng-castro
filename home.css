@@ -1,0 +1,715 @@
+/* =========================
+   HOME (index.html only)
+   ========================= */
+
+body.home{
+  background:#000;
+  color:#fff;
+}
+
+.hero{
+  position:relative;
+  min-height:100vh;
+  overflow:hidden;
+  display:flex;
+  align-items:center;
+  background:#000;
+  isolation: isolate;
+}
+
+.hero-bg{
+  position:absolute;
+  inset:0;
+  z-index:-1;
+  background:
+    linear-gradient(180deg, rgba(0,0,0,.62), rgba(0,0,0,.88)),
+    url("./assets/castro-bg.png") center / cover no-repeat;
+  filter:saturate(1.05);
+}
+
+/* пульсуюче червоне світіння по краях */
+.hero::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+
+  background: radial-gradient(
+    circle at center,
+    transparent 55%,
+    rgba(180,0,0,.45) 100%
+  );
+
+  opacity:.65;
+  animation: bloodPulse 4s ease-in-out infinite;
+}
+@keyframes bloodPulse{
+  0%{opacity:.35;}
+  50%{opacity:.70;}
+  100%{opacity:.35;}
+}
+
+/* POPIL / JAR U POVITRI (spark layer) */
+.hero::after{
+  content:"";
+  position:absolute;
+  inset:-20%;
+  z-index:2;
+  pointer-events:none;
+  mix-blend-mode: screen;
+
+  background:
+  radial-gradient(circle at 3% 12%,  rgba(255,190,120,.9) 0 1px, transparent 3px),
+  radial-gradient(circle at 7% 44%,  rgba(255,150,80,.85)  0 1px, transparent 3px),
+  radial-gradient(circle at 11% 78%, rgba(255,220,150,.9) 0 1px, transparent 3px),
+  radial-gradient(circle at 16% 26%, rgba(255,170,100,.85) 0 1px, transparent 3px),
+  radial-gradient(circle at 19% 60%, rgba(255,210,140,.9) 0 1px, transparent 3px),
+  radial-gradient(circle at 23% 90%, rgba(255,160,90,.85)  0 1px, transparent 3px),
+
+  radial-gradient(circle at 28% 18%, rgba(255,200,120,.9) 0 1px, transparent 3px),
+  radial-gradient(circle at 31% 52%, rgba(255,140,80,.85)  0 1px, transparent 3px),
+  radial-gradient(circle at 35% 83%, rgba(255,230,160,.9) 0 1px, transparent 3px),
+  radial-gradient(circle at 39% 34%, rgba(255,170,100,.85) 0 1px, transparent 3px),
+  radial-gradient(circle at 42% 67%, rgba(255,210,140,.9) 0 1px, transparent 3px),
+  radial-gradient(circle at 46% 95%, rgba(255,150,90,.85)  0 1px, transparent 3px),
+
+  radial-gradient(circle at 50% 10%, rgba(255,200,120,.9) 0 1px, transparent 3px),
+  radial-gradient(circle at 54% 48%, rgba(255,170,100,.85) 0 1px, transparent 3px),
+  radial-gradient(circle at 58% 78%, rgba(255,230,160,.9) 0 1px, transparent 3px),
+  radial-gradient(circle at 62% 30%, rgba(255,160,90,.85)  0 1px, transparent 3px),
+  radial-gradient(circle at 66% 63%, rgba(255,210,140,.9) 0 1px, transparent 3px),
+  radial-gradient(circle at 70% 92%, rgba(255,150,90,.85)  0 1px, transparent 3px),
+
+  radial-gradient(circle at 74% 16%, rgba(255,200,120,.9) 0 1px, transparent 3px),
+  radial-gradient(circle at 78% 50%, rgba(255,170,100,.85) 0 1px, transparent 3px),
+  radial-gradient(circle at 82% 84%, rgba(255,230,160,.9) 0 1px, transparent 3px),
+  radial-gradient(circle at 86% 36%, rgba(255,160,90,.85)  0 1px, transparent 3px),
+  radial-gradient(circle at 90% 68%, rgba(255,210,140,.9) 0 1px, transparent 3px),
+  radial-gradient(circle at 95% 94%, rgba(255,180,110,.85) 0 1px, transparent 3px),
+
+  radial-gradient(circle at 12% 98%, rgba(255,200,120,.95) 0 2px, transparent 6px),
+  radial-gradient(circle at 28% 96%, rgba(255,170,100,.95) 0 2px, transparent 6px),
+  radial-gradient(circle at 44% 99%, rgba(255,230,160,.95) 0 2px, transparent 6px),
+  radial-gradient(circle at 61% 97%, rgba(255,160,90,.95)  0 2px, transparent 6px),
+  radial-gradient(circle at 78% 98%, rgba(255,210,140,.95) 0 2px, transparent 6px),
+  radial-gradient(circle at 92% 96%, rgba(255,180,110,.95) 0 2px, transparent 6px);
+
+  background-size: 120% 120%;
+  background-position: 0 0;
+
+  opacity:.95;
+  filter: blur(.25px);
+
+  animation:
+    sparksUp 2.2s linear infinite,
+    sparksDrift 7.5s ease-in-out infinite alternate;
+}
+
+@keyframes sparksUp{
+  from{ transform: translate3d(0,160px,0); }
+  to  { transform: translate3d(-80px,-420px,0); }
+}
+@keyframes sparksDrift{
+  from{ transform: translate3d(-40px,0,0); }
+  to  { transform: translate3d( 40px,0,0); }
+}
+
+.hero-content{
+  position:relative;
+  z-index:1;
+  width:100%;
+  padding:80px 20px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  text-align:center;
+
+  animation: heroReveal .6s ease-out both;
+}
+
+html.home-intro-pending body.home .logo--gif,
+html.home-intro-pending body.home .hero-content h1,
+html.home-intro-pending body.home .hero-content .subtitle,
+html.home-intro-pending body.home .actions .btn-glass{
+  opacity:0;
+}
+
+/* Cinematic home intro: starts only after the video loader begins to leave. */
+body.home.home-intro-run .hero-content{
+  animation: none;
+}
+
+body.home.home-intro-run .logo--gif{
+  position: relative;
+  opacity: 0;
+  animation: castroLogoReveal .72s cubic-bezier(.2,.72,.2,1) .08s both;
+}
+
+body.home.home-intro-run .logo--gif::before{
+  content:"";
+  position:absolute;
+  inset:-24px;
+  z-index:-1;
+  border-radius:50%;
+  background:radial-gradient(circle, rgba(224,24,45,.46), rgba(224,24,45,.10) 42%, transparent 70%);
+  opacity:0;
+  transform:scale(.55);
+  animation:castroLogoGlow .9s ease-out both;
+}
+
+body.home.home-intro-run .hero-content h1{
+  opacity:0;
+  animation:castroTextReveal .48s cubic-bezier(.2,.72,.2,1) .52s both;
+}
+
+body.home.home-intro-run .hero-content .subtitle{
+  opacity:0;
+  animation:castroTextReveal .45s ease-out .68s both;
+}
+
+body.home.home-intro-run .actions .btn-glass{
+  opacity:0;
+  animation:castroActionReveal .46s cubic-bezier(.2,.72,.2,1) both;
+}
+
+body.home.home-intro-run .actions .btn-glass:nth-child(1){ animation-delay:.82s; }
+body.home.home-intro-run .actions .btn-glass:nth-child(2){ animation-delay:.90s; }
+body.home.home-intro-run .actions .btn-glass:nth-child(3){ animation-delay:.98s; }
+
+body.home.home-intro-run .logo--gif,
+body.home.home-intro-run .hero-content h1,
+body.home.home-intro-run .hero-content .subtitle,
+body.home.home-intro-run .actions .btn-glass{
+  transition:opacity .42s ease, transform .42s ease, filter .42s ease;
+}
+
+body.home.home-intro-step-logo .logo--gif,
+body.home.home-intro-step-title .hero-content h1,
+body.home.home-intro-step-subtitle .hero-content .subtitle,
+body.home.home-intro-step-button-1 .actions .btn-glass:nth-child(1),
+body.home.home-intro-step-button-2 .actions .btn-glass:nth-child(2),
+body.home.home-intro-step-button-3 .actions .btn-glass:nth-child(3){
+  animation:none !important;
+  opacity:1;
+  transform:none;
+  filter:none;
+}
+
+body.home.home-intro-done .logo--gif,
+body.home.home-intro-done .hero-content h1,
+body.home.home-intro-done .hero-content .subtitle,
+body.home.home-intro-done .actions .btn-glass{
+  opacity:1;
+  transform:none;
+  filter:none;
+}
+
+@keyframes castroLogoGlow{
+  0%{opacity:0;transform:scale(.55)}
+  42%{opacity:1}
+  100%{opacity:.28;transform:scale(1.18)}
+}
+
+@keyframes castroLogoReveal{
+  0%{opacity:0;transform:scale(.76);filter:blur(9px) brightness(2)}
+  55%{opacity:1;filter:blur(0) brightness(1.45)}
+  100%{opacity:1;transform:scale(1);filter:blur(0) brightness(1)}
+}
+
+@keyframes castroTextReveal{
+  from{opacity:0;transform:translateY(12px);filter:blur(4px)}
+  to{opacity:1;transform:translateY(0);filter:blur(0)}
+}
+
+@keyframes castroActionReveal{
+  from{opacity:0;transform:translateY(14px) scale(.985)}
+  to{opacity:1;transform:translateY(0) scale(1)}
+}
+
+/* hero reveal */
+@keyframes heroReveal{
+  from{ opacity:0; transform: translateY(8px); }
+  to  { opacity:1; transform: translateY(0); }
+}
+
+/* scroll hint (НЕ hero::after, щоб не ламати sparks) */
+.hero-content::after{
+  display: none;
+  content:"";
+  position:absolute;
+  left:50%;
+  bottom:18px;
+  width:2px;
+  height:28px;
+  transform: translateX(-50%);
+
+  background: linear-gradient(
+    180deg,
+    transparent,
+    rgba(255,255,255,.6),
+    transparent
+  );
+
+  opacity:.6;
+  animation: scrollPulse 1.6s ease-in-out infinite;
+  pointer-events:none;
+}
+
+@keyframes scrollPulse{
+  0%,100%{ opacity:.2; }
+  50%{ opacity:.7; }
+}
+
+/* logo + title */
+.logo { width:110px; height:110px; margin-bottom:20px; }
+.logo--gif{ background: url("./assets/hero.gif") center / cover no-repeat; color:transparent; }
+
+h1{
+  font-size:56px;
+  margin:0;
+  line-height:1.05;
+  letter-spacing:.2px;
+}
+h1 span{
+  color:var(--red);
+  text-shadow:0 0 24px rgba(224,24,45,.35);
+}
+
+/* subtle brand underline under hero title */
+.hero h1::after{
+  content:"";
+  display:block;
+  width:72px;
+  height:2px;
+  margin:18px auto 0;
+
+  background: linear-gradient(90deg, transparent, var(--red), transparent);
+  opacity:.65;
+}
+
+.subtitle{ opacity:.85; margin:10px 0 34px; }
+
+.actions{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:18px;
+  max-width:900px;
+  width:100%;
+}
+
+/* cards (fixed + expensive hover) */
+.card{
+  position: relative;
+  background: rgba(255,255,255,.08);
+  border: 1px solid rgba(255,255,255,.08);
+  border-radius: 18px;
+  padding: 20px;
+  color:#fff;
+  transition: transform .22s ease;
+}
+
+.card:hover{ transform: translateY(-4px); }
+
+.card::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  border-radius:18px;
+  pointer-events:none;
+  opacity:0;
+  transition:.25s ease;
+
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,.14),
+    0 18px 60px rgba(0,0,0,.45);
+}
+.card:hover::after{ opacity:1; }
+
+.card strong{display:block; margin-top:6px}
+.card small{display:block; opacity:.75; margin-top:6px;}
+
+.card.red{
+  background: linear-gradient(135deg, var(--red), var(--red2));
+  border:none;
+}
+
+/* mobile */
+@media (max-width:700px){
+  .actions{grid-template-columns:1fr;}
+  h1{font-size:42px;}
+  .hero-content{padding:70px 18px;}
+  .logo{width:96px;height:96px;}
+
+  /* полегшуємо GPU на мобілці */
+  .hero::after{ opacity:.45; filter:none; }
+}
+
+/* reduce motion */
+@media (prefers-reduced-motion: reduce){
+  /* reveal залишаємо, але короткий */
+  .hero-content{ animation: heroReveal .35s ease-out both !important; }
+
+  /* скрол-хінт прибираємо */
+  .hero-content::after{ animation:none !important; }
+
+  /* іскри та пульс залишаємо */
+  .hero::before{
+    animation: bloodPulse 4s ease-in-out infinite !important;
+  }
+  .hero::after{
+    animation:
+      sparksUp 2.2s linear infinite,
+      sparksDrift 7.5s ease-in-out infinite alternate !important;
+  }
+
+}
+
+
+/* footer */
+footer{
+  padding: 18px 0;
+  text-align:center;
+  border-top: 1px solid rgba(255,255,255,.10);
+  background: rgba(0,0,0,0.2);
+} 
+
+/* =========================
+   GLASS BUTTONS (CASTRO)
+   ========================= */
+
+.btn-glass{
+  --spot-x: 50%;
+  --spot-y: 50%;
+  --tilt-x: 0deg;
+  --tilt-y: 0deg;
+  --lift: 0px;
+  --press-scale: 1;
+  position:relative;
+  isolation:isolate;
+  overflow:hidden;
+  display:grid;
+  grid-template-columns:40px minmax(0, 1fr);
+  align-items:center;
+  justify-content:stretch;
+  gap:13px;
+
+  padding:14px 18px;
+  min-height:72px;
+
+  border-radius:18px;
+  font-weight:900;
+  letter-spacing:.2px;
+
+  color:#fff;
+
+  background:
+    linear-gradient(
+      180deg,
+      rgba(255,255,255,.10),
+      rgba(255,255,255,.04)
+    );
+
+  border:1px solid rgba(255,255,255,.14);
+  backdrop-filter: blur(10px);
+
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.18),
+    0 18px 60px rgba(0,0,0,.45);
+
+  transform:
+    perspective(760px)
+    translateY(var(--lift))
+    rotateX(var(--tilt-x))
+    rotateY(var(--tilt-y))
+    scale(var(--press-scale));
+  transform-style:preserve-3d;
+  will-change:transform;
+
+  transition:
+    box-shadow .18s ease,
+    background .18s ease;
+}
+
+.btn-glass::before{
+  content:"";
+  position:absolute;
+  z-index:-1;
+  inset:-1px;
+  pointer-events:none;
+  border-radius:inherit;
+  opacity:0;
+  background:radial-gradient(150px circle at var(--spot-x) var(--spot-y), rgba(255,55,76,.24), rgba(224,24,45,.08) 38%, transparent 68%);
+  transition:opacity .22s ease;
+}
+
+.btn-glass:hover::before{
+  opacity:1;
+}
+
+.btn-glass--red::before{
+  background:radial-gradient(165px circle at var(--spot-x) var(--spot-y), rgba(255,255,255,.24), rgba(255,110,125,.10) 40%, transparent 70%);
+}
+
+.btn-glass:hover{
+  background:
+    linear-gradient(
+      180deg,
+      rgba(255,255,255,.14),
+      rgba(255,255,255,.06)
+    );
+}
+
+/* натискання (дорого, без колхозу) */
+.btn-glass:active{
+  box-shadow:
+    inset 0 2px 8px rgba(0,0,0,.45),
+    0 10px 28px rgba(0,0,0,.35);
+}
+
+/* головна CTA */
+.btn-glass--red{
+  background:
+    radial-gradient(120px 60px at 30% 20%, rgba(224,24,45,.45), transparent 60%),
+    linear-gradient(180deg, var(--red), var(--red2));
+
+  border:none;
+
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.25),
+    0 24px 80px rgba(224,24,45,.45);
+
+  transition:
+    transform .12s ease,
+    box-shadow .12s ease,
+    background .12s ease;
+}
+
+.btn-glass--red:hover{
+}
+
+.btn-glass--red:active{
+  box-shadow:
+    inset 0 2px 10px rgba(0,0,0,.45),
+    0 14px 40px rgba(224,24,45,.35);
+}
+
+/* Restore interactive transforms after the cinematic intro has completed. */
+body.home.home-intro-done .actions .btn-glass{
+  animation: none !important;
+  transition:
+    box-shadow .18s ease,
+    background .18s ease !important;
+  transform:
+    perspective(760px)
+    translateY(var(--lift))
+    rotateX(var(--tilt-x))
+    rotateY(var(--tilt-y))
+    scale(var(--press-scale));
+}
+
+.btn-glass{
+  text-align: left;
+}
+
+.btn-glass__icon{
+  position:relative;
+  z-index:1;
+  display:grid;
+  place-items:center;
+  width:40px;
+  height:40px;
+  border-radius:13px;
+  color:#ff5365;
+  background:rgba(224,24,45,.10);
+  border:1px solid rgba(255,73,93,.22);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.08);
+  transform:translateZ(22px);
+  transition:transform .24s cubic-bezier(.2,.78,.2,1);
+}
+
+.btn-glass__icon svg{
+  width:22px;
+  height:22px;
+  fill:none;
+  stroke:currentColor;
+  stroke-width:1.8;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+}
+
+.btn-glass--red .btn-glass__icon{
+  color:#fff;
+  background:rgba(0,0,0,.16);
+  border-color:rgba(255,255,255,.22);
+}
+
+.btn-glass__copy{
+  position:relative;
+  z-index:1;
+  display:flex;
+  min-width:0;
+  flex-direction:column;
+  gap:5px;
+  transform:translateZ(14px);
+  transition:transform .24s cubic-bezier(.2,.78,.2,1);
+}
+
+.btn-glass:hover .btn-glass__icon{
+  transform:translateZ(28px) scale(1.04);
+}
+
+.btn-glass:hover .btn-glass__copy{
+  transform:translateZ(18px);
+}
+
+.btn-glass strong{
+  font-size:1rem;
+  line-height:1.1;
+}
+
+.btn-glass small{
+  font-size:.82rem;
+  opacity:.75;
+  font-weight:600;
+}
+
+/* Compact auth hint anchored next to the Discord control. */
+body.home .authtip__bubble{
+  position:relative;
+  width:min(248px, calc(100vw - 24px));
+  padding:12px 42px 12px 13px;
+  border-radius:15px;
+  background:rgba(10,10,14,.86) !important;
+  border-color:rgba(255,57,78,.30) !important;
+  box-shadow:0 14px 42px rgba(0,0,0,.45), 0 0 24px rgba(224,24,45,.10);
+  backdrop-filter:blur(14px);
+  -webkit-backdrop-filter:blur(14px);
+}
+
+body.home .authtip__title{
+  margin:0 0 4px;
+  font-size:.82rem;
+  color:#fff;
+}
+
+body.home .authtip__text{
+  font-size:.76rem;
+  line-height:1.3;
+  color:rgba(255,255,255,.68);
+}
+
+body.home .authtip__mono{
+  margin-top:6px;
+  padding:4px 7px;
+  border-radius:8px;
+  font-size:.68rem;
+  color:rgba(255,255,255,.82);
+}
+
+body.home .authtip__actions{
+  justify-content:flex-start;
+  margin-top:8px;
+}
+
+body.home .authtip__btn{
+  padding:7px 10px;
+  border-radius:10px;
+  font-size:.72rem;
+}
+
+body.home .authtip__close{
+  position:absolute;
+  top:8px;
+  right:9px;
+  display:grid;
+  place-items:center;
+  width:25px;
+  height:25px;
+  padding:0;
+  border:1px solid rgba(255,255,255,.10);
+  border-radius:8px;
+  background:rgba(255,255,255,.05);
+  color:rgba(255,255,255,.62);
+  font:400 18px/1 system-ui,sans-serif;
+  cursor:pointer;
+}
+
+body.home .authtip__close:hover{
+  color:#fff;
+  background:rgba(255,255,255,.10);
+}
+
+@media (max-width:700px){
+  .btn-glass{
+    padding:14px 18px;
+  }
+  .btn-glass strong{
+    font-size:.95rem;
+  }
+
+  body.home .authtip__bubble{
+    width:min(230px, calc(100vw - 24px));
+  }
+}
+
+/* =========================
+   FOOTER LINK (CASTRO)
+   ========================= */
+
+.site-footer {
+  padding: 18px 0;
+  text-align: center;
+  border-top: 1px solid rgba(255,255,255,.10);
+  background: rgba(0,0,0,0.2);
+  font-size: 14px;
+}
+
+.footer-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+
+  color: #fff;
+  text-decoration: none;
+  font-weight: 600;
+
+  transition: all .2s ease;
+}
+
+.footer-link:hover {
+  color: var(--red);
+  text-shadow: 0 0 12px rgba(224,24,45,.4);
+}
+
+.footer-logo {
+  width: 16px;
+  height: 16px;
+  object-fit: contain;
+  opacity: .85;
+  transition: transform .2s ease, opacity .2s ease;
+}
+
+.footer-link:hover .footer-logo {
+  transform: scale(1.15);
+  opacity: 1;
+} 
+
+.site-footer{
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  z-index: 5;
+
+  background: rgba(0,0,0,0.25);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.hero{
+  position: relative;
+  min-height: 100vh;
+  overflow: hidden;
+  display:flex;
+  align-items:center;
+}

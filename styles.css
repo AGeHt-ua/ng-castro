@@ -1,0 +1,383 @@
+:root{
+  --bg:#0b0b0f;
+  --panel:#12121a;
+  --panel2:#161625;
+  --text:#f2f2f5;
+  --muted:#b6b6c6;
+  --red:#e0182d;
+  --red2:#b31222;
+  --border:rgba(255,255,255,.10);
+  --shadow: 0 20px 60px rgba(0,0,0,.35);
+  --wrap: 1220px;
+  --gap:18px;
+  --max:1220px;
+}
+
+*{ box-sizing: border-box; }
+
+html{
+  scroll-behavior: smooth;
+}
+
+html, body{
+  margin: 0;
+  padding: 0;
+  min-height: 100%;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, "Helvetica Neue", Arial;
+  color: var(--text);
+  background: var(--bg);
+}
+
+a{
+  color: inherit;
+  text-decoration: none;
+}
+
+figure{
+  margin: 0;
+}
+
+.muted{ color: var(--muted); }
+.small{ font-size: .9rem; }
+
+.container{
+  width: min(var(--max), 94vw); /* або 100% з padding */
+  margin-inline: auto;
+  padding-inline: 16px;
+}
+
+/* =========================
+   PAGES (shared)
+   ========================= */
+
+.pagehead{
+  position: relative;
+  padding: 26px 0 18px;
+  background:
+    radial-gradient(900px 520px at 20% 10%, rgba(224,24,45,.18), transparent 55%),
+    linear-gradient(180deg, #0b0b0f, #07070b);
+  border-bottom: 1px solid var(--border);
+}
+
+.pagehead__inner h1{margin: 10px 0 6px; font-size: 2rem;}
+
+.back{ /* підтягуємо стиль кнопки */
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding:8px 12px;
+  border-radius:999px;
+  font-weight:900;
+  font-size:.88rem;
+  color:rgba(255,255,255,.92);
+  text-decoration:none;
+  background: rgba(0,0,0,.28);
+  border:1px solid rgba(255,255,255,.14);
+  backdrop-filter: blur(6px);
+  transition:.18s;
+
+  width: fit-content;
+  justify-self:start;
+  align-self:start;
+}
+
+.back:hover{transform: translateY(-1px);}
+
+.section{padding:38px 0}
+
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.panel{
+  background: linear-gradient(180deg, var(--panel), var(--panel2));
+  border:1px solid var(--border);
+  border-radius:18px;
+  padding:16px;
+  box-shadow: var(--shadow);
+}
+
+.form{display:flex;flex-direction:column;gap:12px;margin-top:12px}
+.form__row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+label{display:flex;flex-direction:column;gap:6px;font-weight:800}
+input,select,textarea{
+  border-radius:14px;
+  border:1px solid var(--border);
+  background: rgba(255,255,255,.06);
+  color: var(--text);
+  padding:10px 12px;
+  outline:none;
+}
+
+textarea{resize:vertical}
+.req{color:var(--red);font-weight:900}
+
+@media (max-width: 980px){
+  .grid{grid-template-columns:1fr}
+  .form__row{grid-template-columns:1fr}
+}
+
+.back-btn{
+  text-decoration:none;
+  font-weight:900;
+  padding:10px 14px;
+  border-radius:14px;
+  border:1px solid rgba(255,255,255,.12);
+  background: rgba(255,255,255,.06);
+  color: var(--text);
+  transition:.18s;
+}
+
+.back-btn:hover{
+  transform: translateY(-2px);
+  background: rgba(255,255,255,.1);
+}
+
+/* =========================================================
+   FORCE AUTH TIP VISIBILITY (IMPORTANT)
+========================================================= */
+
+/* гарантуємо, що підказка поверх УСЬОГО */
+.authtip{
+  z-index: 99999 !important;
+}
+
+/* робимо стрілку ЯСКРАВІШОЮ */
+.authtip__arrow span{
+  border-right-color: #ff2a3d !important;
+  border-bottom-color: #ff2a3d !important;
+  filter:
+    drop-shadow(0 0 6px rgba(255,42,61,.8))
+    drop-shadow(0 0 14px rgba(255,42,61,.6));
+}
+
+/* робимо бульбашку контрастнішою */
+.authtip__bubble{
+  background:
+    radial-gradient(220px 140px at 30% 20%, rgba(255,42,61,.35), transparent 60%),
+    rgba(8,8,12,.92) !important;
+
+  border-color: rgba(255,42,61,.55) !important;
+}
+
+/* легке підсвічування кнопки авторизації */
+.authtip.is-open #auth-login{
+  box-shadow:
+    0 0 0 2px rgba(255,42,61,.55),
+    0 0 32px rgba(255,42,61,.65) !important;
+}
+
+.porders.hidden {
+  display: none;
+}
+
+.pmodal__toggle {
+  background-color: #ff6347;
+  color: white;
+  padding: 10px;
+  border: none;
+  cursor: pointer;
+  margin-top: 10px;
+  font-size: 14px;
+}
+
+.pmodal__toggle:hover {
+  background-color: #ff4500;
+}
+
+.porder {
+  margin-bottom: 10px;
+  padding: 10px;
+  background-color: #444;
+  border-radius: 8px;
+}
+
+.porder__id {
+  font-weight: bold;
+  color: #ff6347;
+}
+
+.pbadge.ok {
+  color: green;
+}
+
+.pbadge.no {
+  color: red;
+}
+
+.pbadge.wait {
+  color: yellow;
+}
+
+#pf-orders-view {
+  display: block; /* блок замовлення */
+}
+
+.porders__json {
+  display: none; /* Сховати JSON */
+}
+
+.details summary {
+  font-size: 1.2rem;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.details div {
+  padding-left: 1rem;
+  margin-top: 0.5rem;
+}
+
+.castro{
+  color: var(--red);
+  text-shadow: 0 0 18px rgba(224,24,45,.35);
+}
+
+.hero {
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+}
+
+.hero-bg video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.hero-bg::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.75);
+}
+
+.hero {
+  position: relative;
+  height: 100vh;
+  width: 100%;
+  overflow: hidden;
+}
+
+.hero {
+  position: relative;
+  height: 100vh;
+  width: 100%;
+  overflow: hidden;
+}
+
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
+
+.hero-bg video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* =========================
+   CASTRO VIDEO LOADER
+========================= */
+.vload{
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: grid;
+  place-items: center;
+  pointer-events: none;
+  opacity: 1;
+  transition: opacity .55s ease, visibility .55s ease;
+  visibility: visible;
+}
+
+.vload.is-hide{
+  opacity: 0;
+  visibility: hidden;
+}
+
+.vload__bg{
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 50% 45%, rgba(120,0,0,.10) 0%, rgba(0,0,0,.92) 65%, rgba(0,0,0,.98) 100%),
+    linear-gradient(180deg, rgba(0,0,0,.92), rgba(0,0,0,.98));
+}
+
+.vload__center{
+  position: relative;
+  display: grid;
+  place-items: center;
+  gap: 14px;
+  transform: translateZ(0);
+  animation: vloadPop .6s ease both;
+}
+
+@keyframes vloadPop{
+  from{ transform: scale(.96); opacity: 0; }
+  to{ transform: scale(1); opacity: 1; }
+}
+
+.vload__logo{
+  width: 120px;
+  height: 120px;
+  object-fit: contain;
+  filter: drop-shadow(0 18px 45px rgba(0,0,0,.65));
+}
+
+.vload__ring{
+  width: 54px;
+  height: 54px;
+  border-radius: 999px;
+  border: 3px solid rgba(255,255,255,.14);
+  border-top-color: rgba(255,70,70,.9);
+  animation: vloadSpin 1s linear infinite;
+}
+
+@keyframes vloadSpin{ to{ transform: rotate(360deg); } }
+
+.vload__text{
+  font: 600 12px/1.2 system-ui, -apple-system, Segoe UI, Roboto, Arial;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.7);
+}
+
+.vload__scan{
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent, rgba(255,80,80,.08), transparent);
+  opacity: .35;
+  animation: vloadScan 1.6s ease-in-out infinite;
+}
+
+@keyframes vloadScan{
+  0%{ transform: translateY(-20%); }
+  100%{ transform: translateY(120%); }
+}
+
+.vload__grain{
+  position: absolute;
+  inset: 0;
+  opacity: .06;
+  mix-blend-mode: overlay;
+  background-size: 300px 300px;
+  animation: vloadGrain 7s steps(10) infinite;
+}
+
+@keyframes vloadGrain{
+  0%{ transform: translate(0,0); }
+  100%{ transform: translate(-8%, 6%); }
+}
+
+/* (важливо) щоб контент не миготів під час лоадера */
+html.is-video-loading,
+body.is-video-loading{
+  overflow: hidden;
+} 

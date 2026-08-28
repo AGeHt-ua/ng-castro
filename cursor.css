@@ -1,0 +1,103 @@
+/* Native Castro cursor: compact glow artwork with an accurate arrow hotspot. */
+@media (hover: hover) and (pointer: fine) {
+  html,
+  body,
+  a,
+  button,
+  [role="button"],
+  label,
+  summary,
+  select {
+    cursor: url("/assets/castro-cursor.png") 8 7, auto !important;
+  }
+
+  input,
+  textarea,
+  [contenteditable="true"] {
+    cursor: text !important;
+  }
+
+  .castro-cursor-pulse {
+    position: fixed;
+    z-index: 2147483647;
+    top: 0;
+    left: 0;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    pointer-events: none;
+    opacity: 0;
+    background: radial-gradient(circle, rgba(255, 38, 54, 0.62) 0%, rgba(255, 10, 34, 0.34) 28%, rgba(255, 0, 24, 0.13) 52%, transparent 74%);
+    mix-blend-mode: screen;
+    animation: castro-cursor-glow 1.35s ease-in-out infinite;
+    will-change: transform, opacity, box-shadow;
+    transition: opacity 120ms ease;
+  }
+
+  .castro-cursor-pulse.is-visible {
+    opacity: 1;
+  }
+
+  @keyframes castro-cursor-glow {
+    0%, 100% {
+      filter: brightness(0.82) blur(0.35px) drop-shadow(0 0 2px rgba(255, 0, 28, 0.28));
+    }
+    50% {
+      filter: brightness(1.28) blur(0.7px) drop-shadow(0 0 6px rgba(255, 12, 36, 0.52));
+    }
+  }
+
+  /* Shared magnetic motion for CTA buttons across the site. */
+  .castro-button-fx:not(.btn-glass) {
+    --fx-tilt-x: 0deg;
+    --fx-tilt-y: 0deg;
+    --fx-lift: 0px;
+    --fx-scale: 1;
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    transform: perspective(760px) translateY(var(--fx-lift)) rotateX(var(--fx-tilt-x)) rotateY(var(--fx-tilt-y)) scale(var(--fx-scale)) !important;
+    transform-style: preserve-3d;
+    will-change: transform;
+    transition:
+      background-color .18s ease,
+      border-color .18s ease,
+      box-shadow .18s ease,
+      color .18s ease,
+      opacity .18s ease !important;
+  }
+
+  .castro-button-fx__glow {
+    position: absolute;
+    z-index: 2;
+    inset: -2px;
+    border-radius: inherit;
+    pointer-events: none;
+    opacity: 0;
+    background: radial-gradient(150px circle at var(--fx-spot-x, 50%) var(--fx-spot-y, 50%), rgba(255, 50, 72, .25), rgba(224, 24, 45, .08) 40%, transparent 70%);
+    mix-blend-mode: screen;
+    transition: opacity .22s ease;
+  }
+
+  .castro-button-fx:hover > .castro-button-fx__glow { opacity: 1; }
+
+  .castro-button-fx.is-castro-pressed {
+    filter: brightness(.84) saturate(1.1);
+  }
+
+  .castro-button-fx.is-castro-pressed > .castro-button-fx__glow {
+    opacity: .42;
+  }
+
+  :is(button, a.btn, a.btn-glass, a.back, a[class*="btn" i], a[class*="button" i], [role="button"], .chip):not(.castro-button-fx):not(:disabled):not([aria-disabled="true"]):active {
+    scale: .94;
+    filter: brightness(.86) saturate(1.08);
+  }
+
+  .castro-button-fx:disabled,
+  .castro-button-fx[aria-disabled="true"] { transform: none !important; }
+
+  .castro-button-fx:disabled > .castro-button-fx__glow,
+  .castro-button-fx[aria-disabled="true"] > .castro-button-fx__glow { display: none; }
+
+}

@@ -1,0 +1,305 @@
+<!doctype html>
+<html lang="uk">
+<head>
+  <!-- SEO -->
+  <title>Family Castro • Офіційний сайт</title>
+  <meta name="description" content="Офіційна сторінка родини Family Castro.">
+  <link rel="canonical" href="https://family-castro.fun/" />
+
+  <!-- Open Graph / Discord / Telegram -->
+  <meta property="og:title" content="Family Castro • Офіційний сайт" />
+  <meta property="og:image" content="https://family-castro.fun/assets/image01.png" />
+  <meta property="og:url" content="https://family-castro.fun/" />
+  <meta property="og:type" content="website" />
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <link rel="icon" type="image/png" href="assets/logo.png" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <script>document.documentElement.classList.add("home-intro-pending");</script>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="/home.css">
+  <link rel="stylesheet" href="/auth.css">
+  <link rel="stylesheet" href="/auth-dock.css">
+  <link rel="stylesheet" href="/page-transition.css">
+  <script src="/page-transition.js"></script>
+  <link rel="stylesheet" href="/cursor.css">
+</head>
+
+<body class="home">
+<div class="page-transition" aria-hidden="true">
+  <div class="page-transition__loader">
+    <img class="page-transition__logo" src="/assets/hero.gif" alt="CASTRO">
+    <div class="page-transition__text">Завантаження…</div>
+    <div class="page-transition__line"><span></span></div>
+  </div>
+</div>
+<!-- VIDEO LOADER (CASTRO) -->
+<div class="vload" id="vload" aria-hidden="false">
+  <div class="vload__bg"></div>
+
+  <div class="vload__center">
+    <img class="vload__logo" src="assets/hero.gif" alt="CASTRO">
+    <div class="vload__text">Завантаження…</div>
+  </div>
+
+  <div class="vload__scan" aria-hidden="true"></div>
+  <div class="vload__grain" aria-hidden="true"></div>
+</div>
+  
+<!-- 🔐 Discord Auth (top-right) -->
+<div id="auth-box" class="auth">
+  <button id="auth-login" class="auth__btn" type="button">
+  <img class="auth__discord" src="assets/discord.svg" alt="">
+  Увійти через Discord
+</button>
+
+  <div id="auth-user" class="auth__user hidden">
+    <img id="auth-avatar" class="auth__avatar" alt="">
+    <span id="auth-name" class="auth__name"></span>
+    <button id="auth-logout" class="auth__logout" type="button" title="Вийти">⎋</button>
+  </div>
+</div>
+
+<!-- AUTH NUDGE (one-time spotlight) -->
+<div id="auth-nudge" class="nudge" aria-hidden="true">
+  <div class="nudge__backdrop"></div>
+
+  <div class="nudge__tooltip" role="dialog" aria-modal="true" aria-label="Підказка авторизації">
+    <div class="nudge__title">👑 Важливо</div>
+    <div class="nudge__text">
+      Авторизуйся через Discord і <b>відредагуй профіль</b>:
+      <br><span class="nudge__mono">[Ім’я Прізвище | Static ID]</span>
+    </div>
+
+    <div class="nudge__actions">
+      <button id="nudge-go" class="nudge__btn nudge__btn--primary" type="button">Авторизуватись</button>
+      <button id="nudge-close" class="nudge__btn" type="button">Зрозуміло</button>
+    </div>
+  </div>
+</div>
+  
+<header class="hero">
+  <div class="hero-bg">
+  <video autoplay muted playsinline>
+    <source src="assets/bg.mp4" type="video/mp4">
+  </video>
+</div>
+
+  <div class="hero-content">
+    <div class="logo logo--gif"></div>
+
+    <h1>Family <span>Castro</span></h1>
+    <p class="subtitle">Official Family NG GTA 5</p>
+
+    <div class="actions">
+  <a href="/info" class="btn-glass">
+    <span class="btn-glass__icon" aria-hidden="true">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 10.5v6M12 7.5h.01"/></svg>
+    </span>
+    <span class="btn-glass__copy">
+      <strong>Інформація</strong>
+      <small>Про сімʼю та діяльність</small>
+    </span>
+  </a>
+
+  <a href="/join" class="btn-glass btn-glass--red">
+    <span class="btn-glass__icon" aria-hidden="true">
+      <svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3"/><path d="M3.5 18c.5-3.2 2.3-5 5.5-5s5 1.8 5.5 5M17.5 8v6M14.5 11h6"/></svg>
+    </span>
+    <span class="btn-glass__copy">
+      <strong>Вступ у сімʼю</strong>
+      <small>Оформлення заявки</small>
+    </span>
+  </a>
+
+  <a href="/shop" class="btn-glass">
+    <span class="btn-glass__icon" aria-hidden="true">
+      <svg viewBox="0 0 24 24"><path d="M5 9h14l-1 11H6L5 9Z"/><path d="M9 9V7a3 3 0 0 1 6 0v2"/></svg>
+    </span>
+    <span class="btn-glass__copy">
+      <strong>Магазин</strong>
+      <small>Зброя та спорядження</small>
+    </span>
+  </a>
+</div>
+</div>
+  
+</header>
+
+<footer class="site-footer">
+  © Family Castro • 
+  <a href="https://ng-gta5.com/" 
+     target="_blank" 
+     rel="noopener" 
+     class="footer-link">
+    NG GTA 5
+    <img src="/assets/NG.png" alt="NG GTA 5" class="footer-logo">
+  </a>
+  <br>
+  <a href="/info/legal" class="footer-link" style="gap:6px;">
+      ⚖️ Правова інформація
+    </a>
+</footer>
+
+<div id="auth-tip" class="authtip" aria-hidden="true">
+  <div class="authtip__bubble">
+    <button id="authtip-close" class="authtip__close" type="button" aria-label="Закрити">×</button>
+    <div class="authtip__title">Доступ до заявок</div>
+
+    <div class="authtip__text">
+      <span id="authtip-text-main">Увійди через Discord і налаштуй профіль.</span>
+      <span id="authtip-mono" class="authtip__mono">Ім’я Прізвище · Static ID</span>
+    </div>
+
+    <div class="authtip__actions">
+      <button id="authtip-go" class="authtip__btn authtip__btn--primary" type="button">
+        Увійти через Discord
+      </button>
+    </div>
+  </div>
+</div>
+  
+<script src="/auth.js" defer></script>
+<script src="authtip.js" defer></script>
+<script src="/profile.js" defer></script>
+<script>
+(function(){
+  const loader = document.getElementById("vload");
+  if(!loader) return;
+  const managedArrival = document.documentElement.classList.contains("page-transition-managed-arrival");
+
+  // Спробуємо знайти відео-фон в твоїх різних шаблонах:
+  const video =
+    document.querySelector(".video-bg video") ||      // join/info/order
+    document.querySelector(".hero-bg video") ||       // index
+    document.querySelector("video#bgVideo") ||        // order
+    document.querySelector("video");
+
+  // Якщо відео не знайдено — просто сховаємо лоадер
+  if(!video){
+    hide();
+    return;
+  }
+
+  document.documentElement.classList.add("is-video-loading");
+  document.body.classList.add("is-video-loading");
+
+  let done = false;
+
+  function runHomeIntro(){
+    if(managedArrival){
+      document.body.classList.add("home-intro-done");
+      document.documentElement.classList.remove("home-intro-pending");
+      return;
+    }
+
+    const logo = document.querySelector(".logo--gif");
+    const title = document.querySelector(".hero-content h1");
+    const subtitle = document.querySelector(".hero-content .subtitle");
+    const buttons = [...document.querySelectorAll(".actions .btn-glass")];
+
+    document.body.classList.add("home-intro-run");
+
+    if(!Element.prototype.animate || !logo || !title || !subtitle){
+      const steps = [
+        [80, "home-intro-step-logo"],
+        [520, "home-intro-step-title"],
+        [680, "home-intro-step-subtitle"],
+        [820, "home-intro-step-button-1"],
+        [900, "home-intro-step-button-2"],
+        [980, "home-intro-step-button-3"],
+        [1480, "home-intro-done"]
+      ];
+      steps.forEach(([delay, className]) => setTimeout(() => {
+        document.body.classList.add(className);
+        if(className === "home-intro-done") document.documentElement.classList.remove("home-intro-pending");
+      }, delay));
+      return;
+    }
+
+    const animations = [
+      logo.animate([
+        { opacity:0, transform:"scale(.76)", filter:"blur(9px) brightness(2)" },
+        { opacity:1, transform:"scale(1)", filter:"blur(0) brightness(1)" }
+      ], { duration:720, delay:80, easing:"cubic-bezier(.2,.72,.2,1)", fill:"forwards" }),
+      title.animate([
+        { opacity:0, transform:"translateY(12px)", filter:"blur(4px)" },
+        { opacity:1, transform:"translateY(0)", filter:"blur(0)" }
+      ], { duration:480, delay:520, easing:"cubic-bezier(.2,.72,.2,1)", fill:"forwards" }),
+      subtitle.animate([
+        { opacity:0, transform:"translateY(10px)" },
+        { opacity:.85, transform:"translateY(0)" }
+      ], { duration:450, delay:680, easing:"ease-out", fill:"forwards" })
+    ];
+
+    buttons.forEach((button, index) => animations.push(button.animate([
+      { opacity:0, transform:"translateY(14px) scale(.985)" },
+      { opacity:1, transform:"translateY(0) scale(1)" }
+    ], { duration:460, delay:820 + index * 80, easing:"cubic-bezier(.2,.72,.2,1)", fill:"forwards" })));
+
+    Promise.allSettled(animations.map(animation => animation.finished))
+      .finally(() => {
+        document.body.classList.add("home-intro-done");
+        document.documentElement.classList.remove("home-intro-pending");
+        animations.forEach(animation => animation.cancel());
+      });
+  }
+
+  // Ховаємо красиво (розсіювання)
+  function hide(){
+    if(done) return;
+    done = true;
+
+    loader.classList.add("is-hide");
+    loader.setAttribute("aria-hidden", "true");
+    document.documentElement.classList.remove("is-video-loading");
+    document.body.classList.remove("is-video-loading");
+  }
+
+  // Запускаємо появу логотипа й контенту саме під час зникнення лоадера.
+  const introObserver = new MutationObserver(() => {
+    if(!loader.classList.contains("is-hide")) return;
+    introObserver.disconnect();
+    setTimeout(runHomeIntro, 420);
+  });
+  introObserver.observe(loader, { attributes: true, attributeFilter: ["class"] });
+
+  // Якщо відео вже має дані — не чекаємо
+  if(video.readyState >= 2){
+    // readyState 2 = HAVE_CURRENT_DATA
+    // Дамо кадр з'явитися і ховаємо
+    requestAnimationFrame(() => setTimeout(hide, 120));
+    return;
+  }
+
+  // Коли відео готове показати перший кадр
+  const onReady = () => {
+    // Дай відео реально почати рендер
+    requestAnimationFrame(() => setTimeout(hide, 120));
+  };
+
+  video.addEventListener("loadeddata", onReady, { once: true });
+  video.addEventListener("canplay", onReady, { once: true });
+
+  // Підстраховка: навіть якщо відео глючить/мережа слабка — не тримаємо вічно
+  setTimeout(hide, 7000);
+
+  // Якщо вкладка схована — не блокуємо користувача лоадером
+  document.addEventListener("visibilitychange", () => {
+    if(document.hidden) hide();
+  });
+
+  // Спробуємо "підштовхнути" завантаження на мобілках
+  try { video.load(); } catch(e) {}
+})();
+</script>
+  
+<script src="/button-fx.js"></script>
+<script src="/cursor.js"></script>
+</body>
+</html>
