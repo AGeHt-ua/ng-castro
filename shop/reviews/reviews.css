@@ -1,0 +1,485 @@
+/* =========================================================
+   REVIEWS — PREMIUM AGGRESSIVE CASTRO
+   (works on top of styles.css + order.css + auth.css)
+   ========================================================= */
+
+body.reviews{
+  background:
+    radial-gradient(900px 480px at 18% 20%, rgba(224,24,45,.20), transparent 55%),
+    radial-gradient(760px 520px at 82% 70%, rgba(224,24,45,.14), transparent 60%),
+    radial-gradient(520px 420px at 55% 35%, rgba(255,255,255,.05), transparent 60%),
+    #07070a;
+}
+
+/* hide identity row entirely (you still keep inputs for logic) */
+body.reviews .identityRow{ display:none !important; }
+
+/* Layout tighter + premium */
+body.reviews .reviewsWrapper{
+  max-width: 980px;
+  margin: 0 auto;
+}
+
+body.reviews .reviewsLayout{
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 18px;
+}
+
+/* Strong premium cards */
+body.reviews .reviewsCard{
+  position: relative;
+  border-radius: 22px;
+  overflow: hidden;
+
+  background: linear-gradient(145deg, rgba(16,16,20,.92), rgba(8,8,12,.92));
+  border: 1px solid rgba(224,24,45,.16);
+
+  box-shadow:
+    0 0 0 1px rgba(224,24,45,.05),
+    0 25px 70px rgba(0,0,0,.65),
+    inset 0 0 90px rgba(224,24,45,.06);
+
+  backdrop-filter: blur(10px);
+}
+
+body.reviews .reviewsCard::before{
+  content:"";
+  position:absolute;
+  inset:-2px;
+  background:
+    radial-gradient(560px 240px at 14% 0%, rgba(224,24,45,.18), transparent 55%),
+    radial-gradient(420px 220px at 82% 0%, rgba(255,255,255,.06), transparent 60%);
+  pointer-events:none;
+  opacity:.65;
+}
+
+body.reviews .reviewsHd{
+  position: relative;
+  z-index: 2;
+  padding: 18px 18px 12px;
+  border-bottom: 1px solid rgba(255,255,255,.08);
+}
+
+body.reviews .reviewsContent{
+  position: relative;
+  z-index: 2;
+  padding: 16px 18px 18px;
+}
+
+/* Head right meta */
+body.reviews .reviewsMetaRight{
+  display:flex;
+  gap:10px;
+  align-items:center;
+  justify-content:flex-end;
+  flex-wrap:wrap;
+}
+
+body.reviews .reviewsAvgStars{
+  font-size: 18px;
+  color: rgba(224,24,45,1);
+  text-shadow: 0 0 18px rgba(224,24,45,.35);
+}
+body.reviews .reviewsAvgText{
+  color: rgba(255,255,255,.78);
+  font-weight: 800;
+}
+
+/* Auth Hint premium */
+body.reviews .authHint{
+  margin: 14px 0;
+  padding: 14px 14px;
+  border-radius: 16px;
+
+  background: linear-gradient(145deg, rgba(0,0,0,.55), rgba(0,0,0,.35));
+  border: 1px solid rgba(224,24,45,.16);
+
+  box-shadow:
+    0 14px 40px rgba(0,0,0,.45),
+    inset 0 0 60px rgba(224,24,45,.06);
+
+  backdrop-filter: blur(10px);
+}
+
+body.reviews .authHint__title{
+  font-weight: 900;
+  letter-spacing: .2px;
+  margin-bottom: 6px;
+}
+
+body.reviews .authHint__text{
+  color: rgba(255,255,255,.82);
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+body.reviews .authHint__actions{
+  margin-top: 10px;
+  display:flex;
+  gap:10px;
+  flex-wrap: wrap;
+}
+
+body.reviews .authHint__btn{
+  padding: 10px 12px;
+  border-radius: 14px;
+  border: 1px solid rgba(224,24,45,.35);
+  background: rgba(224,24,45,.12);
+  color:#fff;
+  font-weight: 900;
+  cursor:pointer;
+  transition: .2s ease;
+}
+body.reviews .authHint__btn:hover{
+  transform: translateY(-1px);
+  background: rgba(224,24,45,.18);
+  box-shadow: 0 18px 40px rgba(0,0,0,.55);
+}
+
+/* Send button more premium */
+body.reviews .reviewsSend{
+  border-radius: 16px !important;
+  box-shadow: 0 20px 60px rgba(224,24,45,.18), 0 20px 60px rgba(0,0,0,.55) !important;
+}
+
+/* Reviews list */
+body.reviews .reviewsList{
+  display: grid;
+  gap: 12px;
+}
+
+/* Empty state */
+body.reviews .reviewsEmpty{
+  padding: 18px;
+  border-radius: 18px;
+  border: 1px dashed rgba(224,24,45,.20);
+  background: rgba(255,255,255,.03);
+  color: rgba(255,255,255,.75);
+}
+
+/* Review item — premium aggressive */
+body.reviews .reviewItem{
+  position: relative;
+  border-radius: 22px;
+  padding: 16px;
+  overflow: hidden;
+
+  background: linear-gradient(145deg, rgba(14,14,18,.92), rgba(7,7,10,.92));
+  border: 1px solid rgba(255,255,255,.08);
+
+  box-shadow:
+    0 20px 55px rgba(0,0,0,.62),
+    inset 0 0 70px rgba(224,24,45,.05);
+
+  transition: .25s ease;
+}
+
+body.reviews .reviewItem:hover{
+  transform: translateY(-3px);
+  border-color: rgba(224,24,45,.22);
+  box-shadow:
+    0 30px 80px rgba(0,0,0,.72),
+    inset 0 0 90px rgba(224,24,45,.08);
+}
+
+/* subtle glow layer */
+body.reviews .reviewGlow{
+  position:absolute;
+  inset:-2px;
+  pointer-events:none;
+  background:
+    radial-gradient(360px 180px at 12% 0%, rgba(224,24,45,.22), transparent 60%),
+    radial-gradient(260px 160px at 86% 0%, rgba(255,255,255,.06), transparent 65%);
+  opacity:.8;
+}
+
+/* head row */
+body.reviews .reviewHead{
+  position: relative;
+  z-index: 2;
+  display:flex;
+  gap: 14px;
+  align-items:flex-start;
+  justify-content:space-between;
+}
+
+body.reviews .reviewLeft{
+  display:flex;
+  gap: 12px;
+  align-items:center;
+  min-width: 0;
+}
+
+body.reviews .reviewAvatar{
+  width: 54px;
+  height: 54px;
+  border-radius: 18px;
+  overflow:hidden;
+  flex: 0 0 auto;
+
+  box-shadow:
+    0 18px 45px rgba(0,0,0,.65),
+    0 0 0 2px rgba(224,24,45,.15);
+
+  background: radial-gradient(20px 20px at 30% 30%, rgba(224,24,45,.35), rgba(255,255,255,.06));
+}
+
+body.reviews .reviewAvatar img{
+  width:100%;
+  height:100%;
+  display:block;
+  object-fit:cover;
+}
+
+body.reviews .reviewAvatarFallback{
+  width:100%;
+  height:100%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-weight: 1000;
+  letter-spacing:.5px;
+}
+
+body.reviews .reviewIdentity{
+  min-width: 0;
+}
+
+body.reviews .reviewName{
+  font-weight: 1000;
+  letter-spacing: .25px;
+  font-size: 1.05rem;
+  line-height: 1.15;
+  text-shadow: 0 0 18px rgba(0,0,0,.6);
+}
+
+body.reviews .reviewDisc{
+  margin-top: 6px;
+  display:inline-flex;
+  max-width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  padding: 6px 10px;
+  border-radius: 999px;
+  border: 1px solid rgba(224,24,45,.22);
+  background: rgba(224,24,45,.10);
+  color: rgba(255,255,255,.92);
+  font-weight: 900;
+  font-size: .85rem;
+}
+
+body.reviews .reviewRight{
+  display:flex;
+  flex-direction:column;
+  align-items:flex-end;
+  gap: 8px;
+  flex: 0 0 auto;
+}
+
+body.reviews .reviewBadge,
+body.reviews .reviewTime{
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: rgba(0,0,0,.40);
+  border: 1px solid rgba(255,255,255,.10);
+  backdrop-filter: blur(8px);
+}
+
+body.reviews .reviewBadge{
+  font-weight: 1000;
+  font-size: .85rem;
+}
+
+body.reviews .reviewTime{
+  color: rgba(255,255,255,.80);
+  font-size: .80rem;
+}
+
+/* stars */
+body.reviews .reviewStars{
+  position: relative;
+  z-index: 2;
+  margin-top: 12px;
+  font-size: 20px;
+  letter-spacing: 1px;
+}
+
+body.reviews .starsOn{
+  color: rgba(224,24,45,1);
+  text-shadow: 0 0 18px rgba(224,24,45,.35);
+}
+body.reviews .starsOff{
+  color: rgba(255,255,255,.25);
+}
+
+/* text */
+body.reviews .reviewText{
+  position: relative;
+  z-index: 2;
+  margin-top: 12px;
+
+  padding: 14px 14px;
+  border-radius: 18px;
+
+  background: rgba(255,255,255,.03);
+  border: 1px solid rgba(255,255,255,.08);
+
+  line-height: 1.65;
+  white-space: pre-wrap;
+  word-break: break-word;
+  text-align: justify;
+
+  box-shadow: inset 0 0 60px rgba(0,0,0,.35);
+}
+
+/* Responsive */
+@media (max-width: 560px){
+  body.reviews .reviewHead{
+    flex-direction: column;
+    align-items: stretch;
+  }
+  body.reviews .reviewRight{
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+  }
+}
+
+/* =========================
+   PREMIUM BACKGROUND REVIEWS
+   ========================= */
+
+.bgReviews{
+  position: fixed;
+  inset: 0;
+  z-index: 0;             /* під усім контентом */
+  pointer-events: none;
+  overflow: hidden;
+  filter: saturate(1.05);
+}
+
+/* легка темна вуаль + glow */
+.bgReviews::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:
+    radial-gradient(900px 600px at 30% 20%, rgba(224,24,45,.10), transparent 60%),
+    radial-gradient(900px 700px at 70% 75%, rgba(224,24,45,.08), transparent 65%),
+    linear-gradient(180deg, rgba(0,0,0,.20), rgba(0,0,0,.55));
+  opacity: .9;
+}
+
+/* щоб контент був над фоном */
+body.reviews .sparks,
+body.reviews header.topbar,
+body.reviews main.container{
+  position: relative;
+  z-index: 2;
+}
+
+/* одна “карточка-відгук” на фоні */
+.bgReview{
+  position: absolute;
+  width: min(520px, 70vw);
+  padding: 16px 18px;
+  border-radius: 22px;
+
+  background: linear-gradient(145deg, rgba(14,14,18,.72), rgba(7,7,10,.72));
+  border: 1px solid rgba(224,24,45,.14);
+
+  box-shadow:
+    0 20px 70px rgba(0,0,0,.55),
+    inset 0 0 90px rgba(224,24,45,.05);
+
+  backdrop-filter: blur(10px);
+  opacity: 0;
+  transform: translate3d(0, 20px, 0) scale(.98);
+  will-change: transform, opacity;
+}
+
+/* легкий “glow” всередині */
+.bgReview::before{
+  content:"";
+  position:absolute;
+  inset:-2px;
+  border-radius: 24px;
+  background:
+    radial-gradient(280px 140px at 18% 0%, rgba(224,24,45,.18), transparent 60%),
+    radial-gradient(220px 120px at 85% 0%, rgba(255,255,255,.05), transparent 70%);
+  opacity: .75;
+  pointer-events:none;
+}
+
+.bgReview__head{
+  position: relative;
+  display:flex;
+  gap:10px;
+  align-items:center;
+  margin-bottom: 10px;
+}
+
+.bgReview__avatar{
+  width: 38px;
+  height: 38px;
+  border-radius: 14px;
+  overflow:hidden;
+  box-shadow: 0 16px 40px rgba(0,0,0,.55), 0 0 0 2px rgba(224,24,45,.10);
+  flex: 0 0 auto;
+  background: radial-gradient(20px 20px at 30% 30%, rgba(224,24,45,.30), rgba(255,255,255,.06));
+}
+
+.bgReview__avatar img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block;
+}
+
+.bgReview__name{
+  font-weight: 1000;
+  letter-spacing: .2px;
+  font-size: .95rem;
+  line-height: 1.1;
+  white-space: nowrap;
+  overflow:hidden;
+  text-overflow: ellipsis;
+  max-width: 260px;
+}
+
+.bgReview__stars{
+  margin-left:auto;
+  font-size: 14px;
+  letter-spacing: 1px;
+  color: rgba(224,24,45,.95);
+  text-shadow: 0 0 14px rgba(224,24,45,.25);
+}
+
+.bgReview__text{
+  position: relative;
+  color: rgba(255,255,255,.78);
+  font-size: 13px;
+  line-height: 1.55;
+
+  display: -webkit-box;
+  -webkit-line-clamp: 3;   /* максимум 3 рядки */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Анімація: поява → легкий дрейф → зникнення */
+@keyframes bgFadeFloat{
+  0%   { opacity: 0; transform: translate3d(0, 26px, 0) scale(.985); }
+  12%  { opacity: .22; }
+  50%  { opacity: .22; transform: translate3d(0, -8px, 0) scale(1); }
+  88%  { opacity: .18; }
+  100% { opacity: 0; transform: translate3d(0, -26px, 0) scale(.99); }
+}
+
+/* Слабше на мобілках */
+@media (max-width: 700px){
+  .bgReview{ opacity: .12; }
+} 

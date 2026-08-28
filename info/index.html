@@ -1,0 +1,3648 @@
+<!doctype html>
+<html lang="uk">
+<head>
+  <link rel="icon" type="image/png" href="../assets/logo.png" />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Family Castro • Інформація</title>
+  <meta name="description" content="Інформація про Family Castro: керівництво, автопарк, діяльність та вступ до сім’ї." />
+  <link rel="canonical" href="https://family-castro.fun/info/" />
+  <meta property="og:title" content="Family Castro • Інформація" />
+  <meta property="og:description" content="Керівництво, автопарк і діяльність Family Castro." />
+  <meta property="og:image" content="https://family-castro.fun/assets/info-hero.png" />
+  <meta property="og:url" content="https://family-castro.fun/info/" />
+  <meta property="og:type" content="website" />
+
+  <link rel="stylesheet" href="../styles.css" />
+  <link rel="stylesheet" href="info.css" />
+  <!-- Discord Auth widget -->
+  <link rel="stylesheet" href="../auth.css" />
+  <link rel="stylesheet" href="/auth-dock.css" />
+  <link rel="stylesheet" href="/page-transition.css" />
+  <script src="/page-transition.js"></script>
+  <link rel="stylesheet" href="/cursor.css" />
+  <script>
+    document.documentElement.classList.add("info-intro-pending");
+    window.__INFO_LOADER_STARTED__ = performance.now();
+  </script>
+</head>
+
+<body class="info">
+<div class="page-transition" aria-hidden="true">
+  <div class="page-transition__loader">
+    <img class="page-transition__logo" src="/assets/hero.gif" alt="CASTRO">
+    <div class="page-transition__text">Завантаження…</div>
+    <div class="page-transition__line"><span></span></div>
+  </div>
+</div>
+<h1 class="sr-only">Інформація про Family Castro</h1>
+
+<!-- VIDEO LOADER (CASTRO) -->
+<div class="vload" id="vload" aria-hidden="false">
+  <div class="vload__bg"></div>
+
+  <div class="vload__center">
+    <img class="vload__logo" src="../assets/hero.gif" alt="CASTRO">
+    <div class="vload__text">Завантаження…</div>
+  </div>
+
+  <div class="vload__scan" aria-hidden="true"></div>
+  <div class="vload__grain" aria-hidden="true"></div>
+</div>
+  
+<!-- 🎬 Background Video -->
+<div class="video-bg" aria-hidden="true">
+  <video class="video-bg__video" autoplay muted loop playsinline preload="auto">
+    <source src="../assets/info-bg.mp4" type="video/mp4">
+  </video>
+  <div class="video-bg__overlay"></div>
+</div>
+
+<!-- Discord Auth dock -->
+<div id="auth-box" class="auth">
+  <button id="auth-login" class="auth__btn" type="button">
+    <img class="auth__discord" src="/assets/discord.svg" alt="">
+    Увійти через Discord
+  </button>
+
+  <div id="auth-user" class="auth__user hidden">
+    <img id="auth-avatar" class="auth__avatar" alt="">
+    <span id="auth-name" class="auth__name"></span>
+    <button id="auth-logout" class="auth__logout" type="button" title="Вийти">⎋</button>
+  </div>
+</div>
+  
+<header class="topbar" aria-label="Навігація">
+  <a class="back back--pill" href="../">← На головну</a>
+
+  <div class="topbar__title">
+    📌 Інформація про
+    <a href="../" class="castro castro--logo">
+      CASTRO
+      <img src="../assets/hero.gif" alt="CASTRO" class="castroLogo">
+    </a>
+  </div>
+
+  <div class="topbar__meta">
+    <span class="chip">🛡️ Захист токеном</span>
+  </div>
+</header>
+
+<div class="infoReadProgress" aria-hidden="true"><span data-info-progress></span></div>
+<nav class="infoDock" aria-label="Навігація розділами Info">
+  <a href="#rules" data-info-section="rules"><span>📜</span><b>Кодекс</b></a>
+  <a href="#kolovrat" data-info-section="kolovrat"><span>✦</span><b>Логотип</b></a>
+  <a href="#leaders" data-info-section="leaders"><span>👑</span><b>Керівництво</b></a>
+  <a href="#baza" data-info-section="baza"><span>🏰</span><b>База</b></a>
+  <a href="#family-upgrades" data-info-section="family-upgrades"><span>🧬</span><b>Покращення</b></a>
+  <a href="#autopark" data-info-section="autopark"><span>🚘</span><b>Автопарк</b></a>
+  <a href="#transit" data-info-section="transit"><span>🚚</span><b>Transit</b></a>
+  <a href="#gallery" data-info-section="gallery"><span>🖼️</span><b>Галерея</b></a>
+</nav>
+<button class="infoBackTop" type="button" aria-label="Повернутися на початок сторінки" data-info-backtop>↑</button>
+
+<main class="container">
+
+  <!-- HERO -->
+<section class="infoHero" id="hero">
+  <div class="infoHero__card">
+    <div class="infoHero__head">
+      <span class="badge">FAMILY CASTRO</span>
+      <div class="infoHero__kicker muted">NG GTA 5 • сім’я / клан</div>
+    </div>
+
+    <h2 class="infoHero__title">Порядок. Дисципліна.<br>Сила сім’ї.</h2>
+
+    <p class="infoHero__lead muted">
+      Тут зібрано все важливе: хто керує, де наша база, автопарк сім’ї
+      та які правила допомагають тримати рівень.
+    </p>
+
+    <div class="infoHero__actions" role="navigation" aria-label="Швидкі дії">
+      <a class="btn btn--primary" href="legal/">⚖️ Про сайт</a>
+      <a class="btn btn--ghost" href="#rules">📜 Кодекс</a>
+      <a class="btn btn--ghost" href="#leaders">👑 Керівництво</a>
+      <a class="btn btn--ghost" href="#family-upgrades">🧬 Покращення</a>
+      <a class="btn btn--ghost" href="#baza">🏠 База</a>
+      <a class="btn btn--ghost" href="#autopark">🚘 Автопарк</a>
+      <a class="btn btn--ghost" href="#gallery">🖼️ Галерея</a>
+      <a class="btn btn--ghost" href="#transit">🚚 Castro Transit</a>
+    </div>
+
+    <div class="infoHero__chips" aria-label="Фокус">
+      <div class="infoChip"><b>Війна сімей / Контракти</b></div>
+      <div class="infoChip"><b>Дисципліна + підтримка</b></div>
+      <div class="infoChip"><b>Території + розвиток</b></div>
+    </div>
+  </div>
+
+  <figure class="infoHero__media" aria-label="Вітрина Family Castro">
+  <img src="../assets/call_GFgpyrIxAGSD81EsVnQnVuDu.png" alt="Family Castro — Штаб" loading="lazy">
+
+  <div class="fcOverlay" aria-label="Статистика Discord">
+
+    <div class="fcOverlay__stat fcOverlay__stat--dim">
+      <b id="fcTotal2">—</b>
+      <span class="muted">👥Всього у сім'ї</span>
+    </div>
+
+    <div class="fcOverlay__stat">
+      <b id="fcOnline2">—</b>
+      <span class="muted">🟢Онлайн</span>
+    </div>
+
+  </div>
+
+  <figcaption class="infoHero__caption">
+    <b>CASTRO</b> <span class="muted">• premium family style</span>
+  </figcaption>
+</figure>
+</section>
+  
+  <!-- RULES -->
+<section id="rules" class="section rules">
+  <div class="rulesHead infoSectionIntro">
+    <h3 class="section__title">📜 Кодекс Family Castro</h3>
+    <p class="muted">
+      Не шум. Не хаос. <b>Структура, дисципліна, результат.</b>
+    </p>
+  </div>
+
+  <div class="rulesGrid">
+
+    <!-- card: who -->
+    <article class="rulesCard rulesCard--who">
+      <div class="rulesTop">
+        <span class="rulesIcon">⚔️</span>
+        <div>
+          <div class="rulesTitle">Хто ми</div>
+          <div class="rulesSub muted">Коротко про стиль і рівень</div>
+        </div>
+      </div>
+
+      <p class="rulesText">
+        <b>Family Castro</b> — це сім’я, де цінуються дії, а не слова.
+        Тут залишаються ті, хто грає на результат і піднімає ім’я сім’ї.
+      </p>
+
+      <div class="rulesMini muted">
+        Рівень — це коли ти корисний сім’ї щодня, а не “інколи”.
+      </div>
+    </article>
+
+    <!-- card: values -->
+    <article class="rulesCard rulesCard--good">
+      <div class="rulesTop">
+        <span class="rulesIcon">✅</span>
+        <div>
+          <div class="rulesTitle">Що тут цінується</div>
+          <div class="rulesSub muted">Те, за що поважають</div>
+        </div>
+      </div>
+
+      <ul class="rulesList rulesList--good">
+        <li><b>Ієрархія</b> — повага до керівництва та структури.</li>
+        <li><b>Актив</b> — війни сімей, контракти, ініціатива.</li>
+        <li><b>Відповідальність</b> — взяв роль → довів до кінця.</li>
+        <li><b>Командна гра</b> — один за всіх, всі за сім’ю.</li>
+      </ul>
+    </article>
+
+    <!-- card: forbidden -->
+    <article class="rulesCard rulesCard--bad">
+      <div class="rulesTop">
+        <span class="rulesIcon">⛔</span>
+        <div>
+          <div class="rulesTitle">Чого тут не буде</div>
+          <div class="rulesSub muted">Нуль толерантності</div>
+        </div>
+      </div>
+
+      <ul class="rulesList rulesList--bad">
+        <li>Токсичності, провокацій та конфліктів.</li>
+        <li>Зливу інформації та внутрішніх планів.</li>
+        <li>Самовільних дій від імені сім’ї.</li>
+        <li>Пасивності та хаосу.</li>
+      </ul>
+    </article>
+
+  </div>
+
+  <!-- principle -->
+  <article class="rulesQuote">
+    <div class="rulesQuote__icon">🎯</div>
+    <div class="rulesQuote__body">
+      <div class="rulesQuote__title">Принцип Castro</div>
+      <div class="rulesQuote__text">
+        <b>Працюєш на сім’ю — сім’я працює на тебе.</b>
+        Тут поважають рівень, характер і результат.
+      </div>
+    </div>
+  </article>
+</section>
+
+<!-- ORIGIN OF LOGO -->
+<section id="kolovrat" class="section logoOriginPremium">
+  <div class="logoOriginPremium__grid">
+
+    <div class="logoOriginPremium__visual">
+      <div class="logoOriginPremium__frame">
+        <div class="logoOriginPremium__halo"></div>
+        <div class="logoOriginPremium__ring logoOriginPremium__ring--1"></div>
+        <div class="logoOriginPremium__ring logoOriginPremium__ring--2"></div>
+
+          <img src="../assets/hero.gif" alt="Логотип Family Castro" class="logoOriginPremium__logo" loading="lazy">
+
+        <div class="logoOriginPremium__badge">
+          <span>✦</span>
+          <b>Family Castro</b>
+        </div>
+      </div>
+    </div>
+
+    <div class="logoOriginPremium__content">
+      <div class="logoOriginPremium__top infoSectionIntro">
+        <div>
+          <div class="logoOriginPremium__eyebrow">Символіка • Походження • Стиль</div>
+          <h3 class="section__title logoOriginPremium__title">Походження логотипу</h3>
+        </div>
+
+        <div class="logoOriginPremium__tags">
+          <span class="logoOriginPremium__tag">Солярний мотив</span>
+          <span class="logoOriginPremium__tag">Рух і цикл</span>
+          <span class="logoOriginPremium__tag logoOriginPremium__tag--red">Premium identity</span>
+        </div>
+      </div>
+
+      <p class="logoOriginPremium__lead">
+        Логотип <b>Castro</b> натхненний образом
+        <b>коловрата</b> — символу, який у сучасній слов’янській традиції пов’язують із рухом сонця, циклічністю, енергією та внутрішньою силою.
+        У сучасному стилі Family Castro він читається як знак
+        <b>дисципліни, контролю та статусу</b>.
+      </p>
+
+      <p class="logoOriginPremium__text muted">
+        Взявши цей символ за основу, Family Castro надала йому власне звучання через фірмовий стиль, подачу та візуальний контекст:
+        гострі лінії, чітка геометрія та зібрана форма створюють відчуття характеру, дисципліни й контролю.
+        Саме тому логотип сприймається не просто як емблема, а як сильний і впізнаваний символ сім’ї Castro.
+      </p>
+
+      <div class="logoOriginPremium__cards">
+        <article class="logoOriginPremium__card">
+          <div class="logoOriginPremium__cardLabel">Основа</div>
+          <div class="logoOriginPremium__cardValue">Рух • цикл • ритм</div>
+        </article>
+
+        <article class="logoOriginPremium__card">
+          <div class="logoOriginPremium__cardLabel">Сенс для Castro</div>
+          <div class="logoOriginPremium__cardValue">Контроль • сила • порядок</div>
+        </article>
+
+        <article class="logoOriginPremium__card">
+          <div class="logoOriginPremium__cardLabel">Сприйняття</div>
+          <div class="logoOriginPremium__cardValue">Статус • характер • впізнаваність</div>
+        </article>
+      </div>
+
+      <div class="logoOriginPremium__quote">
+        <span class="logoOriginPremium__quoteLine"></span>
+        <p>
+          Логотип Castro — це сучасний знак сили форми:
+          символ руху, внутрішньої зібраності та преміального стилю сім’ї.
+        </p>
+      </div>
+    </div>
+
+  </div>
+</section>
+  
+  <!-- LEADERS -->
+  <section id="leaders" class="section">
+    <div class="leadersHead infoSectionIntro">
+      <h3 class="section__title">👑 Керівництво</h3>
+      <p class="muted">Хто тримає структуру, дисципліну та напрямок розвитку.</p>
+    </div>
+
+    <div class="leadersGrid">
+
+      <article class="leaderCard">
+        <img class="leaderAva" src="../assets/leader.png" alt="Dominic Castro" loading="lazy">
+        <div class="leaderInfo">
+          <div class="leaderTop">
+            <div class="pill pill--red">Генерал (Лідер сім`ї)</div>
+            <span class="leaderName">Dominic Castro | 12279</span>
+          </div>
+          <div class="leaderText muted">Стратегія, війни сімей, ключові рішення, казна.</div>
+          <button class="leaderExpand" type="button" aria-expanded="false">Детальніше <span>＋</span></button>
+          <div class="leaderDetails" hidden>
+            <div><span>Головний фокус</span><b>Стратегія та розвиток</b></div>
+            <div><span>Зона відповідальності</span><b>Ключові рішення • казна • війни сімей</b></div>
+            <div><span>Контакти/зв'язок</span><b>Discord: castro.ua</b></div>
+            <p>Визначає напрямок Family Castro та фінально координує найважливіші рішення сім’ї.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="leaderCard">
+        <img class="leaderAva" src="../assets/deputy.png" alt="Заступник" loading="lazy">
+        <div class="leaderInfo">
+          <div class="leaderTop">
+            <div class="pill">Полковник (Заступник)</div>
+            <span class="leaderName">Yurets Castro | 9840</span>
+          </div>
+          <div class="leaderText muted">Прийом/звільнення, актив, дисципліна, звітність.</div>
+          <button class="leaderExpand" type="button" aria-expanded="false">Детальніше <span>＋</span></button>
+          <div class="leaderDetails" hidden>
+            <div><span>Головний фокус</span><b>Кадри та дисципліна</b></div>
+            <div><span>Зона відповідальності</span><b>Прийом • актив • звітність</b></div>
+            <div><span>Контакти/зв'язок</span><b>Discord: 4etkyy_ua</b></div>
+            <p>Підтримує порядок усередині складу та контролює активність учасників.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="leaderCard">
+        <img class="leaderAva" src="../assets/logist.png" alt="Логіст" loading="lazy">
+        <div class="leaderInfo">
+          <div class="leaderTop">
+            <div class="pill">Полковник (Заступник)</div>
+            <span class="leaderName">Nice Castro | 11569</span> 
+          </div>
+          <div class="leaderText muted">Бізнес, схеми заробітку, контроль фінансів.</div>
+          <button class="leaderExpand" type="button" aria-expanded="false">Детальніше <span>＋</span></button>
+          <div class="leaderDetails" hidden>
+            <div><span>Головний фокус</span><b>Економіка сім’ї</b></div>
+            <div><span>Зона відповідальності</span><b>Бізнес • фінанси • логістика</b></div>
+            <div><span>Контакти/зв'язок</span><b>Discord: nickace2517</b></div>
+            <p>Розвиває стабільні джерела доходу та контролює фінансові процеси Family Castro.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="leaderCard">
+        <img class="leaderAva" src="../assets/girls.png" alt="Заступник" loading="lazy">
+        <div class="leaderInfo">
+          <div class="leaderTop">
+            <div class="pill">Полковник (Заступник)</div>
+            <span class="leaderName">Cherry Castro | 33057</span>
+          </div>
+          <div class="leaderText muted">Прийом/звільнення, контроль над виконанням контрактів.</div>
+          <button class="leaderExpand" type="button" aria-expanded="false">Детальніше <span>＋</span></button>
+          <div class="leaderDetails" hidden>
+            <div><span>Головний фокус</span><b>Контракти та виконання</b></div>
+            <div><span>Зона відповідальності</span><b>Прийом • контроль • результат</b></div>
+            <div><span>Контакти/зв'язок</span><b>Discord: winn1xxx</b></div>
+            <p>Координує виконання контрактів і стежить, щоб поставлені задачі доводилися до результату.</p>
+          </div>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+<!-- BASE / HQ -->
+<section id="baza" class="section split baseHQ">
+  <div class="split__content">
+    <div class="baseIntro infoSectionIntro">
+      <div class="baseHead">
+        <h3 class="section__title">🏰База в штаті</h3>
+        <div class="baseTags">
+          <span class="baseTag">🛡️Штаб</span>
+          <span class="baseTag">📍Vinewood Hills</span>
+          <span class="baseTag baseTag--red">⏱️18:00–23:00</span>
+        </div>
+      </div>
+
+      <p class="muted">
+        Один з найкращих особняків у штаті Сан-Андреас: велика територія, огляд, контроль.
+        Це наша точка збору для виїздів, планування, підготовки до війни сімей та контрактів.
+      </p>
+    </div>
+
+    <div class="baseGridMini">
+      <div class="baseMini">
+        <div class="baseMini__k muted">Роль</div>
+        <div class="baseMini__v"><b>Точка збору</b> / брифінги</div>
+      </div>
+      <div class="baseMini">
+        <div class="baseMini__k muted">Режим</div>
+        <div class="baseMini__v"><b>Без хаосу</b> / дисципліна</div>
+      </div>
+      <div class="baseMini">
+        <div class="baseMini__k muted">Пріоритет</div>
+        <div class="baseMini__v"><b>Війна сімей</b> / контракти</div>
+      </div>
+    </div>
+
+    <ul class="baseFacts">
+      <li><b>Локація:</b> Вайнвуд-Хіллз</li>
+      <li><b>Прайм-тайм:</b> 18:00–23:00</li>
+      <li><b>Поведінка:</b> повага до структури, без токсика і метушні</li>
+    </ul>
+  </div>
+
+  <div class="split__media baseMedia">
+    <img class="cardimg" src="../assets/mansion.png" alt="База сім’ї" loading="lazy">
+    <div class="baseCaption">
+      <b>FC • HQ</b> <span class="muted">контроль території</span>
+    </div>
+  </div>
+</section>
+
+<!-- FAMILY UPGRADES -->
+<section id="family-upgrades" class="section familyUpgrades">
+  <div class="familyUpgrades__head infoSectionIntro">
+    <div>
+      <span class="familyUpgrades__eyebrow">Castro Development Tree</span>
+      <h3 class="section__title">🧬 Покращення сім’ї</h3>
+      <p class="muted">
+        Карта розвитку Family Castro: нейтральні, нелегальні та майбутні напрямки покращень.
+      </p>
+    </div>
+    <div class="familyUpgrades__summary" aria-label="Поточний розвиток">
+      <img class="familyUpgrades__summaryLogo" src="../assets/hero.gif" alt="" aria-hidden="true" width="52" height="52" style="width:52px;height:52px;object-fit:contain">
+      <div>
+        <span>Тип розвитку</span>
+        <b>Нелегальний</b>
+      </div>
+    </div>
+  </div>
+
+  <div class="mapEditor" aria-label="Редактор карти покращень" hidden>
+    <div class="mapEditor__bar">
+      <button class="mapEditor__btn mapEditor__btn--primary" type="button" id="mapEditToggle">Редагувати карту</button>
+      <button class="mapEditor__btn" type="button" id="mapAddNode">Додати вузол</button>
+      <button class="mapEditor__btn" type="button" id="mapSave">Зберегти</button>
+      <button class="mapEditor__btn" type="button" id="mapExport">Експорт JSON</button>
+      <button class="mapEditor__btn" type="button" id="mapImport">Імпорт JSON</button>
+      <button class="mapEditor__btn" type="button" id="mapAddRedLine" title="Обери кнопку, потім клікни два вузли">Червона лінія</button>
+      <button class="mapEditor__btn" type="button" id="mapAddGrayLine" title="Обери кнопку, потім клікни два вузли">Сіра лінія</button>
+      <button class="mapEditor__btn mapEditor__btn--danger" type="button" id="mapDeleteLine">Видалити лінію</button>
+      <button class="mapEditor__btn mapEditor__btn--danger" type="button" id="mapReset">Скинути</button>
+      <span class="mapEditor__status" id="mapEditorStatus">Режим перегляду</span>
+    </div>
+    <div class="mapEditor__hint">
+      Група: Ctrl + клік по вузлах. Лінія: обери червону або сіру кнопку, клікни перший вузол, потім другий. Щоб посунути лінію, рухай один з вузлів, до яких вона прив’язана.
+    </div>
+
+    <div class="mapEditor__panel" id="mapEditorPanel" hidden>
+      <label>Іконка <input id="mapEditIcon" type="text" maxlength="4" autocomplete="off"></label>
+      <label>Назва <input id="mapEditTitle" type="text" autocomplete="off"></label>
+      <label>Рівень <input id="mapEditLevel" type="text" maxlength="8" autocomplete="off"></label>
+      <label>Категорія <input id="mapEditCategory" type="text" autocomplete="off"></label>
+      <label>Опис <input id="mapEditDescription" type="text" autocomplete="off"></label>
+      <label>Умова 1 <input id="mapEditReq1" type="text" autocomplete="off"></label>
+      <label>Значення 1 <input id="mapEditReq1Value" type="text" autocomplete="off"></label>
+      <label>Умова 2 <input id="mapEditReq2" type="text" autocomplete="off"></label>
+      <label>Значення 2 <input id="mapEditReq2Value" type="text" autocomplete="off"></label>
+      <label>Репутація <input id="mapEditReputation" type="text" autocomplete="off"></label>
+      <label>X <input id="mapEditX" type="number" step="1"></label>
+      <label>Y <input id="mapEditY" type="number" step="1"></label>
+      <label class="mapEditor__check"><input id="mapEditMuted" type="checkbox"> Сірий/закритий</label>
+      <button class="mapEditor__btn" type="button" id="mapApplySelected">Застосувати</button>
+      <button class="mapEditor__btn mapEditor__btn--danger" type="button" id="mapDeleteSelected">Видалити</button>
+    </div>
+
+    <textarea class="mapEditor__json" id="mapJsonBox" placeholder="Тут з’явиться JSON для експорту або сюди можна вставити JSON для імпорту." spellcheck="false"></textarea>
+  </div>
+
+  <script type="application/json" id="familyDefaultMap">
+{
+  "version": 1,
+  "savedAt": "2026-08-20T11:50:27.424Z",
+  "items": [
+    {
+      "id": "map_item_1",
+      "kind": "node",
+      "x": 316,
+      "y": 198,
+      "icon": "P",
+      "title": "Парковка дешевша ІІ",
+      "level": "II",
+      "category": "Нейтральні",
+      "description": "Учасники сімейної організації сплачують на 7% менше за цивільне паркування",
+      "req1": "Рівень сім’ї:",
+      "req1Value": "6",
+      "req2": "Учасників сім’ї",
+      "req2Value": "93 / 20",
+      "reputation": "15000",
+      "muted": true,
+      "html": "<article class=\"upgradeNode upgradeNode--muted\" style=\"--left: 316px; --top: 198px;\" aria-label=\"Парковка дешевша ІІ II\" data-map-id=\"map_item_1\" data-category=\"Нейтральні\" data-description=\"Учасники сімейної організації сплачують на 7% менше за цивільне паркування\" data-req1=\"Рівень сім’ї:\" data-req1-value=\"6\" data-req2=\"Учасників сім’ї\" data-req2-value=\"93 / 20\" data-reputation=\"15000\"><span class=\"upgradeNode__icon\">P</span><b>Парковка дешевша ІІ</b><small>II</small></article>"
+    },
+    {
+      "id": "map_item_2",
+      "kind": "node",
+      "x": 316,
+      "y": 293,
+      "icon": "P",
+      "title": "Парковка дешевша І",
+      "level": "I",
+      "category": "Нейтральні",
+      "description": "Учасники сімейної організації сплачують на 3% менше за цивільне паркування",
+      "req1": "Рівень сім’ї:",
+      "req1Value": "5",
+      "req2": "Учасників сім’ї",
+      "req2Value": "93 / 15",
+      "reputation": "15000",
+      "muted": true,
+      "html": "<article class=\"upgradeNode upgradeNode--muted\" style=\"--left: 316px; --top: 293px;\" aria-label=\"Парковка дешевша І I\" data-map-id=\"map_item_2\" data-category=\"Нейтральні\" data-description=\"Учасники сімейної організації сплачують на 3% менше за цивільне паркування\" data-req1=\"Рівень сім’ї:\" data-req1-value=\"5\" data-req2=\"Учасників сім’ї\" data-req2-value=\"93 / 15\" data-reputation=\"15000\"><span class=\"upgradeNode__icon\">P</span><b>Парковка дешевша І</b><small>I</small></article>"
+    },
+    {
+      "id": "map_item_3",
+      "kind": "node",
+      "x": 456,
+      "y": 103,
+      "icon": "🛠",
+      "title": "Дешевий ремонт",
+      "level": "I",
+      "category": "Нейтральні",
+      "description": "Зменшує вартість ремонту автомобіля на СТО на 15%",
+      "req1": "Рівень сім’ї:",
+      "req1Value": "5",
+      "req2": "Учасників сім’ї",
+      "req2Value": "93 / 20",
+      "reputation": "15500",
+      "muted": false,
+      "html": "<article class=\"upgradeNode\" style=\"--left: 456px; --top: 103px;\" aria-label=\"Дешевий ремонт I\" data-map-id=\"map_item_3\" data-category=\"Нейтральні\" data-description=\"Зменшує вартість ремонту автомобіля на СТО на 15%\" data-req1=\"Рівень сім’ї:\" data-req1-value=\"5\" data-req2=\"Учасників сім’ї\" data-req2-value=\"93 / 20\" data-reputation=\"15500\"><span class=\"upgradeNode__icon\">🛠</span><b>Дешевий ремонт</b><small>I</small></article>"
+    },
+    {
+      "id": "map_item_4",
+      "kind": "node",
+      "x": 596,
+      "y": 103,
+      "icon": "💞",
+      "title": "Швидке відродження",
+      "level": "I",
+      "category": "Нейтральні",
+      "description": "Відродження після смерті відбувається на 25% швидше",
+      "req1": "Рівень сім’ї:",
+      "req1Value": "5",
+      "req2": "Учасників сім’ї",
+      "req2Value": "93 / 15",
+      "reputation": "14500",
+      "muted": false,
+      "html": "<article class=\"upgradeNode\" style=\"--left: 596px; --top: 103px;\" aria-label=\"Швидке відродження I\" data-map-id=\"map_item_4\" data-category=\"Нейтральні\" data-description=\"Відродження після смерті відбувається на 25% швидше\" data-req1=\"Рівень сім’ї:\" data-req1-value=\"5\" data-req2=\"Учасників сім’ї\" data-req2-value=\"93 / 15\" data-reputation=\"14500\"><span class=\"upgradeNode__icon\">💞</span><b>Швидке відродження</b><small>I</small></article>"
+    },
+    {
+      "id": "map_item_5",
+      "kind": "node",
+      "x": 736,
+      "y": 103,
+      "icon": "👥",
+      "title": "Слоти учасників VІІ",
+      "level": "VII",
+      "category": "Нейтральні",
+      "description": "Відкриває +10 слотів учасників сімейної організації",
+      "req1": "Рівень сім’ї:",
+      "req1Value": "4",
+      "req2": "Учасників сім’ї",
+      "req2Value": "93 / 10",
+      "reputation": "7000",
+      "muted": false,
+      "html": "<article class=\"upgradeNode\" style=\"--left: 736px; --top: 103px;\" aria-label=\"Слоти учасників VІІ VII\" data-map-id=\"map_item_5\" data-category=\"Нейтральні\" data-description=\"Відкриває +10 слотів учасників сімейної організації\" data-req1=\"Рівень сім’ї:\" data-req1-value=\"4\" data-req2=\"Учасників сім’ї\" data-req2-value=\"93 / 10\" data-reputation=\"7000\"><span class=\"upgradeNode__icon\">👥</span><b>Слоти учасників VІІ</b><small>VII</small></article>"
+    },
+    {
+      "id": "map_item_6",
+      "kind": "node",
+      "x": 875,
+      "y": 103,
+      "icon": "🪂",
+      "title": "AirDrop",
+      "level": "V",
+      "category": "Нейтральні",
+      "description": "Дає можливість сімейній організації брати участь в AirDrop",
+      "req1": "Рівень сім’ї:",
+      "req1Value": "8",
+      "req2": "Учасників сім’ї",
+      "req2Value": "93 / 25",
+      "reputation": "32000",
+      "muted": false,
+      "html": "<article class=\"upgradeNode\" style=\"--left: 875px; --top: 103px;\" aria-label=\"AirDrop V\" data-map-id=\"map_item_6\" data-category=\"Нейтральні\" data-description=\"Дає можливість сімейній організації брати участь в AirDrop\" data-req1=\"Рівень сім’ї:\" data-req1-value=\"8\" data-req2=\"Учасників сім’ї\" data-req2-value=\"93 / 25\" data-reputation=\"32000\"><span class=\"upgradeNode__icon\">🪂</span><b>AirDrop</b><small>V</small></article>"
+    },
+    {
+      "id": "map_item_7",
+      "kind": "node",
+      "x": 1016,
+      "y": 103,
+      "icon": "🛡️",
+      "title": "Захват Кайо Періко",
+      "level": "V",
+      "category": "Нейтральні",
+      "description": "Відкриває можливість сімейній організації брати участь в івенті \"Захват Кайо Періко\"",
+      "req1": "Рівень сім’ї:",
+      "req1Value": "8",
+      "req2": "Учасників сім’ї",
+      "req2Value": "93 / 25",
+      "reputation": "28000",
+      "muted": false,
+      "html": "<article class=\"upgradeNode\" style=\"--left: 1016px; --top: 103px;\" aria-label=\"Захват Кайо Періко V\" data-map-id=\"map_item_7\" data-category=\"Нейтральні\" data-description=\"Відкриває можливість сімейній організації брати участь в івенті &quot;Захват Кайо Періко&quot;\" data-req1=\"Рівень сім’ї:\" data-req1-value=\"8\" data-req2=\"Учасників сім’ї\" data-req2-value=\"93 / 25\" data-reputation=\"28000\"><span class=\"upgradeNode__icon\">🛡️</span><b>Захват Кайо Періко</b><small>V</small></article>"
+    },
+    {
+      "id": "map_item_8",
+      "kind": "node",
+      "x": 1156,
+      "y": 103,
+      "icon": "🔫",
+      "title": "Нова зброя І",
+      "level": "І",
+      "category": "Нейтральні",
+      "description": "Відкриває можливість крафту Carbine Rifle та Heavy Revolver",
+      "req1": "Рівень сім’ї:",
+      "req1Value": "8",
+      "req2": "Учасників сім’ї",
+      "req2Value": "93 / 20",
+      "reputation": "24000",
+      "muted": false,
+      "html": "<article class=\"upgradeNode\" style=\"--left: 1156px; --top: 103px;\" aria-label=\"Нова зброя І І\" data-map-id=\"map_item_8\" data-category=\"Нейтральні\" data-description=\"Відкриває можливість крафту Carbine Rifle та Heavy Revolver\" data-req1=\"Рівень сім’ї:\" data-req1-value=\"8\" data-req2=\"Учасників сім’ї\" data-req2-value=\"93 / 20\" data-reputation=\"24000\"><span class=\"upgradeNode__icon\">🔫</span><b>Нова зброя І</b><small>І</small></article>"
+    },
+    {
+      "id": "map_item_9",
+      "kind": "node",
+      "x": 1296,
+      "y": 103,
+      "icon": "🔫",
+      "title": "Нова зброя ІІ",
+      "level": "IІ",
+      "category": "Нейтральні",
+      "description": "Відкриває можливість крафту Carbine Rifle Mk2",
+      "req1": "Рівень сім’ї:",
+      "req1Value": "10",
+      "req2": "Учасників сім’ї",
+      "req2Value": "93 / 10",
+      "reputation": "30000",
+      "muted": false,
+      "html": "<article class=\"upgradeNode\" style=\"--left: 1296px; --top: 103px;\" aria-label=\"Нова зброя ІІ IІ\" data-map-id=\"map_item_9\" data-category=\"Нейтральні\" data-description=\"Відкриває можливість крафту Carbine Rifle Mk2\" data-req1=\"Рівень сім’ї:\" data-req1-value=\"10\" data-req2=\"Учасників сім’ї\" data-req2-value=\"93 / 10\" data-reputation=\"30000\"><span class=\"upgradeNode__icon\">🔫</span><b>Нова зброя ІІ</b><small>IІ</small></article>"
+    },
+    {
+      "id": "map_item_10",
+      "kind": "node",
+      "x": 736,
+      "y": 8,
+      "icon": "👥",
+      "title": "Слоти учасників VІІ",
+      "level": "VIII",
+      "category": "Нейтральні",
+      "description": "Відкриває покращення “Склад”",
+      "req1": "Рівень сім’ї:",
+      "req1Value": "4",
+      "req2": "Учасників сім’ї",
+      "req2Value": "93 / 15",
+      "reputation": "7000",
+      "muted": false,
+      "html": "<article class=\"upgradeNode\" style=\"--left: 736px; --top: 8px;\" aria-label=\"Слоти учасників VІІ VIII\" data-map-id=\"map_item_10\" data-category=\"Нейтральні\" data-description=\"Відкриває покращення “Склад”\" data-req1=\"Рівень сім’ї:\" data-req1-value=\"4\" data-req2=\"Учасників сім’ї\" data-req2-value=\"93 / 15\" data-reputation=\"7000\"><span class=\"upgradeNode__icon\">👥</span><b>Слоти учасників VІІ</b><small>VIII</small></article>"
+    },
+    {
+      "id": "map_item_11",
+      "kind": "node",
+      "x": 875,
+      "y": 8,
+      "icon": "⌗",
+      "title": "Доступ до ФЗ",
+      "level": "V",
+      "category": "Нейтральні",
+      "description": "Дає доступ до розблокування покращення брати матеріали на ФЗ",
+      "req1": "Рівень сім’ї:",
+      "req1Value": "8",
+      "req2": "Учасників сім’ї",
+      "req2Value": "93 / 30",
+      "reputation": "17000",
+      "muted": false,
+      "html": "<article class=\"upgradeNode\" style=\"--left: 875px; --top: 8px;\" aria-label=\"Доступ до ФЗ V\" data-map-id=\"map_item_11\" data-category=\"Нейтральні\" data-description=\"Дає доступ до розблокування покращення брати матеріали на ФЗ\" data-req1=\"Рівень сім’ї:\" data-req1-value=\"8\" data-req2=\"Учасників сім’ї\" data-req2-value=\"93 / 30\" data-reputation=\"17000\"><span class=\"upgradeNode__icon\">⌗</span><b>Доступ до ФЗ</b><small>V</small></article>"
+    },
+    {
+      "id": "map_item_12",
+      "kind": "node",
+      "x": 875,
+      "y": -87,
+      "icon": "💖",
+      "title": "Відновлення здоров'я",
+      "level": "I",
+      "category": "Нейтральні",
+      "description": "Відкриває можливість відновити 50 одиниць здоров'я через мітку в офісі сім'ї",
+      "req1": "Рівень сім’ї:",
+      "req1Value": "13",
+      "req2": "Учасників сім’ї",
+      "req2Value": "93 / 45",
+      "reputation": "43000",
+      "muted": false,
+      "html": "<article class=\"upgradeNode\" style=\"--left: 875px; --top: -87px;\" aria-label=\"Відновлення здоров'я I\" data-map-id=\"map_item_12\" data-category=\"Нейтральні\" data-description=\"Відкриває можливість відновити 50 одиниць здоров'я через мітку в офісі сім'ї\" data-req1=\"Рівень сім’ї:\" data-req1-value=\"13\" data-req2=\"Учасників сім’ї\" data-req2-value=\"93 / 45\" data-reputation=\"43000\"><span class=\"upgradeNode__icon\">💖</span><b>Відновлення здоров'я</b><small>I</small></article>"
+    },
+    {
+      "id": "map_item_13",
+      "kind": "node",
+      "x": 1295,
+      "y": -92,
+      "icon": "🦺",
+      "title": "Бронежилет ІІ",
+      "level": "IІ",
+      "category": "Нейтральні",
+      "description": "Відкриває можливість крафту Бронежилету 100%",
+      "req1": "Рівень сім’ї:",
+      "req1Value": "13",
+      "req2": "Учасників сім’ї",
+      "req2Value": "93 / 40",
+      "reputation": "42500",
+      "muted": true,
+      "html": "<article class=\"upgradeNode upgradeNode--muted\" style=\"--left: 1295px; --top: -92px;\" aria-label=\"Бронежилет ІІ IІ\" data-map-id=\"map_item_13\" data-category=\"Нейтральні\" data-description=\"Відкриває можливість крафту Бронежилету 100%\" data-req1=\"Рівень сім’ї:\" data-req1-value=\"13\" data-req2=\"Учасників сім’ї\" data-req2-value=\"93 / 40\" data-reputation=\"42500\"><span class=\"upgradeNode__icon\">🦺</span><b>Бронежилет ІІ</b><small>IІ</small></article>"
+    },
+    {
+      "id": "map_item_14",
+      "kind": "node",
+      "x": 1296,
+      "y": 2,
+      "icon": "🦺",
+      "title": "Бронежилет І",
+      "level": "I",
+      "category": "Нейтральні",
+      "description": "Відкриває можливість крафту Бронежилету 50%",
+      "req1": "Рівень сім’ї:",
+      "req1Value": "11",
+      "req2": "Учасників сім’ї",
+      "req2Value": "93 / 30",
+      "reputation": "33500",
+      "muted": true,
+      "html": "<article class=\"upgradeNode upgradeNode--muted\" style=\"--left: 1296px; --top: 2px;\" aria-label=\"Бронежилет І I\" data-map-id=\"map_item_14\" data-category=\"Нейтральні\" data-description=\"Відкриває можливість крафту Бронежилету 50%\" data-req1=\"Рівень сім’ї:\" data-req1-value=\"11\" data-req2=\"Учасників сім’ї\" data-req2-value=\"93 / 30\" data-reputation=\"33500\"><span class=\"upgradeNode__icon\">🦺</span><b>Бронежилет І</b><small>I</small></article>"
+    },
+    {
+      "id": "map_item_15",
+      "kind": "node",
+      "x": 596,
+      "y": 198,
+      "icon": "👥",
+      "title": "Слоти учасників V",
+      "level": "V",
+      "category": "Нейтральні",
+      "description": "Відкриває +10 слотів учасників сімейної організації",
+      "req1": "Рівень сім’ї:",
+      "req1Value": "4",
+      "req2": "Учасників сім’ї",
+      "req2Value": "93 / 15",
+      "reputation": "7000",
+      "muted": false,
+      "html": "<article class=\"upgradeNode\" style=\"--left: 596px; --top: 198px;\" aria-label=\"Слоти учасників V V\" data-map-id=\"map_item_15\" data-category=\"Нейтральні\" data-description=\"Відкриває +10 слотів учасників сімейної організації\" data-req1=\"Рівень сім’ї:\" data-req1-value=\"4\" data-req2=\"Учасників сім’ї\" data-req2-value=\"93 / 15\" data-reputation=\"7000\"><span class=\"upgradeNode__icon\">👥</span><b>Слоти учасників V</b><small>V</small></article>"
+    },
+    {
+      "id": "map_item_16",
+      "kind": "node",
+      "x": 736,
+      "y": 198,
+      "icon": "👥",
+      "title": "Слоти учасників VІ",
+      "level": "VI",
+      "category": "Нейтральні",
+      "description": "Відкриває +10 слотів учасників сімейної організації",
+      "req1": "Рівень сім’ї:",
+      "req1Value": "4",
+      "req2": "Учасників сім’ї",
+      "req2Value": "93 / 10",
+      "reputation": "7000",
+      "muted": false,
+      "html": "<article class=\"upgradeNode\" style=\"--left: 736px; --top: 198px;\" aria-label=\"Слоти учасників VІ VI\" data-map-id=\"map_item_16\" data-category=\"Нейтральні\" data-description=\"Відкриває +10 слотів учасників сімейної організації\" data-req1=\"Рівень сім’ї:\" data-req1-value=\"4\" data-req2=\"Учасників сім’ї\" data-req2-value=\"93 / 10\" data-reputation=\"7000\"><span class=\"upgradeNode__icon\">👥</span><b>Слоти учасників VІ</b><small>VI</small></article>"
+    },
+    {
+      "id": "map_item_17",
+      "kind": "node",
+      "x": 874,
+      "y": 198,
+      "icon": "🛻",
+      "title": "Доступ до ВЗХ",
+      "level": "V",
+      "category": "Нейтральні",
+      "description": "Дає доступ до розблокування покращення брати участь в сімейному ВЗХ",
+      "req1": "Рівень сім’ї:",
+      "req1Value": "8",
+      "req2": "Учасників сім’ї",
+      "req2Value": "93 / 25",
+      "reputation": "36000",
+      "muted": false,
+      "html": "<article class=\"upgradeNode\" style=\"--left: 874px; --top: 198px;\" aria-label=\"Доступ до ВЗХ V\" data-map-id=\"map_item_17\" data-category=\"Нейтральні\" data-description=\"Дає доступ до розблокування покращення брати участь в сімейному ВЗХ\" data-req1=\"Рівень сім’ї:\" data-req1-value=\"8\" data-req2=\"Учасників сім’ї\" data-req2-value=\"93 / 25\" data-reputation=\"36000\"><span class=\"upgradeNode__icon\">🛻</span><b>Доступ до ВЗХ</b><small>V</small></article>"
+    },
+    {
+      "id": "map_item_18",
+      "kind": "node",
+      "x": 1016,
+      "y": 198,
+      "icon": "◉",
+      "title": "Боєприпаси ІІ",
+      "level": "ІІ",
+      "category": "Нейтральні",
+      "description": "Збільшує місткість боєприпасів на 30000 одиниць",
+      "req1": "Рівень сім’ї:",
+      "req1Value": "8",
+      "req2": "Учасників сім’ї",
+      "req2Value": "93 / 10",
+      "reputation": "20000",
+      "muted": false,
+      "html": "<article class=\"upgradeNode\" style=\"--left: 1016px; --top: 198px;\" aria-label=\"Боєприпаси ІІ ІІ\" data-map-id=\"map_item_18\" data-category=\"Нейтральні\" data-description=\"Збільшує місткість боєприпасів на 30000 одиниць\" data-req1=\"Рівень сім’ї:\" data-req1-value=\"8\" data-req2=\"Учасників сім’ї\" data-req2-value=\"93 / 10\" data-reputation=\"20000\"><span class=\"upgradeNode__icon\">◉</span><b>Боєприпаси ІІ</b><small>ІІ</small></article>"
+    },
+    {
+      "id": "map_item_19",
+      "kind": "node",
+      "x": 1156,
+      "y": 197,
+      "icon": "◉",
+      "title": "Боєприпаси І",
+      "level": "I",
+      "category": "Нейтральні",
+      "description": "Відкриває можливість крафту та доставки боєприпасів на сімейному складі",
+      "req1": "Рівень сім’ї:",
+      "req1Value": "8",
+      "req2": "Учасників сім’ї",
+      "req2Value": "93 / 20",
+      "reputation": "16000",
+      "muted": false,
+      "html": "<article class=\"upgradeNode\" style=\"--left: 1156px; --top: 197px;\" aria-label=\"Боєприпаси І I\" data-map-id=\"map_item_19\" data-category=\"Нейтральні\" data-description=\"Відкриває можливість крафту та доставки боєприпасів на сімейному складі\" data-req1=\"Рівень сім’ї:\" data-req1-value=\"8\" data-req2=\"Учасників сім’ї\" data-req2-value=\"93 / 20\" data-reputation=\"16000\"><span class=\"upgradeNode__icon\">◉</span><b>Боєприпаси І</b><small>I</small></article>"
+    },
+    {
+      "id": "map_item_20",
+      "kind": "node",
+      "x": 1296,
+      "y": 198,
+      "icon": "◉",
+      "title": "Додаткові боєприпаси",
+      "level": "I",
+      "category": "Нейтральні",
+      "description": "Збільшує місткість боєприпасів на +10000 одиниць",
+      "req1": "Рівень сім’ї:",
+      "req1Value": "10",
+      "req2": "Учасників сім’ї",
+      "req2Value": "93 / 30",
+      "reputation": "7000",
+      "muted": false,
+      "html": "<article class=\"upgradeNode\" style=\"--left: 1296px; --top: 198px;\" aria-label=\"Додаткові боєприпаси I\" data-map-id=\"map_item_20\" data-category=\"Нейтральні\" data-description=\"Збільшує місткість боєприпасів на +10000 одиниць\" data-req1=\"Рівень сім’ї:\" data-req1-value=\"10\" data-req2=\"Учасників сім’ї\" data-req2-value=\"93 / 30\" data-reputation=\"7000\"><span class=\"upgradeNode__icon\">◉</span><b>Додаткові боєприпаси</b><small>I</small></article>"
+    },
+    {
+      "id": "map_item_21",
+      "kind": "node",
+      "x": 456,
+      "y": 293,
+      "icon": "★",
+      "title": "Додатковий досвід",
+      "level": "I",
+      "category": "Нейтральні",
+      "description": "На роботах будівельника, хендімена та лісоруба ви отримуєте на +20% додаткового досвіду",
+      "req1": "Рівень сім’ї:",
+      "req1Value": "4",
+      "req2": "Учасників сім’ї",
+      "req2Value": "93 / 15",
+      "reputation": "13000",
+      "muted": false,
+      "html": "<article class=\"upgradeNode\" style=\"--left: 456px; --top: 293px;\" aria-label=\"Додатковий досвід I\" data-map-id=\"map_item_21\" data-category=\"Нейтральні\" data-description=\"На роботах будівельника, хендімена та лісоруба ви отримуєте на +20% додаткового досвіду\" data-req1=\"Рівень сім’ї:\" data-req1-value=\"4\" data-req2=\"Учасників сім’ї\" data-req2-value=\"93 / 15\" data-reputation=\"13000\"><span class=\"upgradeNode__icon\">★</span><b>Додатковий досвід</b><small>I</small></article>"
+    },
+    {
+      "id": "map_item_22",
+      "kind": "node",
+      "x": 596,
+      "y": 293,
+      "icon": "👤",
+      "title": "Слоти учасників ІV",
+      "level": "IV",
+      "category": "Нейтральні",
+      "description": "Відкриває +5 слотів учасників сімейної організації",
+      "req1": "Рівень сім’ї:",
+      "req1Value": "4",
+      "req2": "Учасників сім’ї",
+      "req2Value": "93 / 10",
+      "reputation": "7000",
+      "muted": false,
+      "html": "<article class=\"upgradeNode\" style=\"--left: 596px; --top: 293px;\" aria-label=\"Слоти учасників ІV IV\" data-map-id=\"map_item_22\" data-category=\"Нейтральні\" data-description=\"Відкриває +5 слотів учасників сімейної організації\" data-req1=\"Рівень сім’ї:\" data-req1-value=\"4\" data-req2=\"Учасників сім’ї\" data-req2-value=\"93 / 10\" data-reputation=\"7000\"><span class=\"upgradeNode__icon\">👤</span><b>Слоти учасників ІV</b><small>IV</small></article>"
+    },
+    {
+      "id": "map_item_23",
+      "kind": "node",
+      "x": 736,
+      "y": 293,
+      "icon": "👤",
+      "title": "Слоти учасників ІІІ",
+      "level": "III",
+      "category": "Нейтральні",
+      "description": "Відкриває +5 слотів учасників сімейної організації",
+      "req1": "Рівень сім’ї:",
+      "req1Value": "4",
+      "req2": "Учасників сім’ї",
+      "req2Value": "93 / 10",
+      "reputation": "7000",
+      "muted": false,
+      "html": "<article class=\"upgradeNode\" style=\"--left: 736px; --top: 293px;\" aria-label=\"Слоти учасників ІІІ III\" data-map-id=\"map_item_23\" data-category=\"Нейтральні\" data-description=\"Відкриває +5 слотів учасників сімейної організації\" data-req1=\"Рівень сім’ї:\" data-req1-value=\"4\" data-req2=\"Учасників сім’ї\" data-req2-value=\"93 / 10\" data-reputation=\"7000\"><span class=\"upgradeNode__icon\">👤</span><b>Слоти учасників ІІІ</b><small>III</small></article>"
+    },
+    {
+      "id": "map_item_24",
+      "kind": "node",
+      "x": 875,
+      "y": 293,
+      "icon": "👤",
+      "title": "Слоти учасників ІІ",
+      "level": "II",
+      "category": "Нейтральні",
+      "description": "Відкриває +5 слотів учасників сімейної організації",
+      "req1": "Рівень сім’ї:",
+      "req1Value": "4",
+      "req2": "Учасників сім’ї",
+      "req2Value": "93 / 10",
+      "reputation": "7000",
+      "muted": false,
+      "html": "<article class=\"upgradeNode\" style=\"--left: 875px; --top: 293px;\" aria-label=\"Слоти учасників ІІ II\" data-map-id=\"map_item_24\" data-category=\"Нейтральні\" data-description=\"Відкриває +5 слотів учасників сімейної організації\" data-req1=\"Рівень сім’ї:\" data-req1-value=\"4\" data-req2=\"Учасників сім’ї\" data-req2-value=\"93 / 10\" data-reputation=\"7000\"><span class=\"upgradeNode__icon\">👤</span><b>Слоти учасників ІІ</b><small>II</small></article>"
+    },
+    {
+      "id": "map_item_25",
+      "kind": "node",
+      "x": 1016,
+      "y": 293,
+      "icon": "▤",
+      "title": "Додатковий контракт І",
+      "level": "І",
+      "category": "Нейтральні",
+      "description": "Відкриває можливість в день отримувати +1 контракт",
+      "req1": "Рівень сім’ї:",
+      "req1Value": "8",
+      "req2": "Учасників сім’ї",
+      "req2Value": "93 / 15",
+      "reputation": "10000",
+      "muted": false,
+      "html": "<article class=\"upgradeNode\" style=\"--left: 1016px; --top: 293px;\" aria-label=\"Додатковий контракт І І\" data-map-id=\"map_item_25\" data-category=\"Нейтральні\" data-description=\"Відкриває можливість в день отримувати +1 контракт\" data-req1=\"Рівень сім’ї:\" data-req1-value=\"8\" data-req2=\"Учасників сім’ї\" data-req2-value=\"93 / 15\" data-reputation=\"10000\"><span class=\"upgradeNode__icon\">▤</span><b>Додатковий контракт І</b><small>І</small></article>"
+    },
+    {
+      "id": "map_item_26",
+      "kind": "node",
+      "x": 1156,
+      "y": 292,
+      "icon": "▤",
+      "title": "Додатковий контракт ІІ",
+      "level": "II",
+      "category": "Нейтральні",
+      "description": "Відкриває можливість в день отримувати +1 контракт",
+      "req1": "Рівень сім’ї:",
+      "req1Value": "8",
+      "req2": "Учасників сім’ї",
+      "req2Value": "93 / 10",
+      "reputation": "12000",
+      "muted": false,
+      "html": "<article class=\"upgradeNode\" style=\"--left: 1156px; --top: 292px;\" aria-label=\"Додатковий контракт ІІ II\" data-map-id=\"map_item_26\" data-category=\"Нейтральні\" data-description=\"Відкриває можливість в день отримувати +1 контракт\" data-req1=\"Рівень сім’ї:\" data-req1-value=\"8\" data-req2=\"Учасників сім’ї\" data-req2-value=\"93 / 10\" data-reputation=\"12000\"><span class=\"upgradeNode__icon\">▤</span><b>Додатковий контракт ІІ</b><small>II</small></article>"
+    },
+    {
+      "id": "map_item_27",
+      "kind": "node",
+      "x": 1296,
+      "y": 293,
+      "icon": "▤",
+      "title": "Додатковий контракт ІІІ",
+      "level": "IІІ",
+      "category": "Нейтральні",
+      "description": "Відкриває можливість в день отримувати +1 контракт",
+      "req1": "Рівень сім’ї:",
+      "req1Value": "8",
+      "req2": "Учасників сім’ї",
+      "req2Value": "93 / 20",
+      "reputation": "14000",
+      "muted": false,
+      "html": "<article class=\"upgradeNode\" style=\"--left: 1296px; --top: 293px;\" aria-label=\"Додатковий контракт ІІІ IІІ\" data-map-id=\"map_item_27\" data-category=\"Нейтральні\" data-description=\"Відкриває можливість в день отримувати +1 контракт\" data-req1=\"Рівень сім’ї:\" data-req1-value=\"8\" data-req2=\"Учасників сім’ї\" data-req2-value=\"93 / 20\" data-reputation=\"14000\"><span class=\"upgradeNode__icon\">▤</span><b>Додатковий контракт ІІІ</b><small>IІІ</small></article>"
+    },
+    {
+      "id": "map_item_28",
+      "kind": "node",
+      "x": 455,
+      "y": 388,
+      "icon": "💰",
+      "title": "Додаткові кошти",
+      "level": "II",
+      "category": "Нейтральні",
+      "description": "На роботах будівельника, каменяра, хендімена та лісоруба ви отримуєте +5% додаткових коштів.",
+      "req1": "Рівень сім’ї:",
+      "req1Value": "5",
+      "req2": "Учасників сім’ї",
+      "req2Value": "93 / 15",
+      "reputation": "14000",
+      "muted": false,
+      "html": "<article class=\"upgradeNode\" style=\"--left: 455px; --top: 388px;\" aria-label=\"Додаткові кошти II\" data-map-id=\"map_item_28\" data-category=\"Нейтральні\" data-description=\"На роботах будівельника, каменяра, хендімена та лісоруба ви отримуєте +5% додаткових коштів.\" data-req1=\"Рівень сім’ї:\" data-req1-value=\"5\" data-req2=\"Учасників сім’ї\" data-req2-value=\"93 / 15\" data-reputation=\"14000\"><span class=\"upgradeNode__icon\">💰</span><b>Додаткові кошти</b><small>II</small></article>"
+    },
+    {
+      "id": "map_item_29",
+      "kind": "node",
+      "x": 874,
+      "y": 387,
+      "icon": "👤",
+      "title": "Слоти учасників І",
+      "level": "I",
+      "category": "Нейтральні",
+      "description": "Відкриває +5 слотів учасників сімейної організації",
+      "req1": "Рівень сім’ї:",
+      "req1Value": "4",
+      "req2": "Учасників сім’ї",
+      "req2Value": "93 / 10",
+      "reputation": "7000",
+      "muted": false,
+      "html": "<article class=\"upgradeNode\" style=\"--left: 874px; --top: 387px;\" aria-label=\"Слоти учасників І I\" data-map-id=\"map_item_29\" data-category=\"Нейтральні\" data-description=\"Відкриває +5 слотів учасників сімейної організації\" data-req1=\"Рівень сім’ї:\" data-req1-value=\"4\" data-req2=\"Учасників сім’ї\" data-req2-value=\"93 / 10\" data-reputation=\"7000\"><span class=\"upgradeNode__icon\">👤</span><b>Слоти учасників І</b><small>I</small></article>"
+    },
+    {
+      "id": "map_item_30",
+      "kind": "pill",
+      "x": 757,
+      "y": 497,
+      "icon": "★",
+      "title": "Нейтральний",
+      "level": "",
+      "category": "Нейтральні",
+      "description": "Відкриває покращення “Нейтральний”",
+      "req1": "Рівень сім’ї:",
+      "req1Value": "4",
+      "req2": "Учасників сім’ї",
+      "req2Value": "93 / 10",
+      "reputation": "7000",
+      "muted": false,
+      "html": "<div class=\"upgradePill upgradePill--neutral\" style=\"--left: 757px; --top: 497px;\" data-map-id=\"map_item_30\" data-category=\"Нейтральні\" data-description=\"Відкриває покращення “Нейтральний”\" data-req1=\"Рівень сім’ї:\" data-req1-value=\"4\" data-req2=\"Учасників сім’ї\" data-req2-value=\"93 / 10\" data-reputation=\"7000\" aria-label=\"Нейтральний\"><span>★</span><b>Нейтральний</b></div>"
+    },
+    {
+      "id": "map_item_31",
+      "kind": "node",
+      "x": 279,
+      "y": 465,
+      "icon": "🌱",
+      "title": "Швидкий OG Kush",
+      "level": "I",
+      "category": "Кримінальні",
+      "description": "Час вирощування OG Kush зменшується на 25%",
+      "req1": "Рівень сім’ї:",
+      "req1Value": "8",
+      "req2": "Учасників сім’ї",
+      "req2Value": "93 / 25",
+      "reputation": "15500",
+      "muted": true,
+      "html": "<article class=\"upgradeNode upgradeNode--muted\" style=\"--left: 279px; --top: 465px;\" aria-label=\"Швидкий OG Kush I\" data-map-id=\"map_item_31\" data-category=\"Кримінальні\" data-description=\"Час вирощування OG Kush зменшується на 25%\" data-req1=\"Рівень сім’ї:\" data-req1-value=\"8\" data-req2=\"Учасників сім’ї\" data-req2-value=\"93 / 25\" data-reputation=\"15500\"><span class=\"upgradeNode__icon\">🌱</span><b>Швидкий OG Kush</b><small>I</small></article>"
+    },
+    {
+      "id": "map_item_32",
+      "kind": "node",
+      "x": 279,
+      "y": 566,
+      "icon": "🛵",
+      "title": "Доставка OG Kush I",
+      "level": "II",
+      "category": "Кримінальні",
+      "description": "Відкриває можливість учасникам сімейної організації виконувати контракт ''Доставка OG Kush ІI''",
+      "req1": "Рівень сім’ї:",
+      "req1Value": "7",
+      "req2": "Учасників сім’ї",
+      "req2Value": "93 / 20",
+      "reputation": "14000",
+      "muted": false,
+      "html": "<article class=\"upgradeNode\" style=\"--left: 279px; --top: 566px;\" aria-label=\"Доставка OG Kush I II\" data-map-id=\"map_item_32\" data-category=\"Кримінальні\" data-description=\"Відкриває можливість учасникам сімейної організації виконувати контракт ''Доставка OG Kush ІI''\" data-req1=\"Рівень сім’ї:\" data-req1-value=\"7\" data-req2=\"Учасників сім’ї\" data-req2-value=\"93 / 20\" data-reputation=\"14000\"><span class=\"upgradeNode__icon\">🛵</span><b>Доставка OG Kush I</b><small>II</small></article>"
+    },
+    {
+      "id": "map_item_33",
+      "kind": "node",
+      "x": 418,
+      "y": 566,
+      "icon": "🛵",
+      "title": "Доставка OG Kush I",
+      "level": "I",
+      "category": "Кримінальні",
+      "description": "Відкриває можливість учасникам сімейної організації виконувати контракт ''Доставка OG Kush I''",
+      "req1": "Рівень сім’ї:",
+      "req1Value": "7",
+      "req2": "Учасників сім’ї",
+      "req2Value": "93 / 15",
+      "reputation": "12000",
+      "muted": false,
+      "html": "<article class=\"upgradeNode\" style=\"--left: 418px; --top: 566px;\" aria-label=\"Доставка OG Kush I I\" data-map-id=\"map_item_33\" data-category=\"Кримінальні\" data-description=\"Відкриває можливість учасникам сімейної організації виконувати контракт ''Доставка OG Kush I''\" data-req1=\"Рівень сім’ї:\" data-req1-value=\"7\" data-req2=\"Учасників сім’ї\" data-req2-value=\"93 / 15\" data-reputation=\"12000\"><span class=\"upgradeNode__icon\">🛵</span><b>Доставка OG Kush I</b><small>I</small></article>"
+    },
+    {
+      "id": "map_item_34",
+      "kind": "node",
+      "x": 557,
+      "y": 566,
+      "icon": "📦",
+      "title": "Дешевша контрабанда",
+      "level": "I",
+      "category": "Кримінальні",
+      "description": "Знижка 20% на купівлю контрабанди у фракціях.",
+      "req1": "Рівень сім’ї:",
+      "req1Value": "7",
+      "req2": "Учасників сім’ї",
+      "req2Value": "93 / 20",
+      "reputation": "11000",
+      "muted": true,
+      "html": "<article class=\"upgradeNode upgradeNode--muted\" style=\"--left: 557px; --top: 566px;\" aria-label=\"Дешевша контрабанда I\" data-map-id=\"map_item_34\" data-category=\"Кримінальні\" data-description=\"Знижка 20% на купівлю контрабанди у фракціях.\" data-req1=\"Рівень сім’ї:\" data-req1-value=\"7\" data-req2=\"Учасників сім’ї\" data-req2-value=\"93 / 20\" data-reputation=\"11000\"><span class=\"upgradeNode__icon\">📦</span><b>Дешевша контрабанда</b><small>I</small></article>"
+    },
+    {
+      "id": "map_item_35",
+      "kind": "node",
+      "x": 136,
+      "y": 680,
+      "icon": "🚘",
+      "title": "Цікавий таксист",
+      "level": "I",
+      "category": "Кримінальні",
+      "description": "Відкриває доступ до контракту ''Цікавий таксист'', у якому необхідно перевезти визначену кількість дівчат",
+      "req1": "Рівень сім’ї:",
+      "req1Value": "8",
+      "req2": "Учасників сім’ї",
+      "req2Value": "93 / 25",
+      "reputation": "13000",
+      "muted": false,
+      "html": "<article class=\"upgradeNode\" style=\"--left: 136px; --top: 680px;\" aria-label=\"Цікавий таксист I\" data-map-id=\"map_item_35\" data-category=\"Кримінальні\" data-description=\"Відкриває доступ до контракту ''Цікавий таксист'', у якому необхідно перевезти визначену кількість дівчат\" data-req1=\"Рівень сім’ї:\" data-req1-value=\"8\" data-req2=\"Учасників сім’ї\" data-req2-value=\"93 / 25\" data-reputation=\"13000\"><span class=\"upgradeNode__icon\">🚘</span><b>Цікавий таксист</b><small>I</small></article>"
+    },
+    {
+      "id": "map_item_36",
+      "kind": "node",
+      "x": 278,
+      "y": 679,
+      "icon": "🌿",
+      "title": "Гровер ІІІ",
+      "level": "III",
+      "category": "Кримінальні",
+      "description": "Відкриває можливість учасникам сімейної організації виконувати контракт ''Гровер ІІІ''",
+      "req1": "Рівень сім’ї:",
+      "req1Value": "5",
+      "req2": "Учасників сім’ї",
+      "req2Value": "93 / 15",
+      "reputation": "10500",
+      "muted": false,
+      "html": "<article class=\"upgradeNode\" style=\"--left: 278px; --top: 679px;\" aria-label=\"Гровер ІІІ III\" data-map-id=\"map_item_36\" data-category=\"Кримінальні\" data-description=\"Відкриває можливість учасникам сімейної організації виконувати контракт ''Гровер ІІІ''\" data-req1=\"Рівень сім’ї:\" data-req1-value=\"5\" data-req2=\"Учасників сім’ї\" data-req2-value=\"93 / 15\" data-reputation=\"10500\"><span class=\"upgradeNode__icon\">🌿</span><b>Гровер ІІІ</b><small>III</small></article>"
+    },
+    {
+      "id": "map_item_37",
+      "kind": "node",
+      "x": 418,
+      "y": 679,
+      "icon": "🌿",
+      "title": "Гровер ІІ",
+      "level": "II",
+      "category": "Кримінальні",
+      "description": "Відкриває можливість учасникам сімейної організації виконувати контракт ''Гровер ІІ''",
+      "req1": "Рівень сім’ї:",
+      "req1Value": "5",
+      "req2": "Учасників сім’ї",
+      "req2Value": "93 / 15",
+      "reputation": "9000",
+      "muted": false,
+      "html": "<article class=\"upgradeNode\" style=\"--left: 418px; --top: 679px;\" aria-label=\"Гровер ІІ II\" data-map-id=\"map_item_37\" data-category=\"Кримінальні\" data-description=\"Відкриває можливість учасникам сімейної організації виконувати контракт ''Гровер ІІ''\" data-req1=\"Рівень сім’ї:\" data-req1-value=\"5\" data-req2=\"Учасників сім’ї\" data-req2-value=\"93 / 15\" data-reputation=\"9000\"><span class=\"upgradeNode__icon\">🌿</span><b>Гровер ІІ</b><small>II</small></article>"
+    },
+    {
+      "id": "map_item_38",
+      "kind": "node",
+      "x": 557,
+      "y": 679,
+      "icon": "🌿",
+      "title": "Гровер І",
+      "level": "I",
+      "category": "Кримінальні",
+      "description": "Відкриває можливість учасникам сімейної організації виконувати контракт ''Гровер І''",
+      "req1": "Рівень сім’ї:",
+      "req1Value": "4",
+      "req2": "Учасників сім’ї",
+      "req2Value": "93 / 10",
+      "reputation": "8000",
+      "muted": false,
+      "html": "<article class=\"upgradeNode\" style=\"--left: 557px; --top: 679px;\" aria-label=\"Гровер І I\" data-map-id=\"map_item_38\" data-category=\"Кримінальні\" data-description=\"Відкриває можливість учасникам сімейної організації виконувати контракт ''Гровер І''\" data-req1=\"Рівень сім’ї:\" data-req1-value=\"4\" data-req2=\"Учасників сім’ї\" data-req2-value=\"93 / 10\" data-reputation=\"8000\"><span class=\"upgradeNode__icon\">🌿</span><b>Гровер І</b><small>I</small></article>"
+    },
+    {
+      "id": "map_item_39",
+      "kind": "node",
+      "x": 32,
+      "y": 777,
+      "icon": "🚗",
+      "title": "Дорожча угонка",
+      "level": "$",
+      "category": "Кримінальні",
+      "description": "Дохід від угону автомобілів збільшується на 20%",
+      "req1": "Рівень сім’ї:",
+      "req1Value": "9",
+      "req2": "Учасників сім’ї",
+      "req2Value": "93 / 30",
+      "reputation": "32000",
+      "muted": false,
+      "html": "<article class=\"upgradeNode\" style=\"--left: 32px; --top: 777px;\" aria-label=\"Дорожча угонка $\" data-map-id=\"map_item_39\" data-category=\"Кримінальні\" data-description=\"Дохід від угону автомобілів збільшується на 20%\" data-req1=\"Рівень сім’ї:\" data-req1-value=\"9\" data-req2=\"Учасників сім’ї\" data-req2-value=\"93 / 30\" data-reputation=\"32000\"><span class=\"upgradeNode__icon\">🚗</span><b>Дорожча угонка</b><small>$</small></article>"
+    },
+    {
+      "id": "map_item_40",
+      "kind": "node",
+      "x": 139,
+      "y": 777,
+      "icon": "🚗",
+      "title": "Угонка",
+      "level": "I",
+      "category": "Кримінальні",
+      "description": "Відкриває сімейній організації можливість викрадати автомобілі та доставляти їх до пункту здачі.",
+      "req1": "Рівень сім’ї:",
+      "req1Value": "8",
+      "req2": "Учасників сім’ї",
+      "req2Value": "93 / 25",
+      "reputation": "28000",
+      "muted": false,
+      "html": "<article class=\"upgradeNode\" style=\"--left: 139px; --top: 777px;\" aria-label=\"Угонка I\" data-map-id=\"map_item_40\" data-category=\"Кримінальні\" data-description=\"Відкриває сімейній організації можливість викрадати автомобілі та доставляти їх до пункту здачі.\" data-req1=\"Рівень сім’ї:\" data-req1-value=\"8\" data-req2=\"Учасників сім’ї\" data-req2-value=\"93 / 25\" data-reputation=\"28000\"><span class=\"upgradeNode__icon\">🚗</span><b>Угонка</b><small>I</small></article>"
+    },
+    {
+      "id": "map_item_41",
+      "kind": "node",
+      "x": 278,
+      "y": 777,
+      "icon": "🥷",
+      "title": "Грабіжники І",
+      "level": "I",
+      "category": "Кримінальні",
+      "description": "Відкриває можливість учасникам сімейної організації грабувати магазини.",
+      "req1": "Рівень сім’ї:",
+      "req1Value": "8",
+      "req2": "Учасників сім’ї",
+      "req2Value": "93 / 20",
+      "reputation": "22000",
+      "muted": false,
+      "html": "<article class=\"upgradeNode\" style=\"--left: 278px; --top: 777px;\" aria-label=\"Грабіжники І I\" data-map-id=\"map_item_41\" data-category=\"Кримінальні\" data-description=\"Відкриває можливість учасникам сімейної організації грабувати магазини.\" data-req1=\"Рівень сім’ї:\" data-req1-value=\"8\" data-req2=\"Учасників сім’ї\" data-req2-value=\"93 / 20\" data-reputation=\"22000\"><span class=\"upgradeNode__icon\">🥷</span><b>Грабіжники І</b><small>I</small></article>"
+    },
+    {
+      "id": "map_item_42",
+      "kind": "node",
+      "x": 418,
+      "y": 777,
+      "icon": "💀",
+      "title": "Пограбування І",
+      "level": "I",
+      "category": "Кримінальні",
+      "description": "Відкриває можливість учасникам сімейної організації грабувати інших гравців.",
+      "req1": "Рівень сім’ї:",
+      "req1Value": "7",
+      "req2": "Учасників сім’ї",
+      "req2Value": "93 / 20",
+      "reputation": "16500",
+      "muted": false,
+      "html": "<article class=\"upgradeNode\" style=\"--left: 418px; --top: 777px;\" aria-label=\"Пограбування І I\" data-map-id=\"map_item_42\" data-category=\"Кримінальні\" data-description=\"Відкриває можливість учасникам сімейної організації грабувати інших гравців.\" data-req1=\"Рівень сім’ї:\" data-req1-value=\"7\" data-req2=\"Учасників сім’ї\" data-req2-value=\"93 / 20\" data-reputation=\"16500\"><span class=\"upgradeNode__icon\">💀</span><b>Пограбування І</b><small>I</small></article>"
+    },
+    {
+      "id": "map_item_43",
+      "kind": "node",
+      "x": 32,
+      "y": 878,
+      "icon": "⌗",
+      "title": "Мінус час",
+      "level": "I",
+      "category": "Кримінальні",
+      "description": "Члени сім'ї відбувають покарання в ІТТ на 10% менше часу.",
+      "req1": "Рівень сім’ї:",
+      "req1Value": "10",
+      "req2": "Учасників сім’ї",
+      "req2Value": "93 / 40",
+      "reputation": "36500",
+      "muted": true,
+      "html": "<article class=\"upgradeNode upgradeNode--muted\" style=\"--left: 32px; --top: 878px;\" aria-label=\"Мінус час I\" data-map-id=\"map_item_43\" data-category=\"Кримінальні\" data-description=\"Члени сім'ї відбувають покарання в ІТТ на 10% менше часу.\" data-req1=\"Рівень сім’ї:\" data-req1-value=\"10\" data-req2=\"Учасників сім’ї\" data-req2-value=\"93 / 40\" data-reputation=\"36500\"><span class=\"upgradeNode__icon\">⌗</span><b>Мінус час</b><small>I</small></article>"
+    },
+    {
+      "id": "map_item_44",
+      "kind": "node",
+      "x": 140,
+      "y": 878,
+      "icon": "🛻",
+      "title": "ВЗХ",
+      "level": "I",
+      "category": "Кримінальні",
+      "description": "Відкриває можливість сімейної організації брати участь в сімейному ВЗХ.",
+      "req1": "Рівень сім’ї:",
+      "req1Value": "8",
+      "req2": "Учасників сім’ї",
+      "req2Value": "93 / 35",
+      "reputation": "31500",
+      "muted": false,
+      "html": "<article class=\"upgradeNode\" style=\"--left: 140px; --top: 878px;\" aria-label=\"ВЗХ I\" data-map-id=\"map_item_44\" data-category=\"Кримінальні\" data-description=\"Відкриває можливість сімейної організації брати участь в сімейному ВЗХ.\" data-req1=\"Рівень сім’ї:\" data-req1-value=\"8\" data-req2=\"Учасників сім’ї\" data-req2-value=\"93 / 35\" data-reputation=\"31500\"><span class=\"upgradeNode__icon\">🛻</span><b>ВЗХ</b><small>I</small></article>"
+    },
+    {
+      "id": "map_item_45",
+      "kind": "node",
+      "x": 278,
+      "y": 878,
+      "icon": "🥷",
+      "title": "Грабіжники ІІ",
+      "level": "II",
+      "category": "Кримінальні",
+      "description": "Додає +30% до нагороди за пограбування магазинів.",
+      "req1": "Рівень сім’ї:",
+      "req1Value": "8",
+      "req2": "Учасників сім’ї",
+      "req2Value": "93 / 25",
+      "reputation": "25000",
+      "muted": false,
+      "html": "<article class=\"upgradeNode\" style=\"--left: 278px; --top: 878px;\" aria-label=\"Грабіжники ІІ II\" data-map-id=\"map_item_45\" data-category=\"Кримінальні\" data-description=\"Додає +30% до нагороди за пограбування магазинів.\" data-req1=\"Рівень сім’ї:\" data-req1-value=\"8\" data-req2=\"Учасників сім’ї\" data-req2-value=\"93 / 25\" data-reputation=\"25000\"><span class=\"upgradeNode__icon\">🥷</span><b>Грабіжники ІІ</b><small>II</small></article>"
+    },
+    {
+      "id": "map_item_46",
+      "kind": "node",
+      "x": 418,
+      "y": 878,
+      "icon": "💀",
+      "title": "Пограбування ІІ",
+      "level": "II",
+      "category": "Кримінальні",
+      "description": "Додає +20% до нагороди за пограбування, якщо гравець здійснив пограбування на максимальну суму.",
+      "req1": "Рівень сім’ї:",
+      "req1Value": "8",
+      "req2": "Учасників сім’ї",
+      "req2Value": "93 / 20",
+      "reputation": "19000",
+      "muted": false,
+      "html": "<article class=\"upgradeNode\" style=\"--left: 418px; --top: 878px;\" aria-label=\"Пограбування ІІ II\" data-map-id=\"map_item_46\" data-category=\"Кримінальні\" data-description=\"Додає +20% до нагороди за пограбування, якщо гравець здійснив пограбування на максимальну суму.\" data-req1=\"Рівень сім’ї:\" data-req1-value=\"8\" data-req2=\"Учасників сім’ї\" data-req2-value=\"93 / 20\" data-reputation=\"19000\"><span class=\"upgradeNode__icon\">💀</span><b>Пограбування ІІ</b><small>II</small></article>"
+    },
+    {
+      "id": "map_item_47",
+      "kind": "node",
+      "x": 419,
+      "y": 965,
+      "icon": "💥",
+      "title": "Більше урону І",
+      "level": "I",
+      "category": "Кримінальні",
+      "description": "Члени сім'ї завдають на 3% більше шкоди гравцям з будь-якої зброї.",
+      "req1": "Рівень сім’ї:",
+      "req1Value": "9",
+      "req2": "Учасників сім’ї",
+      "req2Value": "93 / 30",
+      "reputation": "24500",
+      "muted": false,
+      "html": "<article class=\"upgradeNode\" style=\"--left: 419px; --top: 965px;\" aria-label=\"Більше урону І I\" data-map-id=\"map_item_47\" data-category=\"Кримінальні\" data-description=\"Члени сім'ї завдають на 3% більше шкоди гравцям з будь-якої зброї.\" data-req1=\"Рівень сім’ї:\" data-req1-value=\"9\" data-req2=\"Учасників сім’ї\" data-req2-value=\"93 / 30\" data-reputation=\"24500\"><span class=\"upgradeNode__icon\">💥</span><b>Більше урону І</b><small>I</small></article>"
+    },
+    {
+      "id": "map_item_48",
+      "kind": "node",
+      "x": 517,
+      "y": 965,
+      "icon": "💥",
+      "title": "Більше урону ІІ",
+      "level": "II",
+      "category": "Кримінальні",
+      "description": "Члени сім'ї завдають на 5% більше шкоди гравцям з будь-якої зброї.",
+      "req1": "Рівень сім’ї:",
+      "req1Value": "10",
+      "req2": "Учасників сім’ї",
+      "req2Value": "93 / 40",
+      "reputation": "27500",
+      "muted": false,
+      "html": "<article class=\"upgradeNode\" style=\"--left: 517px; --top: 965px;\" aria-label=\"Більше урону ІІ II\" data-map-id=\"map_item_48\" data-category=\"Кримінальні\" data-description=\"Члени сім'ї завдають на 5% більше шкоди гравцям з будь-якої зброї.\" data-req1=\"Рівень сім’ї:\" data-req1-value=\"10\" data-req2=\"Учасників сім’ї\" data-req2-value=\"93 / 40\" data-reputation=\"27500\"><span class=\"upgradeNode__icon\">💥</span><b>Більше урону ІІ</b><small>II</small></article>"
+    },
+    {
+      "id": "map_item_49",
+      "kind": "side",
+      "x": 698,
+      "y": 597,
+      "icon": "☠",
+      "title": "Нелегальний",
+      "level": "",
+      "category": "Нейтральні",
+      "description": "Відкриває покращення “Нелегальний”",
+      "req1": "Рівень сім’ї:",
+      "req1Value": "4",
+      "req2": "Учасників сім’ї",
+      "req2Value": "93 / 10",
+      "reputation": "7000",
+      "muted": false,
+      "html": "<div class=\"upgradeSide upgradeSide--illegal\" style=\"--left: 698px; --top: 597px;\" data-map-id=\"map_item_49\" data-category=\"Нейтральні\" data-description=\"Відкриває покращення “Нелегальний”\" data-req1=\"Рівень сім’ї:\" data-req1-value=\"4\" data-req2=\"Учасників сім’ї\" data-req2-value=\"93 / 10\" data-reputation=\"7000\" aria-label=\"Нелегальний\"><b>Нелегальний</b><span>☠</span></div>"
+    },
+    {
+      "id": "map_item_50",
+      "kind": "core",
+      "x": 788,
+      "y": 584,
+      "icon": "",
+      "title": "CASTRO",
+      "level": "Нелегальний",
+      "category": "Нейтральні",
+      "description": "Відкриває покращення “CASTRO”",
+      "req1": "Рівень сім’ї:",
+      "req1Value": "4",
+      "req2": "Учасників сім’ї",
+      "req2Value": "93 / 10",
+      "reputation": "7000",
+      "muted": false,
+      "html": "<article class=\"upgradeNode upgradeNode--core\" style=\"--left: 788px; --top: 584px;\" aria-label=\"CASTRO Нелегальний\" data-map-id=\"map_item_50\" data-category=\"Нейтральні\" data-description=\"Відкриває покращення “CASTRO”\" data-req1=\"Рівень сім’ї:\" data-req1-value=\"4\" data-req2=\"Учасників сім’ї\" data-req2-value=\"93 / 10\" data-reputation=\"7000\">\n              <img src=\"../assets/hero.gif\" alt=\"\" aria-hidden=\"true\">\n              <b>CASTRO</b>\n              <small>Тип розвитку:<strong>Нелегальний</strong></small>\n            </article>"
+    },
+    {
+      "id": "map_item_51",
+      "kind": "side",
+      "x": 1041,
+      "y": 591,
+      "icon": "▥",
+      "title": "Державний",
+      "level": "",
+      "category": "Нейтральні",
+      "description": "Відкриває покращення “Державний”",
+      "req1": "Рівень сім’ї:",
+      "req1Value": "4",
+      "req2": "Учасників сім’ї",
+      "req2Value": "93 / 10",
+      "reputation": "7000",
+      "muted": false,
+      "html": "<div class=\"upgradeSide upgradeSide--state\" style=\"--left: 1041px; --top: 591px;\" data-map-id=\"map_item_51\" data-category=\"Нейтральні\" data-description=\"Відкриває покращення “Державний”\" data-req1=\"Рівень сім’ї:\" data-req1-value=\"4\" data-req2=\"Учасників сім’ї\" data-req2-value=\"93 / 10\" data-reputation=\"7000\" aria-label=\"Державний\"><b>Державний</b><span>▥</span></div>"
+    },
+    {
+      "id": "map_item_52",
+      "kind": "node",
+      "x": 1154,
+      "y": 617,
+      "icon": "?",
+      "title": "Державний",
+      "level": "I",
+      "category": "Державні",
+      "description": "Відкриває покращення",
+      "req1": "Рівень сім’ї:",
+      "req1Value": "4",
+      "req2": "Учасників сім’ї",
+      "req2Value": "93 / 10",
+      "reputation": "7000",
+      "muted": true,
+      "html": "<article class=\"upgradeNode upgradeNode--muted\" style=\"--left: 1154px; --top: 617px;\" aria-label=\"Державний I\" data-map-id=\"map_item_52\" data-category=\"Державні\" data-description=\"Відкриває покращення\" data-req1=\"Рівень сім’ї:\" data-req1-value=\"4\" data-req2=\"Учасників сім’ї\" data-req2-value=\"93 / 10\" data-reputation=\"7000\"><span class=\"upgradeNode__icon\">?</span><b>Державний</b><small>I</small></article>"
+    },
+    {
+      "id": "map_item_53",
+      "kind": "node",
+      "x": 1294,
+      "y": 617,
+      "icon": "?",
+      "title": "Пошук",
+      "level": "IІ",
+      "category": "Державні",
+      "description": "Відкриває покращення",
+      "req1": "Рівень сім’ї:",
+      "req1Value": "4",
+      "req2": "Учасників сім’ї",
+      "req2Value": "93 / 10",
+      "reputation": "7000",
+      "muted": true,
+      "html": "<article class=\"upgradeNode upgradeNode--muted\" style=\"--left: 1294px; --top: 617px;\" aria-label=\"Пошук IІ\" data-map-id=\"map_item_53\" data-category=\"Державні\" data-description=\"Відкриває покращення\" data-req1=\"Рівень сім’ї:\" data-req1-value=\"4\" data-req2=\"Учасників сім’ї\" data-req2-value=\"93 / 10\" data-reputation=\"7000\"><span class=\"upgradeNode__icon\">?</span><b>Пошук</b><small>IІ</small></article>"
+    },
+    {
+      "id": "map_item_54",
+      "kind": "node",
+      "x": 1434,
+      "y": 617,
+      "icon": "?",
+      "title": "Енергія",
+      "level": "IІІ",
+      "category": "Державні",
+      "description": "Відкриває покращення",
+      "req1": "Рівень сім’ї:",
+      "req1Value": "4",
+      "req2": "Учасників сім’ї",
+      "req2Value": "93 / 10",
+      "reputation": "7000",
+      "muted": true,
+      "html": "<article class=\"upgradeNode upgradeNode--muted\" style=\"--left: 1434px; --top: 617px;\" aria-label=\"Енергія IІІ\" data-map-id=\"map_item_54\" data-category=\"Державні\" data-description=\"Відкриває покращення\" data-req1=\"Рівень сім’ї:\" data-req1-value=\"4\" data-req2=\"Учасників сім’ї\" data-req2-value=\"93 / 10\" data-reputation=\"7000\"><span class=\"upgradeNode__icon\">?</span><b>Енергія</b><small>IІІ</small></article>"
+    },
+    {
+      "id": "map_item_55",
+      "kind": "node",
+      "x": 1154,
+      "y": 712,
+      "icon": "?",
+      "title": "Еко",
+      "level": "I",
+      "category": "Державні",
+      "description": "Відкриває покращення",
+      "req1": "Рівень сім’ї:",
+      "req1Value": "4",
+      "req2": "Учасників сім’ї",
+      "req2Value": "93 / 10",
+      "reputation": "7000",
+      "muted": true,
+      "html": "<article class=\"upgradeNode upgradeNode--muted\" style=\"--left: 1154px; --top: 712px;\" aria-label=\"Еко I\" data-map-id=\"map_item_55\" data-category=\"Державні\" data-description=\"Відкриває покращення\" data-req1=\"Рівень сім’ї:\" data-req1-value=\"4\" data-req2=\"Учасників сім’ї\" data-req2-value=\"93 / 10\" data-reputation=\"7000\"><span class=\"upgradeNode__icon\">?</span><b>Еко</b><small>I</small></article>"
+    },
+    {
+      "id": "map_item_56",
+      "kind": "node",
+      "x": 1294,
+      "y": 711,
+      "icon": "?",
+      "title": "Еко",
+      "level": "II",
+      "category": "Державні",
+      "description": "Відкриває покращення",
+      "req1": "Рівень сім’ї:",
+      "req1Value": "4",
+      "req2": "Учасників сім’ї",
+      "req2Value": "93 / 10",
+      "reputation": "7000",
+      "muted": true,
+      "html": "<article class=\"upgradeNode upgradeNode--muted\" style=\"--left: 1294px; --top: 711px;\" aria-label=\"Еко II\" data-map-id=\"map_item_56\" data-category=\"Державні\" data-description=\"Відкриває покращення\" data-req1=\"Рівень сім’ї:\" data-req1-value=\"4\" data-req2=\"Учасників сім’ї\" data-req2-value=\"93 / 10\" data-reputation=\"7000\"><span class=\"upgradeNode__icon\">?</span><b>Еко</b><small>II</small></article>"
+    },
+    {
+      "id": "map_item_57",
+      "kind": "node",
+      "x": 1434,
+      "y": 712,
+      "icon": "?",
+      "title": "Авто",
+      "level": "IІІ",
+      "category": "Державні",
+      "description": "Відкриває покращення",
+      "req1": "Рівень сім’ї:",
+      "req1Value": "4",
+      "req2": "Учасників сім’ї",
+      "req2Value": "93 / 10",
+      "reputation": "7000",
+      "muted": true,
+      "html": "<article class=\"upgradeNode upgradeNode--muted\" style=\"--left: 1434px; --top: 712px;\" aria-label=\"Авто IІІ\" data-map-id=\"map_item_57\" data-category=\"Державні\" data-description=\"Відкриває покращення\" data-req1=\"Рівень сім’ї:\" data-req1-value=\"4\" data-req2=\"Учасників сім’ї\" data-req2-value=\"93 / 10\" data-reputation=\"7000\"><span class=\"upgradeNode__icon\">?</span><b>Авто</b><small>IІІ</small></article>"
+    },
+    {
+      "id": "custom_1787174468469",
+      "kind": "node",
+      "x": 140,
+      "y": 965,
+      "icon": "⌗",
+      "title": "Напад на ФЗ",
+      "level": "I",
+      "category": "Кримінальні",
+      "description": "Відкриває можливість сімейної організації нападати на ФЗ та завантажувати матеріали в матовозках.",
+      "req1": "Рівень сім’ї:",
+      "req1Value": "8",
+      "req2": "Учасників сім’ї",
+      "req2Value": "93 / 35",
+      "reputation": "35000",
+      "muted": false,
+      "html": "<article class=\"upgradeNode\" data-map-id=\"custom_1787174468469\" aria-label=\"Напад на ФЗ I\" style=\"--left: 140px; --top: 965px;\" data-category=\"Кримінальні\" data-description=\"Відкриває можливість сімейної організації нападати на ФЗ та завантажувати матеріали в матовозках.\" data-req1=\"Рівень сім’ї:\" data-req1-value=\"8\" data-req2=\"Учасників сім’ї\" data-req2-value=\"93 / 35\" data-reputation=\"35000\"><span class=\"upgradeNode__icon\">⌗</span><b>Напад на ФЗ</b><small>I</small></article>"
+    }
+  ],
+  "lines": [
+    {
+      "id": "line_1787173743128",
+      "from": "map_item_30",
+      "to": "map_item_29",
+      "color": "red"
+    },
+    {
+      "id": "line_1787173760008",
+      "from": "map_item_29",
+      "to": "map_item_24",
+      "color": "red"
+    },
+    {
+      "id": "line_1787173763144",
+      "from": "map_item_24",
+      "to": "map_item_23",
+      "color": "red"
+    },
+    {
+      "id": "line_1787173765630",
+      "from": "map_item_23",
+      "to": "map_item_22",
+      "color": "red"
+    },
+    {
+      "id": "line_1787173767390",
+      "from": "map_item_22",
+      "to": "map_item_15",
+      "color": "red"
+    },
+    {
+      "id": "line_1787173769424",
+      "from": "map_item_15",
+      "to": "map_item_16",
+      "color": "red"
+    },
+    {
+      "id": "line_1787173777742",
+      "from": "map_item_16",
+      "to": "map_item_5",
+      "color": "red"
+    },
+    {
+      "id": "line_1787173780337",
+      "from": "map_item_5",
+      "to": "map_item_10",
+      "color": "red"
+    },
+    {
+      "id": "line_1787173835895",
+      "from": "map_item_22",
+      "to": "map_item_21",
+      "color": "red"
+    },
+    {
+      "id": "line_1787173838695",
+      "from": "map_item_21",
+      "to": "map_item_28",
+      "color": "red"
+    },
+    {
+      "id": "line_1787173854171",
+      "from": "map_item_24",
+      "to": "map_item_25",
+      "color": "red"
+    },
+    {
+      "id": "line_1787173856654",
+      "from": "map_item_25",
+      "to": "map_item_26",
+      "color": "red"
+    },
+    {
+      "id": "line_1787173860845",
+      "from": "map_item_26",
+      "to": "map_item_27",
+      "color": "red"
+    },
+    {
+      "id": "line_1787173865478",
+      "from": "map_item_26",
+      "to": "map_item_19",
+      "color": "red"
+    },
+    {
+      "id": "line_1787173869739",
+      "from": "map_item_19",
+      "to": "map_item_18",
+      "color": "red"
+    },
+    {
+      "id": "line_1787173872114",
+      "from": "map_item_19",
+      "to": "map_item_20",
+      "color": "red"
+    },
+    {
+      "id": "line_1787173877255",
+      "from": "map_item_19",
+      "to": "map_item_8",
+      "color": "red"
+    },
+    {
+      "id": "line_1787173882817",
+      "from": "map_item_8",
+      "to": "map_item_9",
+      "color": "red"
+    },
+    {
+      "id": "line_1787173900133",
+      "from": "map_item_9",
+      "to": "map_item_14",
+      "color": "gray"
+    },
+    {
+      "id": "line_1787173922606",
+      "from": "map_item_14",
+      "to": "map_item_13",
+      "color": "gray"
+    },
+    {
+      "id": "line_1787173930926",
+      "from": "map_item_8",
+      "to": "map_item_7",
+      "color": "red"
+    },
+    {
+      "id": "line_1787173933236",
+      "from": "map_item_7",
+      "to": "map_item_6",
+      "color": "red"
+    },
+    {
+      "id": "line_1787173935183",
+      "from": "map_item_6",
+      "to": "map_item_17",
+      "color": "red"
+    },
+    {
+      "id": "line_1787173937015",
+      "from": "map_item_6",
+      "to": "map_item_11",
+      "color": "red"
+    },
+    {
+      "id": "line_1787173938617",
+      "from": "map_item_11",
+      "to": "map_item_12",
+      "color": "red"
+    },
+    {
+      "id": "line_1787173942831",
+      "from": "map_item_15",
+      "to": "map_item_4",
+      "color": "red"
+    },
+    {
+      "id": "line_1787173944756",
+      "from": "map_item_4",
+      "to": "map_item_3",
+      "color": "red"
+    },
+    {
+      "id": "line_1787173989636",
+      "from": "map_item_2",
+      "to": "map_item_1",
+      "color": "gray"
+    },
+    {
+      "id": "line_1787174191689",
+      "from": "map_item_49",
+      "to": "map_item_38",
+      "color": "red"
+    },
+    {
+      "id": "line_1787174221152",
+      "from": "map_item_38",
+      "to": "map_item_37",
+      "color": "red"
+    },
+    {
+      "id": "line_1787174324439",
+      "from": "map_item_37",
+      "to": "map_item_42",
+      "color": "red"
+    },
+    {
+      "id": "line_1787174327173",
+      "from": "map_item_42",
+      "to": "map_item_46",
+      "color": "red"
+    },
+    {
+      "id": "line_1787174388992",
+      "from": "map_item_46",
+      "to": "map_item_47",
+      "color": "red"
+    },
+    {
+      "id": "line_1787174392257",
+      "from": "map_item_47",
+      "to": "map_item_48",
+      "color": "red"
+    },
+    {
+      "id": "line_1787174405439",
+      "from": "map_item_42",
+      "to": "map_item_41",
+      "color": "red"
+    },
+    {
+      "id": "line_1787174431966",
+      "from": "map_item_41",
+      "to": "map_item_45",
+      "color": "red"
+    },
+    {
+      "id": "line_1787174516564",
+      "from": "map_item_41",
+      "to": "map_item_40",
+      "color": "red"
+    },
+    {
+      "id": "line_1787174520026",
+      "from": "map_item_40",
+      "to": "map_item_44",
+      "color": "red"
+    },
+    {
+      "id": "line_1787174523366",
+      "from": "map_item_44",
+      "to": "custom_1787174468469",
+      "color": "red"
+    },
+    {
+      "id": "line_1787174569119",
+      "from": "map_item_40",
+      "to": "map_item_39",
+      "color": "red"
+    },
+    {
+      "id": "line_1787174602490",
+      "from": "map_item_37",
+      "to": "map_item_36",
+      "color": "red"
+    },
+    {
+      "id": "line_1787174608163",
+      "from": "map_item_36",
+      "to": "map_item_35",
+      "color": "red"
+    },
+    {
+      "id": "line_1787174620645",
+      "from": "map_item_36",
+      "to": "map_item_32",
+      "color": "red"
+    },
+    {
+      "id": "line_1787174625275",
+      "from": "map_item_37",
+      "to": "map_item_33",
+      "color": "red"
+    },
+    {
+      "id": "line_1787174638859",
+      "from": "map_item_33",
+      "to": "map_item_34",
+      "color": "gray"
+    },
+    {
+      "id": "line_1787174657291",
+      "from": "map_item_32",
+      "to": "map_item_31",
+      "color": "gray"
+    },
+    {
+      "id": "line_1787226064457",
+      "from": "map_item_44",
+      "to": "map_item_43",
+      "color": "gray"
+    },
+    {
+      "id": "line_1787226424503",
+      "from": "map_item_52",
+      "to": "map_item_53",
+      "color": "gray"
+    },
+    {
+      "id": "line_1787226428981",
+      "from": "map_item_51",
+      "to": "map_item_52",
+      "color": "gray"
+    },
+    {
+      "id": "line_1787226431772",
+      "from": "map_item_51",
+      "to": "map_item_55",
+      "color": "gray"
+    },
+    {
+      "id": "line_1787226434339",
+      "from": "map_item_55",
+      "to": "map_item_56",
+      "color": "gray"
+    },
+    {
+      "id": "line_1787226436602",
+      "from": "map_item_53",
+      "to": "map_item_54",
+      "color": "gray"
+    },
+    {
+      "id": "line_1787226438817",
+      "from": "map_item_56",
+      "to": "map_item_57",
+      "color": "gray"
+    },
+    {
+      "id": "line_1787226555663",
+      "from": "map_item_21",
+      "to": "map_item_2",
+      "color": "gray"
+    }
+  ]
+}
+  </script>
+
+  <div class="familyTablet familyMap" aria-label="Карта покращень Family Castro">
+        <aside class="upgradeDetails" id="upgradeDetails" aria-hidden="true">
+          <button class="upgradeDetails__close" type="button" id="upgradeDetailsClose" aria-label="Закрити">×</button>
+          <div class="upgradeDetails__tag" id="upgradeDetailsCategory">Нейтральні</div>
+          <h4 id="upgradeDetailsTitle">Слоти учасників I</h4>
+          <p id="upgradeDetailsDescription">Відкриває +5 слотів учасників сімейної організації</p>
+          <div class="upgradeDetails__line"></div>
+          <div class="upgradeDetails__reqs">
+            <div><span></span><b id="upgradeDetailsReq1">Рівень сім’ї:</b><strong id="upgradeDetailsReq1Value">4</strong></div>
+            <div><span></span><b id="upgradeDetailsReq2">Учасників сім’ї</b><strong id="upgradeDetailsReq2Value">93 / 10</strong></div>
+          </div>
+          <div class="upgradeDetails__line"></div>
+          <div class="upgradeDetails__rep"><span>Репутація організації:</span><b id="upgradeDetailsReputation">7000</b></div>
+        </aside>
+
+        <div class="familyTree" aria-label="Карта покращень сім’ї">
+          <div class="familyTree__grid familyTree__grid--tablet">
+            <svg class="familyTree__lines" viewBox="0 0 1720 1120" aria-hidden="true">
+              <path class="familyTree__lineMuted" d="M190 410 V505 H330" />
+              <path class="familyTree__lineMuted" d="M1310 125 V220 V315 H1170" />
+              <path d="M330 315 H470 V410 H610 V315 H750 V410 H890 V315 H1030 H1170" />
+              <path d="M470 410 V505 H610 V410" />
+              <path d="M750 410 V505 H890 V410" />
+              <path d="M1030 315 V410 H1170" />
+              <path d="M1030 410 V505 H1170" />
+              <path d="M330 315 V505 V600" />
+              <path d="M610 315 V220" />
+              <path d="M750 315 V220 V125" />
+              <path d="M1030 315 V505" />
+              <path class="familyTree__lineMuted" d="M300 690 V790" />
+              <path class="familyTree__lineMuted" d="M440 790 H580" />
+              <path d="M300 790 H440 V890 H580" />
+              <path d="M160 890 H300 H440 H580" />
+              <path d="M20 990 H160 H300 H440" />
+              <path d="M160 890 V990 V1085" />
+              <path d="M300 890 V990 V1085" />
+              <path d="M440 890 V990 V1085" />
+              <path d="M580 790 V890 V990" />
+              <path d="M580 1085 H720" />
+              <path d="M1320 770 V865 H1460 V770 H1600" />
+              <path d="M1320 865 V960 H1460 V865 H1600" />
+            </svg>
+
+            <article class="upgradeNode upgradeNode--muted" style="--left:190px; --top:410px;" aria-label="Нейтральний резерв II"><span class="upgradeNode__icon">P</span><b>Резерв</b><small>II</small></article>
+            <article class="upgradeNode upgradeNode--muted" style="--left:190px; --top:505px;" aria-label="Нейтральний резерв I"><span class="upgradeNode__icon">P</span><b>Резерв</b><small>I</small></article>
+
+            <article class="upgradeNode" style="--left:330px; --top:315px;" aria-label="Сервіс I"><span class="upgradeNode__icon">🛠</span><b>Сервіс</b><small>I</small></article>
+            <article class="upgradeNode" style="--left:470px; --top:315px;" aria-label="Слоти Учасників 1 I"><span class="upgradeNode__icon">💞</span><b>Слоти Учасників 1</b><small>I</small></article>
+            <article class="upgradeNode" style="--left:610px; --top:315px;" aria-label="Учасники VII"><span class="upgradeNode__icon">👥</span><b>Учасники</b><small>VII</small></article>
+            <article class="upgradeNode" style="--left:750px; --top:315px;" aria-label="Додатковий контракт 1 V"><span class="upgradeNode__icon">💎</span><b>Додатковий контракт 1</b><small>V</small></article>
+            <article class="upgradeNode" style="--left:890px; --top:315px;" aria-label="Захист V"><span class="upgradeNode__icon">🛡</span><b>Захист</b><small>V</small></article>
+            <article class="upgradeNode" style="--left:1030px; --top:315px;" aria-label="Додатковий контракт 2 V"><span class="upgradeNode__icon">🔫</span><b>Додатковий контракт 2</b><small>V</small></article>
+            <article class="upgradeNode" style="--left:1170px; --top:315px;" aria-label="Додатковий контракт 3 I"><span class="upgradeNode__icon">🔫</span><b>Додатковий контракт 3</b><small>I</small></article>
+
+            <article class="upgradeNode" style="--left:610px; --top:220px;" aria-label="Склад VIII"><span class="upgradeNode__icon">👥</span><b>Склад</b><small>VIII</small></article>
+            <article class="upgradeNode" style="--left:750px; --top:220px;" aria-label="Території V"><span class="upgradeNode__icon">⌗</span><b>Території</b><small>V</small></article>
+            <article class="upgradeNode" style="--left:750px; --top:125px;" aria-label="Сімейний бонус I"><span class="upgradeNode__icon">💖</span><b>Бонус</b><small>I</small></article>
+            <article class="upgradeNode upgradeNode--muted" style="--left:1310px; --top:125px;" aria-label="Закрито I"><span class="upgradeNode__icon">♜</span><b>Закрито</b><small>I</small></article>
+            <article class="upgradeNode upgradeNode--muted" style="--left:1310px; --top:220px;" aria-label="Закрито I"><span class="upgradeNode__icon">♜</span><b>Закрито</b><small>I</small></article>
+
+            <article class="upgradeNode" style="--left:470px; --top:410px;" aria-label="Слоти Учасників 2 V"><span class="upgradeNode__icon">👥</span><b>Слоти Учасників 2</b><small>V</small></article>
+            <article class="upgradeNode" style="--left:610px; --top:410px;" aria-label="Учасники VI"><span class="upgradeNode__icon">👥</span><b>Учасники</b><small>VI</small></article>
+            <article class="upgradeNode" style="--left:750px; --top:410px;" aria-label="Автопарк V"><span class="upgradeNode__icon">🚘</span><b>Автопарк</b><small>V</small></article>
+            <article class="upgradeNode" style="--left:890px; --top:410px;" aria-label="Боєприпаси V"><span class="upgradeNode__icon">▥</span><b>Боєприпаси</b><small>V</small></article>
+            <article class="upgradeNode" style="--left:1030px; --top:410px;" aria-label="Боєприпаси I"><span class="upgradeNode__icon">▥</span><b>Боєприпаси</b><small>I</small></article>
+            <article class="upgradeNode" style="--left:1170px; --top:410px;" aria-label="Боєприпаси I"><span class="upgradeNode__icon">▥</span><b>Боєприпаси</b><small>I</small></article>
+
+            <article class="upgradeNode" style="--left:330px; --top:505px;" aria-label="Репутація I"><span class="upgradeNode__icon">★</span><b>Репутація</b><small>I</small></article>
+            <article class="upgradeNode" style="--left:470px; --top:505px;" aria-label="Людина IV"><span class="upgradeNode__icon">👤</span><b>Людина</b><small>IV</small></article>
+            <article class="upgradeNode" style="--left:610px; --top:505px;" aria-label="Людина III"><span class="upgradeNode__icon">👤</span><b>Людина</b><small>III</small></article>
+            <article class="upgradeNode" style="--left:750px; --top:505px;" aria-label="Людина II"><span class="upgradeNode__icon">👤</span><b>Людина</b><small>II</small></article>
+            <article class="upgradeNode" style="--left:890px; --top:505px;" aria-label="Звіт I"><span class="upgradeNode__icon">▤</span><b>Звіт</b><small>I</small></article>
+            <article class="upgradeNode" style="--left:1030px; --top:505px;" aria-label="Звіт II"><span class="upgradeNode__icon">▤</span><b>Звіт</b><small>II</small></article>
+            <article class="upgradeNode" style="--left:1170px; --top:505px;" aria-label="Звіт I"><span class="upgradeNode__icon">▤</span><b>Звіт</b><small>I</small></article>
+            <article class="upgradeNode" style="--left:330px; --top:600px;" aria-label="Фінанси II"><span class="upgradeNode__icon">▰</span><b>Фінанси</b><small>II</small></article>
+            <article class="upgradeNode" style="--left:750px; --top:600px;" aria-label="Учасник I"><span class="upgradeNode__icon">👤</span><b>Учасник</b><small>I</small></article>
+
+            <div class="upgradePill upgradePill--neutral" style="--left:930px; --top:715px;"><span>★</span><b>Нейтральний</b></div>
+
+            <article class="upgradeNode upgradeNode--muted" style="--left:300px; --top:690px;" aria-label="Нелегальний старт I"><span class="upgradeNode__icon">⌁</span><b>Старт</b><small>I</small></article>
+            <article class="upgradeNode" style="--left:300px; --top:790px;" aria-label="Транспорт II"><span class="upgradeNode__icon">🚜</span><b>Транспорт</b><small>II</small></article>
+            <article class="upgradeNode" style="--left:440px; --top:790px;" aria-label="Транспорт I"><span class="upgradeNode__icon">🚜</span><b>Транспорт</b><small>I</small></article>
+            <article class="upgradeNode upgradeNode--muted" style="--left:580px; --top:790px;" aria-label="Постачання I"><span class="upgradeNode__icon">▧</span><b>Постачання</b><small>I</small></article>
+
+            <article class="upgradeNode" style="--left:160px; --top:890px;" aria-label="Авто I"><span class="upgradeNode__icon">🚘</span><b>Авто</b><small>I</small></article>
+            <article class="upgradeNode" style="--left:300px; --top:890px;" aria-label="Нелегальне III"><span class="upgradeNode__icon">✹</span><b>Нелегальне</b><small>III</small></article>
+            <article class="upgradeNode" style="--left:440px; --top:890px;" aria-label="Нелегальне II"><span class="upgradeNode__icon">✹</span><b>Нелегальне</b><small>II</small></article>
+            <article class="upgradeNode" style="--left:580px; --top:890px;" aria-label="Нелегальне I"><span class="upgradeNode__icon">✹</span><b>Нелегальне</b><small>I</small></article>
+
+            <article class="upgradeNode" style="--left:20px; --top:990px;" aria-label="Гроші I"><span class="upgradeNode__icon">▰$</span><b>Гроші</b><small>I</small></article>
+            <article class="upgradeNode" style="--left:160px; --top:990px;" aria-label="Маски I"><span class="upgradeNode__icon">🎭</span><b>Маски</b><small>I</small></article>
+            <article class="upgradeNode" style="--left:300px; --top:990px;" aria-label="Замок I"><span class="upgradeNode__icon">🔒</span><b>Замок</b><small>I</small></article>
+            <article class="upgradeNode" style="--left:440px; --top:990px;" aria-label="Ризик I"><span class="upgradeNode__icon">☠</span><b>Ризик</b><small>I</small></article>
+
+            <article class="upgradeNode upgradeNode--muted" style="--left:20px; --top:1085px;" aria-label="Сервіс I"><span class="upgradeNode__icon">⌗</span><b>Сервіс</b><small>I</small></article>
+            <article class="upgradeNode" style="--left:160px; --top:1085px;" aria-label="Автопарк I"><span class="upgradeNode__icon">🚘</span><b>Автопарк</b><small>I</small></article>
+            <article class="upgradeNode" style="--left:300px; --top:1085px;" aria-label="Замок II"><span class="upgradeNode__icon">🔒</span><b>Замок</b><small>II</small></article>
+            <article class="upgradeNode" style="--left:440px; --top:1085px;" aria-label="Ризик II"><span class="upgradeNode__icon">☠</span><b>Ризик</b><small>II</small></article>
+            <article class="upgradeNode" style="--left:580px; --top:1085px;" aria-label="Патрони I"><span class="upgradeNode__icon">▮</span><b>Патрони</b><small>I</small></article>
+            <article class="upgradeNode" style="--left:720px; --top:1085px;" aria-label="Патрони II"><span class="upgradeNode__icon">▮</span><b>Патрони</b><small>II</small></article>
+
+            <div class="upgradeSide upgradeSide--illegal" style="--left:780px; --top:790px;"><b>Нелегальний</b><span>☠</span></div>
+            <article class="upgradeNode upgradeNode--core" style="--left:915px; --top:815px;" aria-label="CASTRO тип розвитку нелегальний">
+              <img src="../assets/hero.gif" alt="" aria-hidden="true">
+              <b>CASTRO</b>
+              <small>Тип розвитку:<strong>Нелегальний</strong></small>
+            </article>
+            <div class="upgradeSide upgradeSide--state" style="--left:1215px; --top:815px;"><b>Державний</b><span>▥</span></div>
+
+            <article class="upgradeNode upgradeNode--muted" style="--left:1320px; --top:770px;" aria-label="Державний I"><span class="upgradeNode__icon">⚑</span><b>Державний</b><small>I</small></article>
+            <article class="upgradeNode upgradeNode--muted" style="--left:1460px; --top:770px;" aria-label="Пошук I"><span class="upgradeNode__icon">⌘</span><b>Пошук</b><small>I</small></article>
+            <article class="upgradeNode upgradeNode--muted" style="--left:1600px; --top:770px;" aria-label="Енергія I"><span class="upgradeNode__icon">⚡</span><b>Енергія</b><small>I</small></article>
+            <article class="upgradeNode upgradeNode--muted" style="--left:1320px; --top:865px;" aria-label="Еко I"><span class="upgradeNode__icon">◔</span><b>Еко</b><small>I</small></article>
+            <article class="upgradeNode upgradeNode--muted" style="--left:1460px; --top:865px;" aria-label="Еко II"><span class="upgradeNode__icon">◔</span><b>Еко</b><small>II</small></article>
+            <article class="upgradeNode upgradeNode--muted" style="--left:1600px; --top:865px;" aria-label="Авто I"><span class="upgradeNode__icon">▰</span><b>Авто</b><small>I</small></article>
+          </div>
+        </div>
+  </div>
+</section>
+
+
+  <!-- Avtopark -->
+<section id="autopark" class="section fleetCatalogSection">
+  <div class="fleetCatalogSection__head infoSectionIntro">
+    <div>
+      <span class="fleetCatalogSection__eyebrow">Castro Family Fleet Registry</span>
+      <h3 class="section__title">🚘 Автопарк сім’ї</h3>
+      <p class="muted">
+        Автопарк Family Castro поділений по категоріях: преміум, тактичний транспорт і електро-сегмент.
+      </p>
+    </div>
+  </div>
+
+  <div class="fleetGroups">
+
+    <details class="fleetGroupCard">
+      <summary class="fleetGroupCard__summary">
+        <div class="fleetGroupCard__preview">
+          <img src="../cars/gemera.png" alt="Преміум-клас" class="fleetGroupCard__img" loading="lazy">
+        </div>
+
+        <div class="fleetGroupCard__content">
+          <div class="fleetGroupCard__top">
+            <span class="fleetGroupCard__badge">Premium Class</span>
+            <span class="fleetGroupCard__count">6 авто</span>
+          </div>
+
+          <h4 class="fleetGroupCard__title">🏎️ Преміум-клас</h4>
+          <p class="fleetGroupCard__text muted">
+            Статусні авто Family Castro для старшого складу, іміджевих виїздів і преміального стилю.
+          </p>
+
+          <span class="fleetGroupCard__action">
+            <span class="fleetGroupCard__open">Розгорнути автопарк</span>
+            <span class="fleetGroupCard__close">Згорнути автопарк</span>
+          </span>
+        </div>
+      </summary>
+
+      <div class="fleetGroupCard__body">
+        <div class="fleetCatalog">
+
+    <article class="carCard">
+      <div class="carCard__media">
+        <img src="../cars/gemera.png" alt="Koenigsegg Gemera CASTRO" loading="lazy">
+        <span class="carCard__badge">Преміум-клас</span>
+        <span class="carCard__plate">CASTRO</span>
+      </div>
+      <div class="carCard__body">
+        <div class="carCard__top"><div><h4 class="carCard__title">Koenigsegg Gemera</h4><div class="carCard__sub muted">Гіперкар • 4-місний Mega GT</div></div><div class="carCard__rank">з 7 ранга</div></div>
+        <div class="carCard__quick"><span>2300 к.с.</span><span>5.0 Hybrid</span><span>AWD</span><span>≈ 400 км/год</span></div>
+        <div class="carCard__specs"><div class="carCard__spec"><span class="muted">Розгін 0-100</span><b>≈ 1.9–2.0 с</b></div><div class="carCard__spec"><span class="muted">Локація</span><b>Вайнвуд-Хіллз</b></div><div class="carCard__spec"><span class="muted">Салон</span><b>4 місця</b></div><div class="carCard__spec"><span class="muted">Статус</span><b>Вільна</b></div></div>
+      </div>
+    </article>
+
+    <article class="carCard">
+      <div class="carCard__media">
+        <img src="../cars/gemera.png" alt="Koenigsegg Gemera CASTRO" loading="lazy">
+        <span class="carCard__badge">Преміум-клас</span>
+        <span class="carCard__plate">CASTRO</span>
+      </div>
+      <div class="carCard__body">
+        <div class="carCard__top"><div><h4 class="carCard__title">Koenigsegg Gemera</h4><div class="carCard__sub muted">Гіперкар • 4-місний Mega GT</div></div><div class="carCard__rank">з 7 ранга</div></div>
+        <div class="carCard__quick"><span>2300 к.с.</span><span>5.0 Hybrid</span><span>AWD</span><span>≈ 400 км/год</span></div>
+        <div class="carCard__specs"><div class="carCard__spec"><span class="muted">Розгін 0-100</span><b>≈ 1.9–2.0 с</b></div><div class="carCard__spec"><span class="muted">Локація</span><b>Вайнвуд-Хіллз</b></div><div class="carCard__spec"><span class="muted">Салон</span><b>4 місця</b></div><div class="carCard__spec"><span class="muted">Статус</span><b>Вільна</b></div></div>
+      </div>
+    </article>
+
+    <article class="carCard">
+      <div class="carCard__media">
+        <img src="../cars/gemera.png" alt="Koenigsegg Gemera CASTRO" loading="lazy">
+        <span class="carCard__badge">Преміум-клас</span>
+        <span class="carCard__plate">CASTRO</span>
+      </div>
+      <div class="carCard__body">
+        <div class="carCard__top"><div><h4 class="carCard__title">Koenigsegg Gemera</h4><div class="carCard__sub muted">Гіперкар • 4-місний Mega GT</div></div><div class="carCard__rank">з 7 ранга</div></div>
+        <div class="carCard__quick"><span>2300 к.с.</span><span>5.0 Hybrid</span><span>AWD</span><span>≈ 400 км/год</span></div>
+        <div class="carCard__specs"><div class="carCard__spec"><span class="muted">Розгін 0-100</span><b>≈ 1.9–2.0 с</b></div><div class="carCard__spec"><span class="muted">Локація</span><b>Вайнвуд-Хіллз</b></div><div class="carCard__spec"><span class="muted">Салон</span><b>4 місця</b></div><div class="carCard__spec"><span class="muted">Статус</span><b>Вільна</b></div></div>
+      </div>
+    </article>
+
+    <article class="carCard">
+      <div class="carCard__media">
+        <img src="../cars/bentley.png" alt="Bentley Continental АА 1488 АА" loading="lazy">
+        <span class="carCard__badge">Преміум-клас</span>
+        <span class="carCard__plate">АА 1488 АА</span>
+      </div>
+      <div class="carCard__body">
+        <div class="carCard__top"><div><h4 class="carCard__title">Bentley Continental GT</h4><div class="carCard__sub muted">Luxury GT • статусний виїзд</div></div><div class="carCard__rank">з 4 ранга</div></div>
+        <div class="carCard__quick"><span>771 к.с.</span><span>4.0 Hybrid</span><span>AWD</span><span>335 км/год</span></div>
+        <div class="carCard__specs"><div class="carCard__spec"><span class="muted">Розгін 0-100</span><b>3.2 с</b></div><div class="carCard__spec"><span class="muted">Локація</span><b>Вайнвуд-Хіллз</b></div><div class="carCard__spec"><span class="muted">Салон</span><b>4 місця</b></div><div class="carCard__spec"><span class="muted">Статус</span><b>Вільна</b></div></div>
+      </div>
+    </article>
+    
+    <article class="carCard"><div class="carCard__media"><img src="../cars/bentley.png" alt="Bentley Continental ХІ 1488 ІХ" loading="lazy"><span class="carCard__badge">Преміум-клас</span><span class="carCard__plate">ХІ 1488 ІХ</span></div><div class="carCard__body"><div class="carCard__top"><div><h4 class="carCard__title">Bentley Continental GT</h4><div class="carCard__sub muted">Luxury GT • статусний виїзд</div></div><div class="carCard__rank">з 4 ранга</div></div><div class="carCard__quick"><span>771 к.с.</span><span>4.0 Hybrid</span><span>AWD</span><span>335 км/год</span></div><div class="carCard__specs"><div class="carCard__spec"><span class="muted">Розгін 0-100</span><b>3.2 с</b></div><div class="carCard__spec"><span class="muted">Локація</span><b>Вайнвуд-Хіллз</b></div><div class="carCard__spec"><span class="muted">Салон</span><b>4 місця</b></div><div class="carCard__spec"><span class="muted">Статус</span><b>Вільна</b></div></div></div></article>
+    <article class="carCard"><div class="carCard__media"><img src="../cars/bentley.png" alt="Bentley Continental ІІ 1488 ІІ" loading="lazy"><span class="carCard__badge">Преміум-клас</span><span class="carCard__plate">ІІ 1488 ІІ</span></div><div class="carCard__body"><div class="carCard__top"><div><h4 class="carCard__title">Bentley Continental GT</h4><div class="carCard__sub muted">Luxury GT • статусний виїзд</div></div><div class="carCard__rank">з 4 ранга</div></div><div class="carCard__quick"><span>771 к.с.</span><span>4.0 Hybrid</span><span>AWD</span><span>335 км/год</span></div><div class="carCard__specs"><div class="carCard__spec"><span class="muted">Розгін 0-100</span><b>3.2 с</b></div><div class="carCard__spec"><span class="muted">Локація</span><b>Вайнвуд-Хіллз</b></div><div class="carCard__spec"><span class="muted">Салон</span><b>4 місця</b></div><div class="carCard__spec"><span class="muted">Статус</span><b>Вільна</b></div></div></div></article>
+        </div>
+      </div>
+    </details>
+
+    <details class="fleetGroupCard">
+      <summary class="fleetGroupCard__summary">
+        <div class="fleetGroupCard__preview">
+          <img src="../cars/1312.png" alt="Тактичний транспорт" class="fleetGroupCard__img" loading="lazy">
+        </div>
+
+        <div class="fleetGroupCard__content">
+          <div class="fleetGroupCard__top">
+            <span class="fleetGroupCard__badge">Tactical Line</span>
+            <span class="fleetGroupCard__count">4 авто</span>
+          </div>
+
+          <h4 class="fleetGroupCard__title">🚙 Тактичний транспорт</h4>
+          <p class="fleetGroupCard__text muted">
+            Робочий сегмент для виїздів, охорони, силової присутності та щоденної активності.
+          </p>
+
+          <span class="fleetGroupCard__action">
+            <span class="fleetGroupCard__open">Розгорнути автопарк</span>
+            <span class="fleetGroupCard__close">Згорнути автопарк</span>
+          </span>
+        </div>
+      </summary>
+
+      <div class="fleetGroupCard__body">
+        <div class="fleetCatalog">
+    <article class="carCard"><div class="carCard__media"><img src="../cars/1312.png" alt="Brabus 900 Rocket Edition G63 1312" loading="lazy"><span class="carCard__badge">Тактичний транспорт</span><span class="carCard__plate">1312</span></div><div class="carCard__body"><div class="carCard__top"><div><h4 class="carCard__title">Brabus 900 Rocket Edition G63</h4><div class="carCard__sub muted">Tactical SUV • силовий сегмент</div></div><div class="carCard__rank">з 5 ранга</div></div><div class="carCard__quick"><span>900 к.с.</span><span>4.5 V8</span><span>AWD</span><span>400 км/год</span></div><div class="carCard__specs"><div class="carCard__spec"><span class="muted">Розгін 0-100</span><b>3.4 с</b></div><div class="carCard__spec"><span class="muted">Локація</span><b>Вайнвуд-Хіллз</b></div><div class="carCard__spec"><span class="muted">Салон</span><b>4 місць</b></div><div class="carCard__spec"><span class="muted">Статус</span><b>Вільна</b></div></div></div></article>
+    <article class="carCard"><div class="carCard__media"><img src="../cars/1312.png" alt="Brabus 900 Rocket Edition G63 АА 1312 АА" loading="lazy"><span class="carCard__badge">Тактичний транспорт</span><span class="carCard__plate">АА 1312 АА</span></div><div class="carCard__body"><div class="carCard__top"><div><h4 class="carCard__title">Brabus 900 Rocket Edition G63</h4><div class="carCard__sub muted">Tactical SUV • силовий сегмент</div></div><div class="carCard__rank">з 5 ранга</div></div><div class="carCard__quick"><span>900 к.с.</span><span>4.5 V8</span><span>AWD</span><span>400 км/год</span></div><div class="carCard__specs"><div class="carCard__spec"><span class="muted">Розгін 0-100</span><b>3.4 с</b></div><div class="carCard__spec"><span class="muted">Локація</span><b>Вайнвуд-Хіллз</b></div><div class="carCard__spec"><span class="muted">Салон</span><b>4 місць</b></div><div class="carCard__spec"><span class="muted">Статус</span><b>Вільна</b></div></div></div></article>
+    <article class="carCard"><div class="carCard__media"><img src="../cars/1312.png" alt="Brabus 900 Rocket Edition G63 ІІ 1312 ІІ" loading="lazy"><span class="carCard__badge">Тактичний транспорт</span><span class="carCard__plate">ІІ 1312 ІІ</span></div><div class="carCard__body"><div class="carCard__top"><div><h4 class="carCard__title">Brabus 900 Rocket Edition G63</h4><div class="carCard__sub muted">Tactical SUV • силовий сегмент</div></div><div class="carCard__rank">з 5 ранга</div></div><div class="carCard__quick"><span>900 к.с.</span><span>4.5 V8</span><span>AWD</span><span>400 км/год</span></div><div class="carCard__specs"><div class="carCard__spec"><span class="muted">Розгін 0-100</span><b>3.4 с</b></div><div class="carCard__spec"><span class="muted">Локація</span><b>Вайнвуд-Хіллз</b></div><div class="carCard__spec"><span class="muted">Салон</span><b>4 місць</b></div><div class="carCard__spec"><span class="muted">Статус</span><b>Вільна</b></div></div></div></article>
+    <article class="carCard"><div class="carCard__media"><img src="../cars/g63.png" alt="Mercedes-AMG G63 б\н" loading="lazy"><span class="carCard__badge">Тактичний транспорт</span><span class="carCard__plate">б\н</span></div><div class="carCard__body"><div class="carCard__top"><div><h4 class="carCard__title">Mercedes-AMG G63</h4><div class="carCard__sub muted">Tactical SUV • силовий сегмент</div></div><div class="carCard__rank">з 3 ранга</div></div><div class="carCard__quick"><span>585 к.с.</span><span>4.0 V8</span><span>4MATIC</span><span>350 км/год</span></div><div class="carCard__specs"><div class="carCard__spec"><span class="muted">Розгін 0-100</span><b>4.4 с</b></div><div class="carCard__spec"><span class="muted">Локація</span><b>Вайнвуд-Хіллз</b></div><div class="carCard__spec"><span class="muted">Салон</span><b>4 місць</b></div><div class="carCard__spec"><span class="muted">Статус</span><b>Вільна</b></div></div></div></article>
+        </div>
+      </div>
+    </details>
+     <details class="fleetGroupCard">
+      <summary class="fleetGroupCard__summary">
+        <div class="fleetGroupCard__preview">
+          <img src="../cars/cybertruck.png" alt="Швидкі / Електро" class="fleetGroupCard__img" loading="lazy">
+        </div>
+
+        <div class="fleetGroupCard__content">
+          <div class="fleetGroupCard__top">
+            <span class="fleetGroupCard__badge">Electric Line</span>
+            <span class="fleetGroupCard__count">4 авто</span>
+          </div>
+
+          <h4 class="fleetGroupCard__title">⚡ Швидкі / Електро</h4>
+          <p class="fleetGroupCard__text muted">
+            Швидкий транспорт для мобільності, швидких переїздів і доступу для молодших рангів.
+          </p>
+
+          <span class="fleetGroupCard__action">
+            <span class="fleetGroupCard__open">Розгорнути автопарк</span>
+            <span class="fleetGroupCard__close">Згорнути автопарк</span>
+          </span>
+        </div>
+      </summary>
+
+             <div class="fleetGroupCard__body">
+        <div class="fleetCatalog">
+    <article class="carCard"><div class="carCard__media"><img src="../cars/cybertruck.png" alt="Tesla Cybertruck МЕ 7777 ЕР" loading="lazy"><span class="carCard__badge">Швидкі / Електро</span><span class="carCard__plate">МЕ 7777 ЕР</span></div><div class="carCard__body"><div class="carCard__top"><div><h4 class="carCard__title">Tesla Cybertruck</h4><div class="carCard__sub muted">Electric Utility Truck</div></div><div class="carCard__rank">з 1 рангу</div></div><div class="carCard__quick"><span>AWD</span><span>523 км</span><span>4.3 с</span><span>180 км/год</span></div><div class="carCard__specs"><div class="carCard__spec"><span class="muted">Салон</span><b>5 місць</b></div><div class="carCard__spec"><span class="muted">Локація</span><b>Рокфорд-Хіллз</b></div><div class="carCard__spec"><span class="muted">Буксирування</span><b>до 4 990 кг</b></div><div class="carCard__spec"><span class="muted">Статус</span><b>Вільна</b></div></div></div></article>
+    <article class="carCard"><div class="carCard__media"><img src="../cars/cybertruck.png" alt="Tesla Cybertruck ТТ 7777 ТТ" loading="lazy"><span class="carCard__badge">Швидкі / Електро</span><span class="carCard__plate">ТТ 7777 ТТ</span></div><div class="carCard__body"><div class="carCard__top"><div><h4 class="carCard__title">Tesla Cybertruck</h4><div class="carCard__sub muted">Electric Utility Truck</div></div><div class="carCard__rank">з 1 рангу</div></div><div class="carCard__quick"><span>AWD</span><span>523 км</span><span>4.3 с</span><span>180 км/год</span></div><div class="carCard__specs"><div class="carCard__spec"><span class="muted">Салон</span><b>5 місць</b></div><div class="carCard__spec"><span class="muted">Локація</span><b>Рокфорд-Хіллз</b></div><div class="carCard__spec"><span class="muted">Буксирування</span><b>до 4 990 кг</b></div><div class="carCard__spec"><span class="muted">Статус</span><b>Вільна</b></div></div></div></article>
+    <article class="carCard"><div class="carCard__media"><img src="../cars/cybertruck.png" alt="Tesla Cybertruck ОО 7777 ОО" loading="lazy"><span class="carCard__badge">Швидкі / Електро</span><span class="carCard__plate">ОО 7777 ОО</span></div><div class="carCard__body"><div class="carCard__top"><div><h4 class="carCard__title">Tesla Cybertruck</h4><div class="carCard__sub muted">Electric Utility Truck</div></div><div class="carCard__rank">з 1 рангу</div></div><div class="carCard__quick"><span>AWD</span><span>523 км</span><span>4.3 с</span><span>180 км/год</span></div><div class="carCard__specs"><div class="carCard__spec"><span class="muted">Салон</span><b>5 місць</b></div><div class="carCard__spec"><span class="muted">Локація</span><b>Рокфорд-Хіллз</b></div><div class="carCard__spec"><span class="muted">Буксирування</span><b>до 4 990 кг</b></div><div class="carCard__spec"><span class="muted">Статус</span><b>Вільна</b></div></div></div></article>
+    <article class="carCard"><div class="carCard__media"><img src="../cars/cybertruck.png" alt="Tesla Cybertruck МЕ 7777 НТ" loading="lazy"><span class="carCard__badge">Швидкі / Електро</span><span class="carCard__plate">МЕ 7777 НТ</span></div><div class="carCard__body"><div class="carCard__top"><div><h4 class="carCard__title">Tesla Cybertruck</h4><div class="carCard__sub muted">Electric Utility Truck</div></div><div class="carCard__rank">з 1 рангу</div></div><div class="carCard__quick"><span>AWD</span><span>523 км</span><span>4.3 с</span><span>180 км/год</span></div><div class="carCard__specs"><div class="carCard__spec"><span class="muted">Салон</span><b>5 місць</b></div><div class="carCard__spec"><span class="muted">Локація</span><b>Рокфорд-Хіллз</b></div><div class="carCard__spec"><span class="muted">Буксирування</span><b>до 4 990 кг</b></div><div class="carCard__spec"><span class="muted">Статус</span><b>Вільна</b></div></div></div></article>
+        </div>
+      </div>
+    </details>
+
+  </div>
+</section>
+
+<!-- TRANSPORT COMPANY -->
+<section id="transit" class="section transitPremium">
+  <div class="transitPremium__shell">
+    <div class="transitPremium__top infoSectionIntro">
+      <div class="transitPremium__intro">
+        <span class="transitPremium__eyebrow">Castro Logistic Division</span>
+        <h3 class="section__title transitPremium__title">🚚 Castro Transit</h3>
+        <p class="transitPremium__lead muted">
+          Преміальна транспортна компанія Family Castro: власний автопарк,
+          організовані рейси, дисципліна та статус у штаті San Andreas.
+        </p>
+      </div>
+
+      <div class="transitPremium__brand">
+        <div class="transitPremium__logo">
+          <img src="../assets/hero.gif" alt="Castro Transit" loading="lazy">
+        </div>
+
+        <div>
+          <div class="transitPremium__name">CASTRO TRANSIT</div>
+          <div class="muted">Logistic company by Family Castro</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="transitPremium__grid">
+      <article class="transitInfoCard">
+        <div class="transitInfoCard__head">
+          <h4>Основна інформація</h4>
+          <span class="muted">статус компанії</span>
+        </div>
+
+        <div class="transitPremium__stats">
+          <div class="transitStatBox"><span class="muted">LVL</span><b>7</b></div>
+          <div class="transitStatBox"><span class="muted">Автопарк</span><b>10</b></div>
+          <div class="transitStatBox"><span class="muted">Працівників</span><b>170</b></div>
+          <div class="transitStatBox transitStatBox--accent"><span class="muted">Рейтинг Castro</span><b>№4</b></div>
+        </div>
+
+        <div class="transitOwner">
+          <span class="muted">Власник компанії</span>
+          <b>Dominic Castro</b>
+        </div>
+
+        <div class="transitJoin">
+          <a class="btn btn--primary transitJoin__btn" href="https://discord.gg/rC4q72uEJy" target="_blank" rel="noopener">
+            Приєднатися до компанії
+          </a>
+        </div>
+      </article>
+
+      <article class="transitFleetCard transitFleetCard--clean">
+        <details class="transitFleetGroup">
+          <summary class="transitFleetHero">
+            <div class="transitFleetHero__media">
+              <img src="../assets/32323.webp" alt="Фури Castro Transit" loading="lazy">
+            </div>
+
+            <div class="transitFleetHero__content">
+              <div class="transitFleetHero__top">
+                <span class="transitFleetHero__badge">Castro Transit Fleet</span>
+                <span class="transitFleetHero__count">10 тягачів</span>
+              </div>
+
+              <h4 class="transitFleetHero__title">Автопарк компанії</h4>
+
+              <p class="transitFleetHero__text muted">
+                Основний реєстр вантажного транспорту Castro Transit. Кожна фура представлена окремою
+                карткою зі статусом, номером і роллю в логістиці компанії.
+              </p>
+
+              <span class="transitFleetHero__toggle">
+                <span class="transitFleetHero__open">Розгорнути автопарк</span>
+                <span class="transitFleetHero__close">Згорнути автопарк</span>
+              </span>
+            </div>
+          </summary>
+
+          <div class="transitFleetGroup__body">
+            <div class="transitTruckGrid">
+              <article class="transitTruckCard"><div class="transitTruckCard__media"><img src="../assets/32323.webp" alt="Tessera Semi 001" loading="lazy"><span class="transitTruckCard__plate">001</span></div><div class="transitTruckCard__body"><div class="transitTruckCard__top"><div><h5 class="transitTruckCard__title">Tessera Semi</h5><div class="transitTruckCard__sub muted">Службовий тягач</div></div><span class="transitTruckCard__status transitTruckCard__status--ok">🟢 Активний</span></div><div class="transitTruckCard__specs"><div class="transitTruckCard__spec"><span class="muted">Номер</span><b>001</b></div><div class="transitTruckCard__spec"><span class="muted">Призначення</span><b>Службовий</b></div><div class="transitTruckCard__spec"><span class="muted">Тип</span><b>Логістичний тягач</b></div><div class="transitTruckCard__spec"><span class="muted">Статус</span><b>Службова одиниця</b></div></div></div></article>
+              <article class="transitTruckCard"><div class="transitTruckCard__media"><img src="../assets/32323.webp" alt="Tessera Semi 002" loading="lazy"><span class="transitTruckCard__plate">002</span></div><div class="transitTruckCard__body"><div class="transitTruckCard__top"><div><h5 class="transitTruckCard__title">Tessera Semi</h5><div class="transitTruckCard__sub muted">Активний рейсовий транспорт</div></div><span class="transitTruckCard__status transitTruckCard__status--ok">🟢 Активний</span></div><div class="transitTruckCard__specs"><div class="transitTruckCard__spec"><span class="muted">Номер</span><b>002</b></div><div class="transitTruckCard__spec"><span class="muted">Призначення</span><b>Рейсовий</b></div><div class="transitTruckCard__spec"><span class="muted">Тип</span><b>Логістичний тягач</b></div><div class="transitTruckCard__spec"><span class="muted">Статус</span><b>Активна робота</b></div></div></div></article>
+              <article class="transitTruckCard"><div class="transitTruckCard__media"><img src="../assets/32323.webp" alt="Tessera Semi 003" loading="lazy"><span class="transitTruckCard__plate">003</span></div><div class="transitTruckCard__body"><div class="transitTruckCard__top"><div><h5 class="transitTruckCard__title">Tessera Semi</h5><div class="transitTruckCard__sub muted">Активний рейсовий транспорт</div></div><span class="transitTruckCard__status transitTruckCard__status--ok">🟢 Активний</span></div><div class="transitTruckCard__specs"><div class="transitTruckCard__spec"><span class="muted">Номер</span><b>003</b></div><div class="transitTruckCard__spec"><span class="muted">Призначення</span><b>Рейсовий</b></div><div class="transitTruckCard__spec"><span class="muted">Тип</span><b>Логістичний тягач</b></div><div class="transitTruckCard__spec"><span class="muted">Статус</span><b>Активна робота</b></div></div></div></article>
+              <article class="transitTruckCard"><div class="transitTruckCard__media"><img src="../assets/32323.webp" alt="Tessera Semi 004" loading="lazy"><span class="transitTruckCard__plate">004</span></div><div class="transitTruckCard__body"><div class="transitTruckCard__top"><div><h5 class="transitTruckCard__title">Tessera Semi</h5><div class="transitTruckCard__sub muted">Закріплений транспорт</div></div><span class="transitTruckCard__status transitTruckCard__status--hold">🟠 Закріплений</span></div><div class="transitTruckCard__specs"><div class="transitTruckCard__spec"><span class="muted">Номер</span><b>004</b></div><div class="transitTruckCard__spec"><span class="muted">Призначення</span><b>Закріплений</b></div><div class="transitTruckCard__spec"><span class="muted">Тип</span><b>Логістичний тягач</b></div><div class="transitTruckCard__spec"><span class="muted">Статус</span><b>Закріплено</b></div></div></div></article>
+              <article class="transitTruckCard"><div class="transitTruckCard__media"><img src="../assets/32323.webp" alt="Tessera Semi 005" loading="lazy"><span class="transitTruckCard__plate">005</span></div><div class="transitTruckCard__body"><div class="transitTruckCard__top"><div><h5 class="transitTruckCard__title">Tessera Semi</h5><div class="transitTruckCard__sub muted">Доступний для логістики</div></div><span class="transitTruckCard__status transitTruckCard__status--ok">🟢 Доступний</span></div><div class="transitTruckCard__specs"><div class="transitTruckCard__spec"><span class="muted">Номер</span><b>005</b></div><div class="transitTruckCard__spec"><span class="muted">Призначення</span><b>Логістика</b></div><div class="transitTruckCard__spec"><span class="muted">Тип</span><b>Логістичний тягач</b></div><div class="transitTruckCard__spec"><span class="muted">Статус</span><b>Відкритий доступ</b></div></div></div></article>
+              <article class="transitTruckCard"><div class="transitTruckCard__media"><img src="../assets/32323.webp" alt="Tessera Semi 006" loading="lazy"><span class="transitTruckCard__plate">006</span></div><div class="transitTruckCard__body"><div class="transitTruckCard__top"><div><h5 class="transitTruckCard__title">Tessera Semi</h5><div class="transitTruckCard__sub muted">Доступний для логістики</div></div><span class="transitTruckCard__status transitTruckCard__status--ok">🟢 Доступний</span></div><div class="transitTruckCard__specs"><div class="transitTruckCard__spec"><span class="muted">Номер</span><b>006</b></div><div class="transitTruckCard__spec"><span class="muted">Призначення</span><b>Логістика</b></div><div class="transitTruckCard__spec"><span class="muted">Тип</span><b>Логістичний тягач</b></div><div class="transitTruckCard__spec"><span class="muted">Статус</span><b>Відкритий доступ</b></div></div></div></article>
+              <article class="transitTruckCard"><div class="transitTruckCard__media"><img src="../assets/32323.webp" alt="Tessera Semi 007" loading="lazy"><span class="transitTruckCard__plate">007</span></div><div class="transitTruckCard__body"><div class="transitTruckCard__top"><div><h5 class="transitTruckCard__title">Tessera Semi</h5><div class="transitTruckCard__sub muted">Доступний для логістики</div></div><span class="transitTruckCard__status transitTruckCard__status--ok">🟢 Доступний</span></div><div class="transitTruckCard__specs"><div class="transitTruckCard__spec"><span class="muted">Номер</span><b>007</b></div><div class="transitTruckCard__spec"><span class="muted">Призначення</span><b>Логістика</b></div><div class="transitTruckCard__spec"><span class="muted">Тип</span><b>Логістичний тягач</b></div><div class="transitTruckCard__spec"><span class="muted">Статус</span><b>Відкритий доступ</b></div></div></div></article>
+              <article class="transitTruckCard"><div class="transitTruckCard__media"><img src="../assets/32323.webp" alt="Tessera Semi 008" loading="lazy"><span class="transitTruckCard__plate">008</span></div><div class="transitTruckCard__body"><div class="transitTruckCard__top"><div><h5 class="transitTruckCard__title">Tessera Semi</h5><div class="transitTruckCard__sub muted">Доступний для логістики</div></div><span class="transitTruckCard__status transitTruckCard__status--ok">🟢 Доступний</span></div><div class="transitTruckCard__specs"><div class="transitTruckCard__spec"><span class="muted">Номер</span><b>008</b></div><div class="transitTruckCard__spec"><span class="muted">Призначення</span><b>Логістика</b></div><div class="transitTruckCard__spec"><span class="muted">Тип</span><b>Логістичний тягач</b></div><div class="transitTruckCard__spec"><span class="muted">Статус</span><b>Відкритий доступ</b></div></div></div></article>
+              <article class="transitTruckCard"><div class="transitTruckCard__media"><img src="../assets/content.png" alt="Ceterpilort ST680 009" loading="lazy"><span class="transitTruckCard__plate">009</span></div><div class="transitTruckCard__body"><div class="transitTruckCard__top"><div><h5 class="transitTruckCard__title">Ceterpilort ST680</h5><div class="transitTruckCard__sub muted">Доступний для логістики</div></div><span class="transitTruckCard__status transitTruckCard__status--ok">🟢 Доступний</span></div><div class="transitTruckCard__specs"><div class="transitTruckCard__spec"><span class="muted">Номер</span><b>009</b></div><div class="transitTruckCard__spec"><span class="muted">Призначення</span><b>Логістика</b></div><div class="transitTruckCard__spec"><span class="muted">Тип</span><b>Логістичний бензовоз</b></div><div class="transitTruckCard__spec"><span class="muted">Статус</span><b>Відкритий доступ</b></div></div></div></article>
+              <article class="transitTruckCard"><div class="transitTruckCard__media"><img src="../assets/content.png" alt="Ceterpilort ST680 010" loading="lazy"><span class="transitTruckCard__plate">010</span></div><div class="transitTruckCard__body"><div class="transitTruckCard__top"><div><h5 class="transitTruckCard__title">Ceterpilort ST680</h5><div class="transitTruckCard__sub muted">Доступний для логістики</div></div><span class="transitTruckCard__status transitTruckCard__status--ok">🟢 Доступний</span></div><div class="transitTruckCard__specs"><div class="transitTruckCard__spec"><span class="muted">Номер</span><b>010</b></div><div class="transitTruckCard__spec"><span class="muted">Призначення</span><b>Логістика</b></div><div class="transitTruckCard__spec"><span class="muted">Тип</span><b>Логістичний бензовоз</b></div><div class="transitTruckCard__spec"><span class="muted">Статус</span><b>Відкритий доступ</b></div></div></div></article>
+            </div>
+          </div>
+        </details>
+      </article>
+    </div>
+  </div>
+</section>
+
+  <!-- GALLERY -->
+  <section id="gallery" class="section galleryCinematic" data-gallery>
+    <div class="galleryCinematic__ambient" aria-hidden="true"></div>
+    <div class="galleryCinematic__head infoSectionIntro">
+      <div>
+        <span class="galleryCinematic__eyebrow">CASTRO VISUAL ARCHIVE</span>
+        <h3 class="section__title">🖼️ Галерея</h3>
+        <p class="muted">Гортай свайпом, мишкою або стрілками. Натисни на кадр для повного перегляду.</p>
+      </div>
+      <div class="galleryCinematic__counter" aria-live="polite"><b data-gallery-current>01</b><span>/</span><span data-gallery-total>07</span></div>
+    </div>
+
+    <div class="galleryCinematic__stage">
+      <button class="galleryCinematic__arrow galleryCinematic__arrow--prev" type="button" aria-label="Попередній кадр" data-gallery-prev>‹</button>
+      <div class="galleryCinematic__viewport" tabindex="0" aria-label="Свайпова галерея Family Castro" data-gallery-viewport>
+        <div class="galleryCinematic__track">
+          <figure class="galleryCinematic__slide is-active" data-gallery-slide>
+            <button class="galleryCinematic__media" type="button" aria-label="Відкрити кадр Штаб Family Castro">
+              <img src="../assets/content.webp" alt="Family Castro — штаб сім’ї" loading="lazy">
+            </button>
+            <figcaption><span>01 / HQ</span><b>Штаб Family Castro</b><small>Місце сили та збору сім’ї</small></figcaption>
+          </figure>
+          <figure class="galleryCinematic__slide" data-gallery-slide>
+            <button class="galleryCinematic__media" type="button" aria-label="Відкрити кадр Виїзд сім’ї">
+              <img src="../assets/content (2).webp" alt="Family Castro — спільний виїзд" loading="lazy">
+            </button>
+            <figcaption><span>02 / FAMILY</span><b>Спільний виїзд</b><small>Одна структура — один напрямок</small></figcaption>
+          </figure>
+          <figure class="galleryCinematic__slide" data-gallery-slide>
+            <button class="galleryCinematic__media" type="button" aria-label="Відкрити кадр Castro Style">
+              <img src="../assets/g3.png" alt="Family Castro — фірмовий стиль" loading="lazy">
+            </button>
+            <figcaption><span>03 / STYLE</span><b>Castro Style</b><small>Характер у кожній деталі</small></figcaption>
+          </figure>
+          <figure class="galleryCinematic__slide" data-gallery-slide>
+            <button class="galleryCinematic__media" type="button" aria-label="Відкрити кадр Сімейна атмосфера">
+              <img src="../assets/image.png" alt="Family Castro — сімейна атмосфера" loading="lazy">
+            </button>
+            <figcaption><span>04 / MOMENT</span><b>Сімейна атмосфера</b><small>Моменти, що формують історію</small></figcaption>
+          </figure>
+          <figure class="galleryCinematic__slide" data-gallery-slide>
+            <button class="galleryCinematic__media" type="button" aria-label="Відкрити кадр Дисципліна">
+              <img src="../assets/content (1).webp" alt="Family Castro — дисципліна та порядок" loading="lazy">
+            </button>
+            <figcaption><span>05 / ORDER</span><b>Дисципліна</b><small>Порядок, контроль і результат</small></figcaption>
+          </figure>
+          <figure class="galleryCinematic__slide" data-gallery-slide>
+            <button class="galleryCinematic__media" type="button" aria-label="Відкрити кадр Нічний Castro">
+              <img src="../assets/g5.png" alt="Family Castro — нічний кадр" loading="lazy">
+            </button>
+            <figcaption><span>06 / NIGHT</span><b>Нічний Castro</b><small>Преміальна атмосфера штату</small></figcaption>
+          </figure>
+          <figure class="galleryCinematic__slide" data-gallery-slide>
+            <button class="galleryCinematic__media" type="button" aria-label="Відкрити кадр Архів сім’ї">
+              <img src="../assets/content (3).webp" alt="Family Castro — архів сім’ї" loading="lazy">
+            </button>
+            <figcaption><span>07 / ARCHIVE</span><b>Архів сім’ї</b><small>Кадри, які залишаються з нами</small></figcaption>
+          </figure>
+        </div>
+      </div>
+      <button class="galleryCinematic__arrow galleryCinematic__arrow--next" type="button" aria-label="Наступний кадр" data-gallery-next>›</button>
+    </div>
+
+    <div class="galleryCinematic__footer">
+      <span class="galleryCinematic__hint">SWIPE / DRAG</span>
+      <div class="galleryCinematic__progress" aria-label="Навігація галереєю" data-gallery-progress></div>
+      <button class="galleryCinematic__allBtn" type="button" data-gallery-all-open><span aria-hidden="true">▦</span> Усі фото</button>
+    </div>
+  </section>
+
+</main>
+
+<!-- LIGHTBOX MODAL -->
+<div id="lb" class="lb" aria-hidden="true">
+  <button class="lb__close" type="button" aria-label="Закрити">✕</button>
+  <button class="lb__zoom" type="button" aria-label="Збільшити фотографію">＋</button>
+  <div class="lb__stage" role="dialog" aria-modal="true">
+    <img class="lb__img" src="" alt="">
+  </div>
+  <div class="lb__hint">Натисни на фото, щоб збільшити</div>
+</div>
+
+<div class="galleryAll" id="galleryAll" aria-hidden="true">
+  <div class="galleryAll__dialog" role="dialog" aria-modal="true" aria-labelledby="galleryAllTitle">
+    <div class="galleryAll__head">
+      <div><span>CASTRO VISUAL ARCHIVE</span><h3 id="galleryAllTitle">Усі фотографії</h3></div>
+      <button class="galleryAll__close" type="button" aria-label="Закрити всі фотографії">✕</button>
+    </div>
+    <div class="galleryAll__grid" data-gallery-all-grid></div>
+  </div>
+</div>
+
+<script>
+(() => {
+  const lb = document.getElementById("lb");
+  if (!lb) return;
+
+  const lbImg = lb.querySelector(".lb__img");
+  const lbClose = lb.querySelector(".lb__close");
+  const lbZoom = lb.querySelector(".lb__zoom");
+  const lbStage = lb.querySelector(".lb__stage");
+  let lastScroll = 0;
+
+  function setZoom(enabled){
+    lb.classList.toggle("is-zoomed", enabled);
+    if (lbZoom){
+      lbZoom.textContent = enabled ? "−" : "＋";
+      lbZoom.setAttribute("aria-label", enabled ? "Зменшити фотографію" : "Збільшити фотографію");
+    }
+  }
+
+  function openLb(src, alt){
+    lastScroll = window.scrollY || 0;
+    lbImg.src = src;
+    lbImg.alt = alt || "";
+    lb.classList.add("open");
+    lb.setAttribute("aria-hidden", "false");
+    document.body.classList.add("lb-lock");
+    setZoom(false);
+  }
+
+  function closeLb(){
+    lb.classList.remove("open");
+    lb.setAttribute("aria-hidden", "true");
+    document.body.classList.remove("lb-lock");
+    lbImg.src = "";
+    lbImg.alt = "";
+    setZoom(false);
+    window.scrollTo(0, lastScroll);
+  }
+
+  // Клікабельні тільки потрібні зображення (галерея/лідери/картки/авто)
+  document.addEventListener("click", (e) => {
+    const galleryMedia = e.target.closest(".galleryCinematic__media");
+    const img = galleryMedia?.querySelector("img") || e.target.closest(".galleryAll__grid img, .gallery img, img.leaderAva, img.cardimg, img.fleetThumb, .carCard__media img, .fleetGroupCard__img, .transitTruckCard__media img, .transitFleetGroup__preview img");
+    if (!img) return;
+    if (img.closest(".galleryCinematic__slide:not(.is-active)")) return;
+
+    // якщо картинка всередині посилання — не ламаємо навігацію (але можна прибрати, якщо не треба)
+    if (img.closest("a")) return;
+
+    document.dispatchEvent(new CustomEvent("gallery:closeAll"));
+    openLb(img.currentSrc || img.src, img.alt);
+  });
+
+  // Закриття: клік по фону або кнопці
+  lb.addEventListener("click", (e) => {
+    if (e.target === lb) closeLb();
+  });
+
+  lbClose.addEventListener("click", closeLb);
+  lbZoom?.addEventListener("click", () => setZoom(!lb.classList.contains("is-zoomed")));
+  lbImg.addEventListener("click", () => setZoom(!lb.classList.contains("is-zoomed")));
+  lbStage.addEventListener("click", (e) => e.stopPropagation());
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && lb.classList.contains("open")) closeLb();
+  });
+})();
+</script>
+
+<script>
+(() => {
+  const root = document.querySelector("[data-gallery]");
+  if (!root) return;
+
+  const viewport = root.querySelector("[data-gallery-viewport]");
+  const slides = [...root.querySelectorAll("[data-gallery-slide]")];
+  const prev = root.querySelector("[data-gallery-prev]");
+  const next = root.querySelector("[data-gallery-next]");
+  const current = root.querySelector("[data-gallery-current]");
+  const total = root.querySelector("[data-gallery-total]");
+  const progress = root.querySelector("[data-gallery-progress]");
+  const ambient = root.querySelector(".galleryCinematic__ambient");
+  const allModal = document.getElementById("galleryAll");
+  const allGrid = allModal?.querySelector("[data-gallery-all-grid]");
+  const allOpen = root.querySelector("[data-gallery-all-open]");
+  const allClose = allModal?.querySelector(".galleryAll__close");
+  let activeIndex = 0;
+  let dragStartX = 0;
+  let dragging = false;
+  let suppressClick = false;
+
+  const pad = (value) => String(value).padStart(2, "0");
+  if (total) total.textContent = pad(slides.length);
+  slides.forEach((slide) => {
+    const image = slide.querySelector("img");
+    if (image) image.draggable = false;
+  });
+
+  function preloadAround(index){
+    const nearby = [
+      (index - 1 + slides.length) % slides.length,
+      index,
+      (index + 1) % slides.length
+    ];
+
+    slides.forEach((slide, slideIndex) => {
+      const image = slide.querySelector("img");
+      if (!image) return;
+      const isNearby = nearby.includes(slideIndex);
+      image.loading = isNearby ? "eager" : "lazy";
+      image.fetchPriority = slideIndex === index ? "high" : "auto";
+    });
+
+    nearby.forEach((slideIndex) => {
+      const image = slides[slideIndex]?.querySelector("img");
+      if (!image || image.complete) return;
+      const preload = new Image();
+      preload.decoding = "async";
+      preload.src = image.currentSrc || image.src;
+      preload.decode?.().catch(() => {});
+    });
+  }
+
+  const segments = slides.map((_, index) => {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "galleryCinematic__segment";
+    button.setAttribute("aria-label", `Перейти до кадру ${index + 1}`);
+    button.addEventListener("click", () => goTo(index));
+    progress?.appendChild(button);
+    return button;
+  });
+
+  slides.forEach((slide, index) => {
+    const source = slide.querySelector("img");
+    const title = slide.querySelector("figcaption b")?.textContent || `Кадр ${index + 1}`;
+    if (!source || !allGrid) return;
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "galleryAll__item";
+    button.setAttribute("aria-label", `Відкрити: ${title}`);
+    button.innerHTML = `<img src="${source.getAttribute("src")}" alt="${source.alt}" loading="lazy"><span><b>${pad(index + 1)}</b>${title}</span>`;
+    allGrid.appendChild(button);
+  });
+
+  function openAll(){
+    if (!allModal) return;
+    allModal.classList.add("open");
+    allModal.setAttribute("aria-hidden", "false");
+    document.body.classList.add("gallery-all-lock");
+    allClose?.focus();
+  }
+
+  function closeAll(){
+    if (!allModal) return;
+    allModal.classList.remove("open");
+    allModal.setAttribute("aria-hidden", "true");
+    document.body.classList.remove("gallery-all-lock");
+  }
+
+  function setActive(index){
+    activeIndex = (index + slides.length) % slides.length;
+    const prevIndex = (activeIndex - 1 + slides.length) % slides.length;
+    const nextIndex = (activeIndex + 1) % slides.length;
+    slides.forEach((slide, i) => {
+      slide.classList.toggle("is-active", i === activeIndex);
+      slide.classList.toggle("is-prev", i === prevIndex);
+      slide.classList.toggle("is-next", i === nextIndex);
+      slide.setAttribute("aria-hidden", i === activeIndex || i === prevIndex || i === nextIndex ? "false" : "true");
+    });
+    segments.forEach((segment, i) => {
+      segment.classList.toggle("is-active", i === activeIndex);
+      segment.setAttribute("aria-current", i === activeIndex ? "true" : "false");
+    });
+    if (current) current.textContent = pad(activeIndex + 1);
+    preloadAround(activeIndex);
+  }
+
+  function goTo(index){
+    setActive(index);
+  }
+
+  root.addEventListener("click", (event) => {
+    if (event.target.closest("[data-gallery-prev]")) goTo(activeIndex - 1);
+    if (event.target.closest("[data-gallery-next]")) goTo(activeIndex + 1);
+    const sideSlide = event.target.closest(".galleryCinematic__slide.is-prev, .galleryCinematic__slide.is-next");
+    if (sideSlide && !suppressClick) goTo(slides.indexOf(sideSlide));
+  });
+  allOpen?.addEventListener("click", openAll);
+  allClose?.addEventListener("click", closeAll);
+  allModal?.addEventListener("click", (event) => { if (event.target === allModal) closeAll(); });
+  document.addEventListener("gallery:closeAll", closeAll);
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && allModal?.classList.contains("open")) closeAll();
+  });
+  viewport?.addEventListener("keydown", (event) => {
+    if (event.key === "ArrowLeft"){ event.preventDefault(); goTo(activeIndex - 1); }
+    if (event.key === "ArrowRight"){ event.preventDefault(); goTo(activeIndex + 1); }
+    if (event.key === "Home"){ event.preventDefault(); goTo(0); }
+    if (event.key === "End"){ event.preventDefault(); goTo(slides.length - 1); }
+  });
+  viewport?.addEventListener("pointerdown", (event) => {
+    if (event.button !== 0) return;
+    dragging = true;
+    suppressClick = false;
+    dragStartX = event.clientX;
+    root.style.setProperty("--gallery-drag", "0px");
+    viewport.classList.add("is-dragging");
+    viewport.setPointerCapture?.(event.pointerId);
+  });
+  viewport?.addEventListener("pointermove", (event) => {
+    if (!dragging) return;
+    const distance = event.clientX - dragStartX;
+    if (Math.abs(distance) > 6) suppressClick = true;
+    root.style.setProperty("--gallery-drag", `${Math.max(-150, Math.min(150, distance))}px`);
+  });
+  const stopDrag = (event) => {
+    if (!dragging) return;
+    dragging = false;
+    viewport.classList.remove("is-dragging");
+    viewport.releasePointerCapture?.(event.pointerId);
+    const distance = event.clientX - dragStartX;
+    if (Math.abs(distance) > 42) goTo(activeIndex + (distance < 0 ? 1 : -1));
+    root.style.setProperty("--gallery-drag", "0px");
+  };
+  viewport?.addEventListener("pointerup", stopDrag);
+  viewport?.addEventListener("pointercancel", stopDrag);
+  viewport?.addEventListener("dragstart", (event) => event.preventDefault());
+  viewport?.addEventListener("click", (event) => {
+    if (!suppressClick) return;
+    event.preventDefault();
+    event.stopPropagation();
+    suppressClick = false;
+  }, true);
+
+  setActive(0);
+})();
+</script>
+
+<footer class="site-footer">
+  © Family Castro • 
+  <a href="https://ng-gta5.com/" 
+     target="_blank" 
+     rel="noopener" 
+     class="footer-link">
+    NG GTA 5
+    <img src="../assets/NG.png" alt="NG GTA 5" class="footer-logo">
+  </a>
+  <br>
+  <a href="legal/" class="footer-link" style="gap:6px;">
+      ⚖️ Правова інформація
+    </a>
+</footer>
+
+<script>
+(() => {
+  const map = document.querySelector(".familyTablet");
+  const screen = map;
+  const grid = document.querySelector(".familyTree__grid");
+  if (!map) return;
+
+  const editor = {
+    root: document.querySelector(".mapEditor"),
+    toggle: document.getElementById("mapEditToggle"),
+    add: document.getElementById("mapAddNode"),
+    save: document.getElementById("mapSave"),
+    exportBtn: document.getElementById("mapExport"),
+    importBtn: document.getElementById("mapImport"),
+    addRedLine: document.getElementById("mapAddRedLine"),
+    addGrayLine: document.getElementById("mapAddGrayLine"),
+    deleteLine: document.getElementById("mapDeleteLine"),
+    reset: document.getElementById("mapReset"),
+    panel: document.getElementById("mapEditorPanel"),
+    status: document.getElementById("mapEditorStatus"),
+    box: document.getElementById("mapJsonBox"),
+    icon: document.getElementById("mapEditIcon"),
+    title: document.getElementById("mapEditTitle"),
+    level: document.getElementById("mapEditLevel"),
+    category: document.getElementById("mapEditCategory"),
+    description: document.getElementById("mapEditDescription"),
+    req1: document.getElementById("mapEditReq1"),
+    req1Value: document.getElementById("mapEditReq1Value"),
+    req2: document.getElementById("mapEditReq2"),
+    req2Value: document.getElementById("mapEditReq2Value"),
+    reputation: document.getElementById("mapEditReputation"),
+    x: document.getElementById("mapEditX"),
+    y: document.getElementById("mapEditY"),
+    muted: document.getElementById("mapEditMuted"),
+    apply: document.getElementById("mapApplySelected"),
+    remove: document.getElementById("mapDeleteSelected"),
+  };
+
+  const details = {
+    root: document.getElementById("upgradeDetails"),
+    close: document.getElementById("upgradeDetailsClose"),
+    category: document.getElementById("upgradeDetailsCategory"),
+    title: document.getElementById("upgradeDetailsTitle"),
+    description: document.getElementById("upgradeDetailsDescription"),
+    req1: document.getElementById("upgradeDetailsReq1"),
+    req1Value: document.getElementById("upgradeDetailsReq1Value"),
+    req2: document.getElementById("upgradeDetailsReq2"),
+    req2Value: document.getElementById("upgradeDetailsReq2Value"),
+    reputation: document.getElementById("upgradeDetailsReputation"),
+  };
+
+  const familyTotal = document.getElementById("fcTotal2");
+
+  function liveMembersRequirement(savedValue){
+    const fallback = String(savedValue || "93 / 10");
+    const separator = fallback.indexOf("/");
+    if (separator === -1) return fallback;
+
+    const total = familyTotal?.textContent.trim();
+    const required = fallback.slice(separator + 1).trim();
+    return /^\d+$/.test(total || "") && required
+      ? `${total} / ${required}`
+      : fallback;
+  }
+
+  const storageKey = "family-castro-upgrade-map-v1";
+  const authMeUrl = "https://auth.family-castro.fun/auth/me";
+  const mapEditorAllowedDiscordIds = [
+    "916397417421738034",
+  ];
+  const allowLocalEditorPreview = window.location.protocol === "file:";
+  const content = { width: 1720, height: 1120 };
+  let active = false;
+  let itemDrag = null;
+  let editMode = false;
+  let selected = null;
+  let selectedLine = null;
+  let selectedGroup = new Set();
+  let detailsItem = null;
+  let lineMode = null;
+  let lineStart = null;
+  let startX = 0;
+  let startY = 0;
+  let startPanX = 0;
+  let startPanY = 0;
+  let panX = 0;
+  let panY = 0;
+  let scale = 0.68;
+  let pointerId = null;
+  const edgePadding = 90;
+
+  function isEditorAllowed(user){
+    const discordId = String(user?.id || "");
+    return allowLocalEditorPreview || mapEditorAllowedDiscordIds.includes(discordId);
+  }
+
+  function setEditorAccess(user){
+    const allowed = isEditorAllowed(user);
+    if (editor.root) editor.root.hidden = !allowed;
+
+    if (!allowed && editMode) {
+      editMode = false;
+      map.classList.remove("is-editing");
+      clearSelectedItems();
+      selectedLine?.classList.remove("mapLineSelected");
+      selectedLine = null;
+      lineMode = null;
+      lineStart = null;
+      if (editor.panel) editor.panel.hidden = true;
+      setStatus("Редактор приховано");
+    }
+  }
+
+  async function refreshEditorAccess(){
+    if (allowLocalEditorPreview) {
+      setEditorAccess(window.__CASTRO_AUTH__?.user);
+      return;
+    }
+
+    try{
+      const res = await fetch(authMeUrl, { credentials: "include", cache: "no-store" });
+      const data = await res.json().catch(() => null);
+      setEditorAccess(data?.ok ? data.user : null);
+    }catch(e){
+      setEditorAccess(window.__CASTRO_AUTH__?.user);
+    }
+  }
+
+  function clamp(value, min, max){
+    return Math.min(Math.max(value, min), max);
+  }
+
+  function applyPan(){
+    grid?.style.setProperty("--map-scale", scale);
+    grid?.style.setProperty("--pan-x", `${panX}px`);
+    grid?.style.setProperty("--pan-y", `${panY}px`);
+    if (details.root?.classList.contains("is-open") && detailsItem) positionDetails(detailsItem);
+  }
+
+  function mapItems(){
+    return [...grid.querySelectorAll(".upgradeNode, .upgradePill, .upgradeSide")];
+  }
+
+  function lineItems(){
+    return [...grid.querySelectorAll(".familyTree__lines .mapLine")];
+  }
+
+  function ensureIds(){
+    mapItems().forEach((item, index) => {
+      if (!item.dataset.mapId) item.dataset.mapId = `map_item_${index + 1}`;
+    });
+  }
+
+  function getPosition(item){
+    return {
+      x: parseFloat(item.style.getPropertyValue("--left")) || 0,
+      y: parseFloat(item.style.getPropertyValue("--top")) || 0,
+    };
+  }
+
+  function setPosition(item, x, y){
+    const safeX = clamp(Math.round(x), -120, content.width + 120);
+    const safeY = clamp(Math.round(y), -120, content.height + 120);
+    item.style.setProperty("--left", `${safeX}px`);
+    item.style.setProperty("--top", `${safeY}px`);
+    if (item === selected) fillPanel(item);
+    updateConnectedLines(item);
+    if (detailsItem === item) positionDetails(item);
+  }
+
+  function itemKind(item){
+    if (item.classList.contains("upgradePill")) return "pill";
+    if (item.classList.contains("upgradeSide")) return "side";
+    if (item.classList.contains("upgradeNode--core")) return "core";
+    return "node";
+  }
+
+  function readItem(item){
+    const icon = item.querySelector(".upgradeNode__icon, span")?.textContent.trim() || "";
+    const title = item.querySelector("b")?.textContent.trim() || "";
+    const level = itemKind(item) === "core"
+      ? item.querySelector("strong")?.textContent.trim() || ""
+      : item.querySelector("small")?.textContent.trim() || "";
+    const pos = getPosition(item);
+
+    return {
+      id: item.dataset.mapId,
+      kind: itemKind(item),
+      x: pos.x,
+      y: pos.y,
+      icon,
+      title,
+      level,
+      category: item.dataset.category || "Нейтральні",
+      description: item.dataset.description || `Відкриває покращення “${title || "вузол"}”`,
+      req1: item.dataset.req1 || "Рівень сім’ї:",
+      req1Value: item.dataset.req1Value || "4",
+      req2: item.dataset.req2 || "Учасників сім’ї",
+      req2Value: item.dataset.req2Value || "93 / 10",
+      reputation: item.dataset.reputation || "7000",
+      muted: item.classList.contains("upgradeNode--muted"),
+      html: item.outerHTML,
+    };
+  }
+
+  function writeItem(item, data){
+    if (!item || !data) return;
+
+    item.dataset.mapId = data.id || item.dataset.mapId;
+    setPosition(item, data.x ?? getPosition(item).x, data.y ?? getPosition(item).y);
+
+    const iconEl = item.querySelector(".upgradeNode__icon, span");
+    const titleEl = item.querySelector("b");
+    const levelEl = itemKind(item) === "core" ? item.querySelector("strong") : item.querySelector("small");
+
+    if (iconEl && data.icon !== undefined) iconEl.textContent = data.icon;
+    if (titleEl && data.title !== undefined) titleEl.textContent = data.title;
+    if (levelEl && data.level !== undefined) levelEl.textContent = data.level;
+
+    if (data.category !== undefined) item.dataset.category = data.category;
+    if (data.description !== undefined) item.dataset.description = data.description;
+    if (data.req1 !== undefined) item.dataset.req1 = data.req1;
+    if (data.req1Value !== undefined) item.dataset.req1Value = data.req1Value;
+    if (data.req2 !== undefined) item.dataset.req2 = data.req2;
+    if (data.req2Value !== undefined) item.dataset.req2Value = data.req2Value;
+    if (data.reputation !== undefined) item.dataset.reputation = data.reputation;
+
+    item.classList.toggle("upgradeNode--muted", Boolean(data.muted) && itemKind(item) === "node");
+    item.setAttribute("aria-label", [data.title, data.level].filter(Boolean).join(" "));
+  }
+
+  function serializeMap(){
+    return {
+      version: 1,
+      savedAt: new Date().toISOString(),
+      items: mapItems().map(readItem),
+      lines: lineItems().map(readLine),
+    };
+  }
+
+  function readLine(line){
+    return {
+      id: line.dataset.lineId,
+      from: line.dataset.from,
+      to: line.dataset.to,
+      color: line.dataset.color || "red",
+    };
+  }
+
+  function itemCenter(item){
+    const pos = getPosition(item);
+    return {
+      x: pos.x + item.offsetWidth / 2,
+      y: pos.y + item.offsetHeight / 2,
+    };
+  }
+
+  function linePath(fromItem, toItem){
+    const a = itemCenter(fromItem);
+    const b = itemCenter(toItem);
+    return `M${Math.round(a.x)} ${Math.round(a.y)} L${Math.round(b.x)} ${Math.round(b.y)}`;
+  }
+
+  function updateLine(line){
+    const from = grid.querySelector(`[data-map-id="${line.dataset.from}"]`);
+    const to = grid.querySelector(`[data-map-id="${line.dataset.to}"]`);
+    if (!from || !to) {
+      line.remove();
+      return;
+    }
+    line.setAttribute("d", linePath(from, to));
+  }
+
+  function updateConnectedLines(item){
+    lineItems().forEach((line) => {
+      if (line.dataset.from === item.dataset.mapId || line.dataset.to === item.dataset.mapId) updateLine(line);
+    });
+  }
+
+  function selectLine(line){
+    if (!editMode || !line) return;
+    clearSelectedItems();
+    selectedLine?.classList.remove("mapLineSelected");
+    selectedLine = line;
+    selectedLine.classList.add("mapLineSelected");
+    if (editor.panel) editor.panel.hidden = true;
+    setStatus(`Вибрана ${line.dataset.color === "gray" ? "сіра" : "червона"} лінія`);
+  }
+
+  function bindLine(line){
+    line.addEventListener("pointerdown", (e) => {
+      if (!editMode) return;
+      e.preventDefault();
+      e.stopPropagation();
+      selectLine(line);
+    });
+  }
+
+  function createLine(fromId, toId, color = "red", id = `line_${Date.now()}`){
+    const svg = grid.querySelector(".familyTree__lines");
+    const from = grid.querySelector(`[data-map-id="${fromId}"]`);
+    const to = grid.querySelector(`[data-map-id="${toId}"]`);
+    if (!svg || !from || !to || fromId === toId) return null;
+
+    const line = document.createElementNS("http://www.w3.org/2000/svg", "path");
+    line.dataset.lineId = id;
+    line.dataset.from = fromId;
+    line.dataset.to = toId;
+    line.dataset.color = color;
+    line.classList.add("mapLine", color === "gray" ? "mapLine--gray" : "mapLine--red");
+    line.setAttribute("d", linePath(from, to));
+    svg.appendChild(line);
+    bindLine(line);
+    return line;
+  }
+
+  function createNode(data = {}){
+    const node = document.createElement("article");
+    node.className = "upgradeNode";
+    node.dataset.mapId = data.id || `custom_${Date.now()}`;
+    node.style.setProperty("--left", `${data.x ?? 860}px`);
+    node.style.setProperty("--top", `${data.y ?? 700}px`);
+    node.setAttribute("aria-label", data.title || "Новий вузол");
+    node.innerHTML = `<span class="upgradeNode__icon">${data.icon || "★"}</span><b>${data.title || "Новий вузол"}</b><small>${data.level || "I"}</small>`;
+    if (data.muted) node.classList.add("upgradeNode--muted");
+    grid.appendChild(node);
+    writeItem(node, {
+      ...data,
+      id: node.dataset.mapId,
+      x: data.x ?? 860,
+      y: data.y ?? 700,
+      icon: data.icon || "★",
+      title: data.title || "Новий вузол",
+      level: data.level || "I",
+      category: data.category || "Нейтральні",
+      description: data.description || "Опис покращення",
+      req1: data.req1 || "Рівень сім’ї:",
+      req1Value: data.req1Value || "4",
+      req2: data.req2 || "Учасників сім’ї",
+      req2Value: data.req2Value || "93 / 10",
+      reputation: data.reputation || "7000",
+    });
+    bindItem(node);
+    return node;
+  }
+
+  function defaultMapData(){
+    const defaultMap = document.getElementById("familyDefaultMap");
+    if (!defaultMap?.textContent.trim()) return null;
+
+    try{
+      return JSON.parse(defaultMap.textContent);
+    }catch(e){
+      console.warn("Default map JSON failed", e);
+      return null;
+    }
+  }
+
+  function applyMapData(data){
+    if (!Array.isArray(data?.items)) return false;
+
+    lineItems().forEach(line => line.remove());
+    const existing = new Map(mapItems().map(item => [item.dataset.mapId, item]));
+    const savedIds = new Set(data.items.map(item => item.id));
+    existing.forEach((item, id) => {
+      if (!savedIds.has(id)) item.remove();
+    });
+
+    data.items.forEach((itemData) => {
+      const item = existing.get(itemData.id);
+      if (item) {
+        writeItem(item, itemData);
+      } else if (itemData.kind === "node") {
+        createNode(itemData);
+      }
+    });
+
+    if (Array.isArray(data.lines)) {
+      data.lines.forEach((line) => createLine(line.from, line.to, line.color, line.id));
+    }
+    return true;
+  }
+
+  function loadMap(){
+    const raw = localStorage.getItem(storageKey);
+
+    if (raw) {
+      try{
+        if (applyMapData(JSON.parse(raw))) return true;
+      }catch(e){
+        console.warn("Map load failed", e);
+      }
+    }
+
+    return applyMapData(defaultMapData());
+  }
+
+  function saveMap(){
+    localStorage.setItem(storageKey, JSON.stringify(serializeMap(), null, 2));
+    setStatus("Збережено в браузері");
+  }
+
+  function setStatus(text){
+    if (editor.status) editor.status.textContent = text;
+  }
+
+  function clearSelectedItems(){
+    selected?.classList.remove("mapItemSelected");
+    selectedGroup.forEach((item) => item.classList.remove("mapItemSelected"));
+    selectedGroup.clear();
+    selected = null;
+  }
+
+  function markSelectedItem(item){
+    selected = item;
+    selectedGroup.add(item);
+    item.classList.add("mapItemSelected");
+  }
+
+  function selectItem(item, additive = false){
+    if (!editMode || !item) return;
+
+    if (lineMode) {
+      selectedLine?.classList.remove("mapLineSelected");
+      selectedLine = null;
+
+      if (!lineStart) {
+        lineStart = item;
+        clearSelectedItems();
+        markSelectedItem(item);
+        if (editor.panel) editor.panel.hidden = true;
+        setStatus("Тепер клікни другий вузол для лінії");
+        return;
+      }
+
+      createLine(lineStart.dataset.mapId, item.dataset.mapId, lineMode);
+      lineStart.classList.remove("mapItemSelected");
+      lineStart = null;
+      lineMode = null;
+      clearSelectedItems();
+      setStatus("Лінію додано");
+      return;
+    }
+
+    selectedLine?.classList.remove("mapLineSelected");
+    selectedLine = null;
+
+    if (additive) {
+      if (selectedGroup.has(item) && selectedGroup.size > 1) {
+        item.classList.remove("mapItemSelected");
+        selectedGroup.delete(item);
+        selected = [...selectedGroup].at(-1) || null;
+      } else {
+        markSelectedItem(item);
+      }
+    } else {
+      clearSelectedItems();
+      markSelectedItem(item);
+    }
+
+    if (selected) fillPanel(selected);
+    setStatus(selectedGroup.size > 1 ? `Вибрано вузлів: ${selectedGroup.size}` : "Вузол вибрано");
+  }
+
+  function fillPanel(item){
+    if (!item || !editor.panel) return;
+    const data = readItem(item);
+    editor.panel.hidden = false;
+    editor.icon.value = data.icon;
+    editor.title.value = data.title;
+    editor.level.value = data.level;
+    editor.category.value = data.category;
+    editor.description.value = data.description;
+    editor.req1.value = data.req1;
+    editor.req1Value.value = data.req1Value;
+    editor.req2.value = data.req2;
+    editor.req2Value.value = data.req2Value;
+    editor.reputation.value = data.reputation;
+    editor.x.value = Math.round(data.x);
+    editor.y.value = Math.round(data.y);
+    editor.muted.checked = data.muted;
+  }
+
+  function applyPanel(){
+    if (!selected) return;
+    writeItem(selected, {
+      id: selected.dataset.mapId,
+      x: Number(editor.x.value),
+      y: Number(editor.y.value),
+      icon: editor.icon.value.trim(),
+      title: editor.title.value.trim(),
+      level: editor.level.value.trim(),
+      category: editor.category.value.trim(),
+      description: editor.description.value.trim(),
+      req1: editor.req1.value.trim(),
+      req1Value: editor.req1Value.value.trim(),
+      req2: editor.req2.value.trim(),
+      req2Value: editor.req2Value.value.trim(),
+      reputation: editor.reputation.value.trim(),
+      muted: editor.muted.checked,
+    });
+    setStatus("Зміни застосовано");
+  }
+
+  function positionDetails(item){
+    if (!details.root || !item) return;
+    const pos = getPosition(item);
+    const detailW = details.root.offsetWidth || 420;
+    const detailH = details.root.offsetHeight || 360;
+    const rawX = panX + (pos.x + item.offsetWidth + 24) * scale;
+    const rawY = panY + (pos.y - 18) * scale;
+    const maxX = Math.max(12, map.clientWidth - detailW - 12);
+    const maxY = Math.max(12, map.clientHeight - detailH - 12);
+    const x = clamp(rawX, 12, maxX);
+    const y = clamp(rawY, 12, maxY);
+    details.root.style.setProperty("--detail-left", `${Math.round(x)}px`);
+    details.root.style.setProperty("--detail-top", `${Math.round(y)}px`);
+  }
+
+  function showDetails(item){
+    if (!details.root || !item || itemKind(item) !== "node") return;
+    const data = readItem(item);
+    detailsItem = item;
+    details.category.textContent = data.category || "Нейтральні";
+    details.title.textContent = data.title || "Покращення";
+    details.description.textContent = data.description || "Опис покращення";
+    details.req1.textContent = data.req1 || "Рівень сім’ї:";
+    details.req1Value.textContent = data.req1Value || "4";
+    details.req2.textContent = data.req2 || "Учасників сім’ї";
+    details.req2Value.textContent = liveMembersRequirement(data.req2Value);
+    details.reputation.textContent = data.reputation || "7000";
+    details.root.classList.add("is-open");
+    details.root.setAttribute("aria-hidden", "false");
+    requestAnimationFrame(() => positionDetails(item));
+  }
+
+  function hideDetails(){
+    details.root?.classList.remove("is-open");
+    details.root?.setAttribute("aria-hidden", "true");
+    detailsItem = null;
+  }
+
+  function clientToMapPoint(e){
+    const rect = map.getBoundingClientRect();
+    return {
+      x: (e.clientX - rect.left - panX) / scale,
+      y: (e.clientY - rect.top - panY) / scale,
+    };
+  }
+
+  function bindItem(item){
+    item.addEventListener("pointerdown", (e) => {
+      if (!editMode) {
+        e.stopPropagation();
+        showDetails(item);
+        return;
+      }
+      e.preventDefault();
+      e.stopPropagation();
+
+      selectItem(item, e.ctrlKey || e.metaKey);
+      const point = clientToMapPoint(e);
+      const pos = getPosition(item);
+      const dragItems = selectedGroup.has(item) ? [...selectedGroup] : [item];
+      itemDrag = {
+        item,
+        items: dragItems.map((dragItem) => ({
+          item: dragItem,
+          ...getPosition(dragItem),
+        })),
+        origin: pos,
+        dx: point.x - pos.x,
+        dy: point.y - pos.y,
+        pointerId: e.pointerId,
+      };
+      item.setPointerCapture?.(e.pointerId);
+    });
+  }
+
+  function clampPan(){
+    if (!screen) return;
+
+    const viewW = screen.clientWidth;
+    const viewH = screen.clientHeight;
+    const scaledW = content.width * scale;
+    const scaledH = content.height * scale;
+
+    if (scaledW <= viewW - edgePadding * 2) {
+      panX = (viewW - scaledW) / 2;
+    } else {
+      panX = clamp(panX, viewW - scaledW - edgePadding, edgePadding);
+    }
+
+    if (scaledH <= viewH - edgePadding * 2) {
+      panY = (viewH - scaledH) / 2;
+    } else {
+      panY = clamp(panY, viewH - scaledH - edgePadding, edgePadding);
+    }
+  }
+
+  function fitMap(){
+    if (!screen || !grid) return;
+
+    const byWidth = screen.clientWidth / content.width;
+    const byHeight = screen.clientHeight / content.height;
+    scale = clamp(Math.min(byWidth, byHeight) * 1.18, 0.48, 0.76);
+
+    const coreNode = grid.querySelector(".upgradeNode--core");
+    const focus = coreNode ? itemCenter(coreNode) : { x: content.width / 2, y: content.height / 2 };
+    const focusX = focus.x;
+    const focusY = focus.y;
+    panX = screen.clientWidth / 2 - focusX * scale;
+    panY = screen.clientHeight / 2 - focusY * scale;
+
+    clampPan();
+    applyPan();
+  }
+
+  function startDrag(e){
+    if (e.button !== undefined && e.button !== 0) return;
+
+    active = true;
+    pointerId = e.pointerId;
+    startX = e.clientX;
+    startY = e.clientY;
+    startPanX = panX;
+    startPanY = panY;
+    map.classList.add("is-dragging");
+    map.setPointerCapture?.(pointerId);
+  }
+
+  function moveDrag(e){
+    if (editMode && itemDrag) {
+      e.preventDefault();
+      const point = clientToMapPoint(e);
+      const nextX = point.x - itemDrag.dx;
+      const nextY = point.y - itemDrag.dy;
+      const deltaX = nextX - itemDrag.origin.x;
+      const deltaY = nextY - itemDrag.origin.y;
+      itemDrag.items.forEach((entry) => {
+        setPosition(entry.item, entry.x + deltaX, entry.y + deltaY);
+      });
+      return;
+    }
+
+    if (!active) return;
+    e.preventDefault();
+    panX = startPanX + (e.clientX - startX);
+    panY = startPanY + (e.clientY - startY);
+    clampPan();
+    applyPan();
+  }
+
+  function endDrag(){
+    if (itemDrag) {
+      itemDrag.item.releasePointerCapture?.(itemDrag.pointerId);
+      itemDrag = null;
+      return;
+    }
+
+    if (!active) return;
+    active = false;
+    map.classList.remove("is-dragging");
+    if (pointerId !== null) map.releasePointerCapture?.(pointerId);
+    pointerId = null;
+  }
+
+  map.addEventListener("pointerdown", startDrag);
+  map.addEventListener("pointermove", moveDrag);
+  map.addEventListener("pointerup", endDrag);
+  map.addEventListener("pointercancel", endDrag);
+  map.addEventListener("pointerleave", endDrag);
+
+  editor.toggle?.addEventListener("click", () => {
+    editMode = !editMode;
+    map.classList.toggle("is-editing", editMode);
+    editor.toggle.textContent = editMode ? "Вийти з редактора" : "Редагувати карту";
+    if (!editMode) {
+      clearSelectedItems();
+      selectedLine?.classList.remove("mapLineSelected");
+      selectedLine = null;
+      lineMode = null;
+      lineStart = null;
+      if (editor.panel) editor.panel.hidden = true;
+      setStatus("Режим перегляду");
+    } else {
+      setStatus("Клікни вузол або перетягни його");
+    }
+  });
+
+  editor.add?.addEventListener("click", () => {
+    if (!editMode) editor.toggle?.click();
+    const node = createNode();
+    selectItem(node);
+    setStatus("Новий вузол додано");
+  });
+
+  editor.apply?.addEventListener("click", applyPanel);
+  [
+    editor.icon,
+    editor.title,
+    editor.level,
+    editor.category,
+    editor.description,
+    editor.req1,
+    editor.req1Value,
+    editor.req2,
+    editor.req2Value,
+    editor.reputation,
+    editor.x,
+    editor.y,
+    editor.muted,
+  ].forEach((input) => {
+    input?.addEventListener("change", applyPanel);
+  });
+
+  editor.remove?.addEventListener("click", () => {
+    if (!selected) return;
+    const itemsToRemove = selectedGroup.size ? [...selectedGroup] : [selected];
+    itemsToRemove.forEach((item) => {
+      lineItems().forEach((line) => {
+        if (line.dataset.from === item.dataset.mapId || line.dataset.to === item.dataset.mapId) line.remove();
+      });
+      item.remove();
+    });
+    clearSelectedItems();
+    if (editor.panel) editor.panel.hidden = true;
+    setStatus(itemsToRemove.length > 1 ? "Групу вузлів видалено" : "Вузол видалено");
+  });
+
+  editor.save?.addEventListener("click", saveMap);
+
+  function startLineMode(color){
+    if (!editMode) editor.toggle?.click();
+    clearSelectedItems();
+    selectedLine?.classList.remove("mapLineSelected");
+    selectedLine = null;
+    lineStart = null;
+    lineMode = color;
+    if (editor.panel) editor.panel.hidden = true;
+    setStatus(`Клікни перший вузол для ${color === "gray" ? "сірої" : "червоної"} лінії`);
+  }
+
+  editor.addRedLine?.addEventListener("click", () => startLineMode("red"));
+  editor.addGrayLine?.addEventListener("click", () => startLineMode("gray"));
+
+  editor.deleteLine?.addEventListener("click", () => {
+    if (!selectedLine) {
+      setStatus("Спочатку клікни лінію в режимі редагування");
+      return;
+    }
+    selectedLine.remove();
+    selectedLine = null;
+    setStatus("Лінію видалено");
+  });
+
+  details.root?.addEventListener("pointerdown", (e) => e.stopPropagation());
+  details.root?.addEventListener("click", (e) => e.stopPropagation());
+  details.close?.addEventListener("pointerdown", (e) => e.stopPropagation());
+  details.close?.addEventListener("click", (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    hideDetails();
+  });
+
+  editor.exportBtn?.addEventListener("click", () => {
+    editor.box.value = JSON.stringify(serializeMap(), null, 2);
+    editor.box.classList.add("is-open");
+    editor.box.select();
+    setStatus("JSON готовий до копіювання");
+  });
+
+  editor.importBtn?.addEventListener("click", () => {
+    editor.box.classList.add("is-open");
+    if (!editor.box.value.trim()) {
+      setStatus("Встав JSON у поле і натисни імпорт ще раз");
+      return;
+    }
+
+    try{
+      const data = JSON.parse(editor.box.value);
+      if (!Array.isArray(data.items)) throw new Error("items missing");
+      localStorage.setItem(storageKey, JSON.stringify(data, null, 2));
+      loadMap();
+      setStatus("JSON імпортовано");
+    }catch(e){
+      setStatus("Помилка JSON");
+    }
+  });
+
+  editor.reset?.addEventListener("click", () => {
+    localStorage.removeItem(storageKey);
+    setStatus("Скинуто. Онови сторінку Ctrl+R");
+  });
+
+  ensureIds();
+  mapItems().forEach(bindItem);
+  loadMap();
+  refreshEditorAccess();
+  window.addEventListener("castro-auth", (event) => {
+    setEditorAccess(event.detail?.user);
+  });
+  if (familyTotal) {
+    new MutationObserver(() => {
+      if (!details.root?.classList.contains("is-open") || !detailsItem) return;
+      details.req2Value.textContent = liveMembersRequirement(readItem(detailsItem).req2Value);
+    }).observe(familyTotal, { childList: true, characterData: true, subtree: true });
+  }
+  window.addEventListener("resize", fitMap);
+  fitMap();
+})();
+</script>
+
+<!-- Discord Auth widget -->
+<script src="../auth.js"></script>
+<script src="../profile.js"></script>
+<script>
+(function(){
+  const loader = document.getElementById("vload");
+  if(!loader) return;
+
+  const managedArrival = document.documentElement.classList.contains("page-transition-managed-arrival");
+  const video = document.querySelector(".video-bg video");
+  const loaderStartedAt = Number(window.__INFO_LOADER_STARTED__) || performance.now();
+  const minimumLoaderDuration = managedArrival ? 0 : 1200;
+  const introDuration = managedArrival ? 0 : 1200;
+
+  document.documentElement.classList.add("is-video-loading");
+  document.body.classList.add("is-video-loading");
+
+  let backgroundReady = false;
+  let revealed = false;
+
+  function revealPage(){
+    if(revealed) return;
+    revealed = true;
+
+    document.documentElement.classList.remove("is-video-loading");
+    document.documentElement.classList.remove("info-intro-pending");
+    document.body.classList.remove("is-video-loading");
+    document.body.classList.toggle("info-intro-reveal", !managedArrival);
+  }
+
+  function showBackground(){
+    if(backgroundReady) return;
+
+    const minimumRemaining = minimumLoaderDuration - (performance.now() - loaderStartedAt);
+    if(minimumRemaining > 0){
+      setTimeout(showBackground, minimumRemaining);
+      return;
+    }
+
+    backgroundReady = true;
+    loader.classList.add("is-hide");
+    loader.setAttribute("aria-hidden", "true");
+    setTimeout(() => requestAnimationFrame(revealPage), introDuration);
+  }
+
+  if(!video){
+    showBackground();
+    return;
+  }
+
+  if(video.readyState >= 2){
+    requestAnimationFrame(showBackground);
+  } else {
+    video.addEventListener("loadeddata", showBackground, { once: true });
+    video.addEventListener("canplay", showBackground, { once: true });
+    setTimeout(showBackground, 7000);
+  }
+
+  try { video?.load(); } catch(e) {}
+})();
+</script>
+<script>
+(() => {
+  const onlineEl = document.getElementById("fcOnline2");
+  const totalEl  = document.getElementById("fcTotal2");
+  if(!onlineEl || !totalEl) return;
+
+  const WIDGET_URL = "https://discord.com/api/guilds/920571973535428628/widget.json";
+
+  // Якщо зробиш потім свій endpoint від бота/worker — тут буде total+online:
+  // { total: 123, online: 27 }
+  const INTERNAL_STATS_URL = "https://api.family-castro.fun/api/family/stats";
+
+  async function update(){
+    // 1) пробуємо твій API (дасть total + online)
+    try{
+      const r = await fetch(INTERNAL_STATS_URL, { cache: "no-store" });
+      if(r.ok){
+        const j = await r.json();
+        if(typeof j.online === "number") onlineEl.textContent = j.online;
+        if(typeof j.total === "number") totalEl.textContent = j.total;
+        return;
+      }
+    }catch(e){}
+
+    // 2) фолбек: Discord Widget (дає ТОЧНО online, але не дає total)
+    try{
+      const r = await fetch(WIDGET_URL, { cache: "no-store" });
+      if(!r.ok) throw new Error();
+      const data = await r.json();
+
+      onlineEl.textContent = data.presence_count ?? "—";
+      totalEl.textContent  = "—"; // total тут не існує
+    }catch(e){
+      onlineEl.textContent = "—";
+      totalEl.textContent  = "—";
+    }
+  }
+
+  update();
+  setInterval(update, 60000);
+})();
+</script>
+<script>
+(() => {
+  const sections = [...document.querySelectorAll("main.container > .section")];
+  const revealChildren = [
+    ".section__title", ".rulesCard", ".rulesQuote", ".leaderCard",
+    ".logoOriginPremium__card", ".baseMini", ".carCard", ".fleetGroupCard",
+    ".transitInfoCard", ".transitFleetCard", ".transitStatBox", ".transitTruckCard",
+    ".galleryCinematic__head"
+  ].join(",");
+
+  sections.forEach((section) => {
+    section.classList.add("revealSection");
+    section.querySelectorAll(revealChildren).forEach((item, index) => {
+      item.classList.add("revealChild");
+      item.style.setProperty("--reveal-delay", `${(index % 8) * 65}ms`);
+    });
+  });
+
+  if (!("IntersectionObserver" in window)) {
+    sections.forEach((section) => section.classList.add("is-revealed"));
+  } else {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add("is-revealed");
+        observer.unobserve(entry.target);
+      });
+    }, { threshold: 0.09, rootMargin: "0px 0px -8%" });
+    sections.forEach((section) => observer.observe(section));
+  }
+
+  if (window.matchMedia("(pointer: fine)").matches) {
+    document.querySelectorAll(".rulesCard, .leaderCard, .logoOriginPremium__card, .baseMini, .carCard, .fleetGroupCard, .transitInfoCard, .transitTruckCard").forEach((card) => {
+      card.dataset.cursorGlow = "";
+      card.addEventListener("pointermove", (event) => {
+        const rect = card.getBoundingClientRect();
+        card.style.setProperty("--glow-x", `${event.clientX - rect.left}px`);
+        card.style.setProperty("--glow-y", `${event.clientY - rect.top}px`);
+      });
+    });
+  }
+})();
+</script>
+<script>
+(() => {
+  const progress = document.querySelector("[data-info-progress]");
+  const dockLinks = [...document.querySelectorAll("[data-info-section]")];
+  const backTop = document.querySelector("[data-info-backtop]");
+  const tracked = dockLinks.map((link) => document.getElementById(link.dataset.infoSection)).filter(Boolean);
+  let frame = 0;
+
+  function updatePageNavigation(){
+    frame = 0;
+    const maxScroll = Math.max(1, document.documentElement.scrollHeight - innerHeight);
+    const ratio = Math.max(0, Math.min(1, scrollY / maxScroll));
+    if (progress) progress.style.transform = `scaleX(${ratio})`;
+    backTop?.classList.toggle("is-visible", scrollY > 720);
+
+    let active = tracked[0]?.id;
+    tracked.forEach((section) => {
+      if (section.getBoundingClientRect().top <= innerHeight * .42) active = section.id;
+    });
+    dockLinks.forEach((link) => {
+      const selected = link.dataset.infoSection === active;
+      link.classList.toggle("is-active", selected);
+      if (selected) link.setAttribute("aria-current", "location");
+      else link.removeAttribute("aria-current");
+    });
+  }
+
+  function requestNavigationUpdate(){
+    if (frame) return;
+    frame = requestAnimationFrame(updatePageNavigation);
+  }
+
+  addEventListener("scroll", requestNavigationUpdate, { passive: true });
+  addEventListener("resize", requestNavigationUpdate, { passive: true });
+  backTop?.addEventListener("click", () => scrollTo({ top: 0, behavior: "smooth" }));
+  updatePageNavigation();
+
+  const leaderCards = [...document.querySelectorAll("#leaders .leaderCard")];
+  leaderCards.forEach((card) => {
+    const button = card.querySelector(".leaderExpand");
+    const details = card.querySelector(".leaderDetails");
+    if (!button || !details) return;
+    details.hidden = false;
+    button.addEventListener("click", () => {
+      const willOpen = !card.classList.contains("is-expanded");
+      leaderCards.forEach((other) => {
+        other.classList.remove("is-expanded");
+        const otherButton = other.querySelector(".leaderExpand");
+        otherButton?.setAttribute("aria-expanded", "false");
+        const icon = otherButton?.querySelector("span");
+        if (icon) icon.textContent = "＋";
+      });
+      if (willOpen){
+        card.classList.add("is-expanded");
+        button.setAttribute("aria-expanded", "true");
+        const icon = button.querySelector("span");
+        if (icon) icon.textContent = "−";
+      }
+    });
+  });
+
+})();
+</script>
+  
+<script src="/button-fx.js"></script>
+<script src="/cursor.js"></script>
+</body>
+</html>

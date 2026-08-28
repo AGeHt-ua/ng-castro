@@ -1,0 +1,1786 @@
+<!doctype html>
+<html lang="uk">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <link rel="icon" type="image/png" href="/assets/logo.png" />
+  <title>Вступ у CASTRO</title>
+  <meta name="description" content="Анкета на вступ до сім’ї Family Castro на NG GTA 5." />
+  <link rel="canonical" href="https://family-castro.fun/join/" />
+  <meta property="og:title" content="Вступ у Family Castro" />
+  <meta property="og:description" content="Подайте анкету на вступ до Family Castro." />
+  <meta property="og:image" content="https://family-castro.fun/assets/image01.png" />
+  <meta property="og:url" content="https://family-castro.fun/join/" />
+  <meta property="og:type" content="website" />
+
+  <link rel="stylesheet" href="/join/join.css">
+  <link rel="stylesheet" href="/submit-loader.css?v=4">
+  <link rel="stylesheet" href="/auth.css">
+  <link rel="stylesheet" href="/page-transition.css">
+  <script src="/page-transition.js"></script>
+  <link rel="stylesheet" href="/cursor.css" />
+  <script>
+    document.documentElement.classList.add("join-intro-pending");
+    window.__JOIN_LOADER_STARTED__ = performance.now();
+  </script>
+</head>
+
+<body class="page-join">
+<div class="page-transition" aria-hidden="true">
+  <div class="page-transition__loader">
+    <img class="page-transition__logo" src="/assets/hero.gif" alt="CASTRO">
+    <div class="page-transition__text">Завантаження…</div>
+    <div class="page-transition__line"><span></span></div>
+  </div>
+</div>
+  
+<!-- VIDEO LOADER (CASTRO) -->
+<div class="vload" id="vload" aria-hidden="false">
+  <div class="vload__bg"></div>
+
+  <div class="vload__center">
+    <img class="vload__logo" src="/assets/hero.gif" alt="CASTRO">
+    <div class="vload__text">Завантаження…</div>
+  </div>
+
+  <div class="vload__scan" aria-hidden="true"></div>
+  <div class="vload__grain" aria-hidden="true"></div>
+</div>
+
+  <!-- 🎬 Background Video -->
+  <div class="video-bg" aria-hidden="true">
+    <video class="video-bg__video" autoplay muted loop playsinline preload="auto">
+      <source src="/assets/join-bag.mp4" type="video/mp4">
+    </video>
+    <div class="video-bg__overlay"></div>
+  </div>
+
+  <!-- Auth dock -->
+  <div id="auth-box" class="auth">
+    <button id="auth-login" class="auth__btn" type="button">
+      <img class="auth__discord" src="/assets/discord.svg" alt="">
+      Увійти через Discord
+    </button>
+
+    <div id="auth-user" class="auth__user hidden">
+      <img id="auth-avatar" class="auth__avatar" alt="">
+      <span id="auth-name" class="auth__name"></span>
+      <button id="auth-logout" class="auth__logout" type="button" title="Вийти">⎋</button>
+    </div>
+  </div>
+
+  <!-- Background FX -->
+  <div class="bgfx" aria-hidden="true"></div>
+  <div class="grain" aria-hidden="true"></div>
+
+  <header class="topbar" aria-label="Навігація">
+    <a class="back back--pill" href="/">← На головну</a>
+
+    <div class="topbar__title">
+      📌 Вступ у
+      <a href="/" class="castro castro--logo">
+        CASTRO
+        <img src="/assets/hero.gif" alt="CASTRO" class="castroLogo">
+      </a>
+    </div>
+
+   <div class="topbar__meta">
+  <span class="chip chip--stat chip--dim">👥 Всього в сім’ї: <b id="fcTotalTop">—</b></span>
+  <span class="chip chip--stat">🟢 Онлайн: <b id="fcOnlineTop">—</b></span>
+  <span class="chip">🛡️ Захист токеном</span>
+</div>
+  </header>
+
+  <main class="wrap" role="main">
+    <div class="grid">
+
+      <!-- MAIN FORM -->
+      <section class="card mainCard" aria-label="Анкета вступу">
+        <header class="head">
+          <div class="brandText">
+            <h1 class="title">Анкета на вступ у сім’ю <span class="castro">CASTRO</span></h1>
+            <p class="sub">
+              Заповнюй чесно та максимально детально. Після відправки з’явиться кнопка приєднання до Discord.
+            </p>
+          </div>
+
+          <div class="pillbar" aria-label="Ключові акценти">
+            <span class="pill">⚔️ RP-дисципліна</span>
+            <span class="pill">📌 Контракти • Війни сімей</span>
+            <span class="pill">🎙️ Комунікація</span>
+          </div>
+
+          <div class="photoRow" aria-label="Фото персонажа">
+            <!-- UPLOAD (LEFT) -->
+            <div class="photo photo--head">
+              <label class="photo__frame" for="charPhoto">
+                <img id="charPreview" class="photo__img" alt="">
+                <div id="charPlaceholder" class="photo__placeholder">
+                  <div class="photo__icon">📷</div>
+                  <div class="photo__title">Завантажте фото персонажу</div>
+                  <div class="photo__sub">PNG / JPG / WebP • бажано 1:1 або по пояс</div>
+                  <div class="photo__btn" id="photoPickBtn">Обрати фото</div>
+                </div>
+              </label>
+
+              <input
+                id="charPhoto"
+                name="charPhoto"
+                type="file"
+                accept="image/png, image/jpeg, image/webp"
+              >
+
+              <button type="button" class="photo__remove" id="photoRemove" disabled>
+                ✖ Прибрати фото
+              </button>
+
+              <div class="hint" id="photoHint" style="margin-top:10px">
+                Максимальний розмір фото: <b>5 MB</b>.
+              </div>
+            </div>
+
+            <!-- INFO (RIGHT) -->
+            <aside class="photoInfo photoInfo--left" aria-label="Інформація про фото">
+              <h3>ℹ️ Інформація про фото</h3>
+
+              <p class="photoInfo__muted">
+                Фото потрібне для внутрішньої перевірки та формування особової справи кандидата.
+              </p>
+
+              <ul class="photoInfo__list">
+                <li>Ідентифікація персонажа (IC)</li>
+                <li>Перевірка RP-адекватності</li>
+                <li>Підготовка до співбесіди / набору</li>
+                <li>Підв’язка заявки в кадровому каналі</li>
+              </ul>
+
+              <div class="photoInfo__note">
+                ❗ Вимоги: без масок/шоломів, чітко видно обличчя • бажано 1:1 або по пояс
+              </div>
+            </aside>
+          </div>
+        </header>
+
+        <div class="body">
+          <form id="joinForm" novalidate>
+            <!-- Honeypot -->
+            <div class="hp" aria-hidden="true">
+              <label>Не заповнювати</label>
+              <input name="website" autocomplete="off" tabindex="-1" aria-label="Не заповнювати">
+            </div>
+
+<div class="authHint" id="authHint">
+  <div class="authHint__title">🔐 Заповнення анкети доступне тільки з профілем</div>
+  <div class="authHint__text" id="authHintText">
+    Перевірка авторизації…
+  </div>
+  <div class="authHint__actions" id="authHintActions"></div>
+</div>            
+            <div class="section">
+              <h3><span class="dot"></span> Дані персонажа</h3>
+              <div class="section__body">
+                <div class="section__inner">
+
+                  <div class="field">
+                    <label>Ім’я та вік (IRL)</label>
+
+                    <div class="grid2">
+                      <div class="subfield">
+                        <label class="sub" for="irlName">Ім’я</label>
+                        <input id="irlName" name="irlName" placeholder="Наприклад: Андрій" required autocomplete="off">
+                      </div>
+
+                      <div class="subfield">
+                        <label class="sub" for="irlAge">Вік</label>
+                        <input id="irlAge" name="irlAge" type="number" inputmode="numeric" min="10" max="80" placeholder="20" required autocomplete="off">
+                      </div>
+                    </div>
+
+                    <!-- Backward-compatible field for backend/worker -->
+                    <input id="irl" name="irl" type="hidden">
+                  </div>
+
+                  <div class="field auto-hidden">
+                    <label for="nick">Ваш Нікнейм | Static ID:</label>
+                    <input id="nick" name="nick" placeholder="Наприклад: Dominic Castro | 12279" required autocomplete="off">
+                  </div>
+
+                </div>
+
+                <div class="row">
+                  <div class="field">
+                    <label for="timeOnServer">Скільки часу граєш на сервері?</label>
+                    <select id="timeOnServer" name="timeOnServer" required>
+                      <option value="">Обери…</option>
+                      <option>Менше місяця</option>
+                      <option>1–3 місяці</option>
+                      <option>3–6 місяці</option>
+                      <option>Понад 6 місяців</option>
+                    </select>
+                  </div>
+
+                  <div class="field">
+                    <label for="hoursPerDay">Скільки годин граєш на день?</label>
+                    <input id="hoursPerDay" name="hoursPerDay" placeholder="Наприклад: 3–5 годин" required autocomplete="off">
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="section">
+              <h3><span class="dot"></span> Досвід та мотивація</h3>
+              <div class="section__body">
+                <div class="section__inner">
+                  <div>
+                    <label for="exp">Досвід участі у сім’ях/організаціях</label>
+                    <textarea id="exp" name="exp" placeholder="Де був(-ла), що робив(-ла), чому пішов(-ла)?" required></textarea>
+                    <div class="hint">Чим чесніше і конкретніше — тим краще.</div>
+                  </div>
+                </div>
+
+                <div class="mt12">
+                  <label for="why">Чому хочеш приєднатися саме до CASTRO?</label>
+                  <textarea id="why" name="why" placeholder="Що очікуєш від сім’ї і що можеш дати взамін?" required></textarea>
+                </div>
+
+                <div class="mt12">
+                  <label for="skills">Твої сильні сторони як гравця</label>
+                  <textarea id="skills" name="skills" placeholder="RP, стрілянина, водіння, тактика, комунікація…" required></textarea>
+                </div>
+              </div>
+            </div>
+
+            <div class="section">
+              <h3><span class="dot"></span> Зв’язок та правила</h3>
+              <div class="section__body">
+                <div class="section__inner">
+                  <div class="row">
+                    <div class="field">
+                      <label for="mic">Маєш мікрофон / користуєшся голосовим?</label>
+                      <select id="mic" name="mic" required>
+                        <option value="">Обери…</option>
+                        <option>Так</option>
+                        <option>Ні</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div class="field auto-hidden">
+                    <label for="discord">Discord:</label>
+                    <span for="discord">(посилання / @нік)</span>
+                    <input
+                      id="discord"
+                      name="discord"
+                      placeholder="Наприклад: @nickname або nickname#0000 або <@!1234567890>"
+                      required
+                      autocomplete="off"
+                      spellcheck="false"
+                      pattern=".{3,}"
+                      title="Введи Discord (мінімум 3 символи)"
+                    >
+                    <input type="hidden" name="discordMention" id="discordMention">
+                  </div>
+                </div>
+
+                <div class="row mt12">
+                  <div class="field">
+                    <label for="rules">Готовий(-а) дотримуватись правил CASTRO?</label>
+                    <select id="rules" name="rules" required>
+                      <option value="">Обери…</option>
+                      <option>Так, повністю</option>
+                      <option>Ні</option>
+                      <option>Інше</option>
+                    </select>
+                  </div>
+
+                  <div class="field">
+                    <label for="rename">Готовий(-а) змінити прізвище на CASTRO за вимогою керівництва?</label>
+                    <select id="rename" name="rename" required>
+                      <option value="">Обери…</option>
+                      <option>Так</option>
+                      <option>Ні</option>
+                      <option>Інше</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="mt12">
+                  <label for="extra">Додаткова інформація (необов’язково)</label>
+                  <textarea id="extra" name="extra" placeholder="Будь-які важливі деталі: часовий пояс, графік, навички, відгуки…"></textarea>
+                </div>
+              </div>
+            </div>
+
+            <div class="agree">
+              <label class="agree__box">
+                <input type="checkbox" id="agreeChk" required>
+                <span class="agree__tick" aria-hidden="true"></span>
+                <span class="agree__text">
+                  Підтверджую, що ознайомився(-лась) та погоджуюсь із правилами сім’ї CASTRO.
+                </span>
+              </label>
+
+              <details class="agree__details">
+                <summary>📜 Відкрити повний текст зобов’язань</summary>
+                <div class="agree__rules">
+                  <p>
+                    Погоджуюсь виконувати всі вказівки керівного складу. При першому проханні брати участь у війні сімей та виконання контрактів.
+                    У разі не виконання даних вимог — отримати покарання (штраф, пониження в ранзі, звільнення).
+                    У разі купівлі сімейного одягу — не продавати іншим людям.
+                    У разі самовільного звільнення з організації — сплатити податок 100.000$ та повернути куплений сімейний одяг.
+                  </p>
+                </div>
+              </details>
+            </div>
+
+            <div class="actions" id="actions">
+              <button class="btn" type="submit" id="submitBtn" disabled>✅ Відправити заявку</button>
+              <div class="status" id="status">Увійди через Discord і постав галочку.</div>
+            </div>
+
+            <div class="ok" id="ok">
+              <h4>✅ Заявку відправлено!</h4>
+              <p id="okText">Приєднуйся до Discord для зв’язку та розгляду заявки.</p>
+              <a class="discord" id="discordBtn" href="https://discord.gg/Jj2DeAm265" target="_blank" rel="noopener">Приєднатися до Discord</a>
+            </div>
+
+        <div class="footer">
+          © Family Castro • 
+          <a href="https://ng-gta5.com/"
+             target="_blank"
+             rel="noopener"
+             class="footer-link">
+            NG GTA 5
+            <img src="/assets/NG.png" alt="NG GTA 5" class="footer-logo">
+          </a>
+          <br>
+  <a href="/info/legal" class="footer-link" style="gap:6px;">
+      ⚖️ Правова інформація
+    </a>
+        </div>
+      </section>
+
+      <!-- SIDEBAR -->
+      <aside class="card side sideCard" aria-label="Підказки перед відправкою">
+        <div class="mini">
+          <h3>📌 Перед відправкою</h3>
+          <p>Твоя заявка одразу прилітає у кадровий канал Discord. Перевір, щоб Discord нік був правильний.</p>
+
+          <div class="rule">⚠️ Фейкова / неякісна інформація = відмова</div>
+
+          <ul class="list">
+            <li>Відповідай по суті, без “норм/ок”.</li>
+            <li>Пиши чесно про досвід і конфлікти з іншими сім’ями.</li>
+            <li>Якщо не маєш мікрофона — краще вкажи одразу.</li>
+          </ul>
+
+          <!-- Progress -->
+          <div class="jprog" aria-label="Прогрес заповнення">
+            <div class="jprog__top">
+              <span class="jprog__label">Прогрес анкети</span>
+              <span class="jprog__pct" id="progPct">0%</span>
+            </div>
+            <div class="jprog__bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+              <div class="jprog__fill" id="progFill"></div>
+            </div>
+            <div class="jprog__steps" id="progSteps"></div>
+          </div>
+
+          <!-- WOW: score -->
+          <div class="wowScore" aria-label="Оцінка кандидата">
+            <div class="wowScore__top">
+              <div class="wowScore__title">🧠 Оцінка кандидата</div>
+              <div class="wowBadge" id="wowBadge">—</div>
+            </div>
+
+            <div class="wowScore__bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+              <div class="wowScore__fill" id="wowFill"></div>
+            </div>
+
+            <div class="wowScore__meta">
+              <span class="wowScore__num"><span id="wowScoreNum">0</span>/100</span>
+              <span class="wowScore__chance" id="wowChance">Шанс: —</span>
+            </div>
+
+            <div class="wowHint" id="wowHint">Заповнюй детально — система підніме рейтинг.</div>
+          </div>
+
+          <!-- WOW: dossier -->
+          <div class="wowDossier" aria-label="Досьє кандидата">
+            <div class="wowDossier__head">
+              <div class="wowDossier__kicker">DOSSIER</div>
+              <div class="wowDossier__id" id="candId">CSTR-00000</div>
+            </div>
+
+            <div class="wowDossier__row">
+              <div class="wowDossier__label">Discord</div>
+              <div class="wowDossier__val" id="candDiscord">—</div>
+            </div>
+
+            <div class="wowDossier__row">
+              <div class="wowDossier__label">Клас</div>
+              <div class="wowDossier__val" id="candClass">—</div>
+            </div>
+
+            <div class="wowDossier__row">
+              <div class="wowDossier__label">Статус</div>
+              <div class="wowDossier__val" id="candStatus">Очікує дані</div>
+            </div>
+          </div>
+
+          <span class="tag">🔥 Power in unity</span>
+        </div>
+      </aside>
+
+    </div>
+  </main>
+
+  <!-- WOW PROTOCOL FULLPAGE -->
+  <div class="wowOverlay wowHidden" id="wowOverlay" aria-hidden="true">
+    <div class="wowOverlay__page">
+      <div class="wowOverlay__card" role="dialog" aria-label="Recruitment protocol">
+        <img src="/assets/hero.gif" class="wowOverlay__logo" alt="CASTRO">
+        <div class="wowOverlay__title">CASTRO • Glass Recruitment</div>
+
+        <div class="wowOverlay__meta">
+          <div class="wowOverlay__id" id="wowOverlayId">CSTR-00000</div>
+          <div class="wowOverlay__pct"><span id="wowOverlayPct">0</span>%</div>
+        </div>
+
+        <div class="wowOverlay__scan" aria-hidden="true"></div>
+
+        <div class="wowOverlay__line">
+          <span class="wowOverlay__dot"></span>
+          <span id="wowOverlayMain" class="wowGlitch">Ініціалізація…</span>
+        </div>
+
+        <div class="wowOverlay__steps" id="wowOverlaySteps">
+          <div class="wowStep" data-step="0"><span class="wowStep__i">01</span> Перевірка анкети</div>
+          <div class="wowStep" data-step="1"><span class="wowStep__i">02</span> Захищена передача</div>
+          <div class="wowStep" data-step="2"><span class="wowStep__i">03</span> Підтвердження</div>
+        </div>
+
+        <div class="wowOverlay__bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+          <div class="wowOverlay__fill" id="wowOverlayFill"></div>
+        </div>
+
+        <div class="wowOverlay__sub" id="wowOverlaySub">Не закривай сторінку. Йде перевірка.</div>
+
+        <div class="wowOverlay__term" id="wowOverlayTerm" aria-label="Лог протоколу"></div>
+
+        <div class="wowOverlay__actions wowHidden" id="wowOverlayActions">
+          <a class="wowOverlay__btn wowOverlay__btn--discord" id="wowOverlayJoin" href="#" target="_blank" rel="noopener">
+            <span class="wowOverlay__btnIcon" aria-hidden="true">✦</span>
+            <span class="wowOverlay__btnCopy"><b>Приєднатися до Discord</b><small>Спілкування та статус заявки</small></span>
+          </a>
+          <a class="wowOverlay__btn wowOverlay__btn--home" id="wowOverlayHome" href="/">На головну</a>
+        </div>
+
+        <button class="wowOverlay__close wowHidden" id="wowOverlayClose" type="button" aria-label="Закрити">✖</button>
+      </div>
+    </div>
+  </div>
+
+
+  <script>
+    // =========================
+    // ✅ НАЛАШТУВАННЯ
+    // =========================
+    const WORKER_BASE = "https://family-castro.fun/api/join";
+    
+    // expose for other scripts
+    window.CASTRO_JOIN_WORKER_BASE = WORKER_BASE;
+    const TOKEN_URL   = WORKER_BASE + "/token";
+    const SUBMIT_URL  = WORKER_BASE + "/submit";
+    const DISCORD_INVITE = "https://discord.gg/Tx4VyZSAjN";
+
+    const MAX_PHOTO_BYTES = 5 * 1024 * 1024; // 5 MB
+    const DRAFT_KEY = "castro_join_draft_v1";
+
+    // WOW
+    const CAND_KEY = "castro_join_candidate_id_v1";
+
+    // Глобальний стан авторизації (живиться з auth.js)
+    window.AUTH_USER = null;
+
+    // =========================
+    // ✅ DOM
+    // =========================
+    const form = document.getElementById("joinForm");
+    const statusEl = document.getElementById("status");
+    const okEl = document.getElementById("ok");
+    const okText = document.getElementById("okText");
+    const btn = document.getElementById("submitBtn");
+    const discordBtn = document.getElementById("discordBtn");
+    const agreeChk = document.getElementById("agreeChk");
+    const actionsEl = document.getElementById("actions");
+    const discordInput = document.getElementById("discord");
+    const discordMentionInput = document.getElementById("discordMention");
+
+    // ✅ IRL split (name + age) → hidden 'irl' (для бекенду)
+    const irlNameInput = document.getElementById("irlName");
+    const irlAgeInput  = document.getElementById("irlAge");
+    const irlHidden    = document.getElementById("irl");
+
+    const syncIrl = () => {
+      if (!irlHidden) return;
+      const n = (irlNameInput?.value || "").trim();
+      const a = (irlAgeInput?.value || "").trim();
+      irlHidden.value = (n && a) ? `${n}, ${a}` : (n || "");
+    };
+
+    irlNameInput?.addEventListener("input", syncIrl);
+    irlAgeInput?.addEventListener("input", syncIrl);
+
+    // Автозаповнені поля (сховані) не повинні блокувати валідацію/flow
+    const initAutoHiddenFields = () => {
+      const autoWraps = form.querySelectorAll(".auto-hidden");
+      autoWraps.forEach(w => {
+        w.querySelectorAll("input, select, textarea").forEach(el => {
+          el.required = false;
+          el.dataset.auto = "1";
+        });
+      });
+    };
+
+    const applyDiscordFromAuth = () => {
+      const u = window.AUTH_USER;
+      if (!discordInput || !discordMentionInput) return;
+
+      if (u?.id) {
+        const uname = (u.username || u.global_name || u.name || "").trim();
+        discordMentionInput.value = String(u.id);
+        discordInput.value = uname ? ("@" + uname.replace(/^@+/, "")) : "@—";
+        discordInput.readOnly = true;
+      } else {
+        discordMentionInput.value = "";
+        discordInput.readOnly = false;
+      }
+    };
+
+    discordBtn.href = DISCORD_INVITE;
+
+    // ✅ Фото
+    const photoInput = document.getElementById("charPhoto");
+    const previewImg = document.getElementById("charPreview");
+    const placeholder = document.getElementById("charPlaceholder");
+    const removeBtn = document.getElementById("photoRemove");
+    const pickBtn = document.getElementById("photoPickBtn");
+    const photoHint = document.getElementById("photoHint");
+
+    let lastObjectUrl = null;
+
+    pickBtn?.addEventListener("click", (e) => {
+      e.preventDefault();
+      photoInput?.click();
+    });
+
+    const revokeLastUrl = () => {
+      if (lastObjectUrl) {
+        try { URL.revokeObjectURL(lastObjectUrl); } catch {}
+        lastObjectUrl = null;
+      }
+    };
+
+    const clearPhoto = () => {
+      revokeLastUrl();
+      if (photoInput) photoInput.value = "";
+      if (previewImg) {
+        previewImg.src = "";
+        previewImg.style.display = "none";
+      }
+      if (placeholder) placeholder.style.display = "grid";
+      if (removeBtn) removeBtn.disabled = true;
+      if (photoHint) photoHint.textContent = "Максимальний розмір фото: 5 MB.";
+      wowSafe(updateWow); // <-- WOW
+    };
+
+    photoInput?.addEventListener("change", () => {
+      const file = photoInput.files?.[0];
+      if (!file) return clearPhoto();
+
+      if (!file.type.startsWith("image/")) {
+        clearPhoto();
+        alert("Будь ласка, вибери файл зображення (PNG/JPG/WebP).");
+        return;
+      }
+
+      if (file.size > MAX_PHOTO_BYTES) {
+        clearPhoto();
+        alert("Фото завелике. Максимум 5 MB.");
+        return;
+      }
+
+      revokeLastUrl();
+      lastObjectUrl = URL.createObjectURL(file);
+
+      previewImg.src = lastObjectUrl;
+      previewImg.style.display = "block";
+      placeholder.style.display = "none";
+      removeBtn.disabled = false;
+
+      if (photoHint) photoHint.textContent = "Фото додано ✅";
+      wowSafe(updateWow); // <-- WOW
+    });
+
+    removeBtn?.addEventListener("click", clearPhoto);
+
+    
+    // Token + sending state
+    let submitToken = null;
+    let sending = false;
+    let tokenFetchInFlight = null;
+
+// =========================
+    // ✅ КНОПКА: галочка + авторизація
+    // =========================
+    const syncAgree = () => {
+      const agreeOk = !!agreeChk.checked;
+      const authOk = !!window.AUTH_USER;
+
+      // validity without popping messages
+      syncIrl();
+      const validOk = form.checkValidity();
+      const tokenOk = !!submitToken;
+      const ready = authOk && agreeOk && validOk && tokenOk && !sending;
+
+      btn.classList.toggle("ready", ready);
+      btn.disabled = !ready;
+
+      if (!authOk) statusEl.textContent = "🔐 Увійди через Discord, щоб відправити заявку.";
+      else if (!agreeOk) statusEl.textContent = "Постав галочку та відправ заявку.";
+      else if (!validOk) statusEl.textContent = "Заповни всі обов’язкові поля.";
+      else if (!tokenOk) statusEl.textContent = "⛔ Немає токена захисту. Онови сторінку.";
+      else statusEl.textContent = "✅ Можеш відправляти заявку.";
+    };
+
+    agreeChk.addEventListener("change", () => {
+      syncAgree();
+      wowSafe(updateWow);
+    });
+
+    syncAgree();
+    initAutoHiddenFields();
+
+    // 🔐 Отримуємо статус логіну з auth.js
+    window.addEventListener("castro-auth", (e) => {
+      window.AUTH_USER = e.detail?.user || null;
+      applyDiscordFromAuth();
+      if (window.AUTH_USER) fetchToken();
+      syncAgree();
+      wowSafe(updateWow); // <-- WOW
+    });
+
+if (window.__CASTRO_AUTH__?.user) {
+  window.AUTH_USER = window.__CASTRO_AUTH__.user;
+  applyDiscordFromAuth();
+  syncAgree();
+  wowSafe(updateWow);
+}
+
+    // =========================
+    // ✅ Чернетка (localStorage)
+    // =========================
+    const serializeDraft = () => {
+      syncIrl();
+
+      const fd = new FormData(form);
+      fd.delete("charPhoto");
+
+      const obj = {};
+      for (const [k, v] of fd.entries()) obj[k] = String(v ?? "");
+      obj._agree = agreeChk.checked ? "1" : "0";
+
+      localStorage.setItem(DRAFT_KEY, JSON.stringify(obj));
+      wowSafe(updateWow); // <-- WOW
+    };
+
+    const restoreDraft = () => {
+      try {
+        const raw = localStorage.getItem(DRAFT_KEY);
+        if (!raw) return;
+        const obj = JSON.parse(raw);
+
+        for (const [k, v] of Object.entries(obj)) {
+          if (k === "_agree") continue;
+          const el = form.querySelector(`[name="${CSS.escape(k)}"]`);
+          if (!el) continue;
+          el.value = String(v ?? "");
+        }
+
+        if (obj.irl && (irlNameInput || irlAgeInput)) {
+          const s = String(obj.irl || "").trim();
+          const m = s.match(/^\s*([^,]+?)\s*(?:,\s*(\d{1,2}))?\s*$/);
+          if (m) {
+            if (irlNameInput && !irlNameInput.value) irlNameInput.value = (m[1] || "").trim();
+            if (irlAgeInput && !irlAgeInput.value) irlAgeInput.value = (m[2] || "").trim();
+          }
+        }
+
+        syncIrl();
+
+        agreeChk.checked = obj._agree === "1";
+        syncAgree();
+      } catch {}
+    };
+
+    form.addEventListener("input", serializeDraft);
+    restoreDraft();
+    syncIrl();
+
+    // =========================
+    // ✅ UI: прогрес заповнення (sidebar) + підсвітка секцій
+    // =========================
+    const sections = Array.from(form.querySelectorAll(".section"));
+    const progFill = document.getElementById("progFill");
+    const progPct  = document.getElementById("progPct");
+    const progSteps = document.getElementById("progSteps");
+
+    const STEP_TITLES = ["Дані персонажа", "Досвід", "Зв’язок"];
+
+    const isFieldMeaningful = (el) => {
+      if (!el) return false;
+      if (el.type === "checkbox") return el.checked;
+      const v = (el.value ?? "").trim();
+      return v.length > 0;
+    };
+
+    const isAutoField = (el) => !!el?.closest?.(".auto-hidden");
+
+    const sectionProgress = (sec) => {
+      const fields = Array.from(sec.querySelectorAll("input, select, textarea"))
+        .filter(el => el.name && el.type !== "file" && el.type !== "hidden" && el.name !== "website" && !isAutoField(el));
+      if (!fields.length) return { done: 0, total: 0, ratio: 1 };
+
+      let done = 0;
+      for (const el of fields) if (isFieldMeaningful(el)) done += 1;
+      return { done, total: fields.length, ratio: done / fields.length };
+    };
+
+    const buildSteps = () => {
+      if (!progSteps) return;
+      progSteps.innerHTML = "";
+      sections.forEach((sec, idx) => {
+        const title = STEP_TITLES[idx] || `Крок ${idx + 1}`;
+        const pill = document.createElement("div");
+        pill.className = "jstep";
+        pill.textContent = `${idx + 1}. ${title}`;
+        pill.addEventListener("click", () => {
+          sec.scrollIntoView({ behavior: "smooth", block: "start" });
+          markActiveSection(sec);
+        });
+        progSteps.appendChild(pill);
+      });
+    };
+
+    const setProgress = (pct) => {
+      const p = Math.max(0, Math.min(100, Math.round(pct)));
+      if (progFill) progFill.style.width = `${p}%`;
+      if (progPct) progPct.textContent = `${p}%`;
+      const bar = progFill?.closest?.('[role="progressbar"]');
+      if (bar) bar.setAttribute("aria-valuenow", String(p));
+      return p;
+    };
+
+    const updateProgress = () => {
+      let sum = 0;
+      let count = 0;
+
+      sections.forEach((sec) => {
+        const { ratio } = sectionProgress(sec);
+        sum += ratio;
+        count += 1;
+      });
+
+      const agreeBoost = agreeChk.checked ? 1 : 0;
+      const totalParts = count + 1;
+      const pct = ((sum + agreeBoost) / totalParts) * 100;
+
+      const p = setProgress(pct);
+
+      sections.forEach((sec, idx) => {
+        const { ratio } = sectionProgress(sec);
+        sec.classList.toggle("is-done", ratio >= 0.85);
+        const stepEl = progSteps?.children?.[idx];
+        if (stepEl) stepEl.classList.toggle("is-done", ratio >= 0.85);
+      });
+
+      return p;
+    };
+
+    const markActiveSection = (activeSec) => {
+      sections.forEach((sec, idx) => {
+        const isActive = sec === activeSec;
+        sec.classList.toggle("is-active", isActive);
+        const stepEl = progSteps?.children?.[idx];
+        if (stepEl) stepEl.classList.toggle("is-active", isActive);
+      });
+    };
+
+    form.addEventListener("focusin", (e) => {
+      const sec = e.target.closest?.(".section");
+      if (sec) markActiveSection(sec);
+    });
+
+    // =========================
+    // ✅ FLOW: секції відкриваються ПО ЧЕРЗІ (плавно)
+    // =========================
+    const bodyOf = (sec) => sec.querySelector(".section__body");
+
+    const markInitialRequired = () => {
+      sections.forEach(sec => {
+        const body = bodyOf(sec);
+        if (!body) return;
+        body.querySelectorAll("[required]").forEach(el => {
+          if (isAutoField(el)) return;
+          el.dataset.req = "1";
+        });
+      });
+    };
+
+    const disableSectionFields = (sec) => {
+      const body = bodyOf(sec);
+      if (!body) return;
+      body.querySelectorAll("input,select,textarea,button").forEach(el => {
+        if (isAutoField(el)) return;
+        el.disabled = true;
+      });
+    };
+
+    const enableSectionFields = (sec) => {
+      const body = bodyOf(sec);
+      if (!body) return;
+      body.querySelectorAll("input,select,textarea,button").forEach(el => {
+        if (isAutoField(el)) return;
+        el.disabled = false;
+      });
+    };
+
+    const sectionComplete = (sec) => {
+      const body = bodyOf(sec);
+      if (!body) return true;
+
+      const requiredEls = Array.from(body.querySelectorAll("input,select,textarea"))
+        .filter(el =>
+          (el.dataset.req === "1" || el.required) &&
+          el.type !== "file" &&
+          el.type !== "hidden" &&
+          el.name !== "website" &&
+          !isAutoField(el)
+        );
+
+      if (!requiredEls.length) return true;
+
+      return requiredEls.every(el => {
+        const v = (el.value ?? "").trim();
+        if (!v) return false;
+        if (el.tagName === "SELECT" && !el.value) return false;
+        return el.checkValidity();
+      });
+    };
+
+    const setSectionOpen = (sec, open) => {
+      const body = bodyOf(sec);
+      if (!body) return;
+
+      if (open) {
+        sec.classList.add("is-open");
+        sec.classList.remove("is-collapsed", "is-locked");
+        enableSectionFields(sec);
+
+        if (!sec.dataset.opened) {
+          sec.dataset.opened = "1";
+          sec.classList.add("was-just-opened");
+          setTimeout(() => sec.classList.remove("was-just-opened"), 250);
+        }
+      } else {
+        sec.classList.add("is-collapsed", "is-locked");
+        sec.classList.remove("is-open");
+        disableSectionFields(sec);
+      }
+    };
+
+    let unlockedIndex = 0;
+
+    const applyFlow = () => {
+      while (unlockedIndex < sections.length - 1 && sectionComplete(sections[unlockedIndex])) {
+        unlockedIndex += 1;
+      }
+      sections.forEach((sec, idx) => setSectionOpen(sec, idx <= unlockedIndex));
+    };
+
+    let flowTimer = null;
+    const scheduleFlow = () => {
+      if (flowTimer) clearTimeout(flowTimer);
+      flowTimer = setTimeout(() => {
+        applyFlow();
+        updateProgress();
+        syncAgree();
+        wowSafe(updateWow); // <-- WOW
+      }, 120);
+    };
+
+    const initFlow = () => {
+      if (!sections.length) return;
+      markInitialRequired();
+
+      unlockedIndex = 0;
+      sections.forEach((sec, idx) => {
+        if (idx === 0) sec.dataset.opened = "1";
+        else delete sec.dataset.opened;
+        setSectionOpen(sec, idx === 0);
+      });
+
+      applyFlow();
+    };
+
+    form.addEventListener("input", scheduleFlow);
+    form.addEventListener("change", scheduleFlow);
+
+    buildSteps();
+    initFlow();
+    updateProgress();
+
+    // =========================
+    // ✅ Token
+    // =========================
+
+    const fetchToken = async () => {
+      if (tokenFetchInFlight) return tokenFetchInFlight;
+      tokenFetchInFlight = (async () => {
+      try {
+        const res = await fetch(TOKEN_URL, { method: "GET", credentials: "include" });
+        const json = await res.json().catch(() => null);
+        if (!res.ok || !json?.token) throw new Error("token_failed");
+        submitToken = json.token;
+              syncAgree();
+} catch {
+        submitToken = null;
+        syncAgree();
+      } finally {
+        tokenFetchInFlight = null;
+      }
+      })();
+      return tokenFetchInFlight;
+    };
+    if (window.AUTH_USER || window.__CASTRO_AUTH__?.user) fetchToken();
+
+    // =========================
+    // ✅ Відображення помилок
+    // =========================
+const explainError = (res, json) => {
+  if (json?.error) return "❌ " + String(json.error);
+  if (res?.status === 413) return "❌ Фото завелике. Стисни або вибери інше (до 5MB).";
+  if (res?.status === 429) return "⏳ Забагато спроб. Зачекай трохи і повтори.";
+  if (res?.status === 403) return "⛔ Доступ заборонено (перевір, що відкрив з family-castro.fun).";
+  if (res?.status === 400) return "❌ Неправильні дані. Перевір поля та спробуй ще раз.";
+  return "❌ Помилка відправки. Спробуй ще раз або напиши керівництву.";
+};
+
+    // =========================
+    // ✅ Валідація перед сабмітом
+    // =========================
+    const validateBeforeSubmit = () => {
+      syncIrl();
+      const hp = form.querySelector('input[name="website"]');
+      if (hp && hp.value.trim()) return { ok: false, msg: "⛔ Відхилено." };
+
+      if (!form.checkValidity()) {
+        form.reportValidity();
+        return { ok: false, msg: "❌ Заповни всі обов’язкові поля коректно." };
+      }
+
+      if (!agreeChk.checked) return { ok: false, msg: "⛔ Спочатку постав галочку згоди." };
+      if (!submitToken) return { ok: false, msg: "⛔ Немає токена захисту. Онови сторінку і спробуй ще раз." };
+
+      return { ok: true };
+    };
+
+    // =========================
+    // ✅ WOW: Candidate ID + Score + Dossier
+    // =========================
+    const wowFill = document.getElementById("wowFill");
+    const wowScoreNum = document.getElementById("wowScoreNum");
+    const wowChance = document.getElementById("wowChance");
+    const wowBadge = document.getElementById("wowBadge");
+    const wowHint = document.getElementById("wowHint");
+
+    const candIdEl = document.getElementById("candId");
+    const candDiscordEl = document.getElementById("candDiscord");
+    const candClassEl = document.getElementById("candClass");
+    const candStatusEl = document.getElementById("candStatus");
+
+    const ensureCandidateId = () => {
+      let id = localStorage.getItem(CAND_KEY);
+      if (id) return id;
+
+      // якщо є discord id — робимо більш "стабільно"
+      const did = String(window.AUTH_USER?.id || "");
+      let num = 0;
+      for (let i = 0; i < did.length; i++) num = (num * 31 + did.charCodeAt(i)) >>> 0;
+
+      const rnd = (num || Math.floor(Math.random() * 99999)) % 100000;
+      id = "CSTR-" + String(rnd).padStart(5, "0");
+      localStorage.setItem(CAND_KEY, id);
+      return id;
+    };
+
+    const getTextLen = (id) => {
+      const el = document.getElementById(id);
+      const v = (el?.value || "").trim();
+      return v.length;
+    };
+
+    const getSelectVal = (id) => (document.getElementById(id)?.value || "").trim();
+
+    const clamp = (n, a, b) => Math.max(a, Math.min(b, n));
+
+    // =========================
+    // ✅ SAFE CALL (ніколи не ламає flow)
+    // =========================
+    const wowSafe = (fn) => { try { if (typeof fn === "function") fn(); } catch(e){ console.warn("wowSafe:", e); } };
+
+    const computeScore = () => {
+      // базова “вага” (0..100)
+      let score = 0;
+
+      // AUTH
+      if (window.AUTH_USER?.id) score += 18;
+
+      // agree
+      if (agreeChk.checked) score += 6;
+
+      // photo
+      const hasPhoto = !!photoInput?.files?.[0];
+      if (hasPhoto) score += 12;
+
+      // time on server
+      const tos = getSelectVal("timeOnServer");
+      if (tos === "Понад 6 місяців") score += 10;
+      else if (tos === "3–6 місяці") score += 8;
+      else if (tos === "1–3 місяці") score += 6;
+      else if (tos === "Менше місяця") score += 4;
+
+      // hours per day (simple parse)
+      const hpd = (document.getElementById("hoursPerDay")?.value || "").trim();
+      if (hpd.length >= 3) score += 5;
+
+      // mic
+      const mic = getSelectVal("mic");
+      if (mic === "Так") score += 8;
+      else if (mic === "Ні") score += 2;
+
+      // rules/rename
+      const rules = getSelectVal("rules");
+      const rename = getSelectVal("rename");
+      if (rules.startsWith("Так")) score += 6;
+      if (rename === "Так") score += 5;
+
+      // text depth
+      const expL = getTextLen("exp");
+      const whyL = getTextLen("why");
+      const sklL = getTextLen("skills");
+
+      score += clamp(Math.floor(expL / 80), 0, 10);
+      score += clamp(Math.floor(whyL / 80), 0, 10);
+      score += clamp(Math.floor(sklL / 80), 0, 8);
+
+      // name + age (irl)
+      const nameL = (irlNameInput?.value || "").trim().length;
+      const ageV = Number((irlAgeInput?.value || "").trim());
+      if (nameL >= 2) score += 4;
+      if (ageV >= 14 && ageV <= 60) score += 3;
+
+      // progress boost (поведінковий вау)
+      const p = updateProgress(); // 0..100
+      score += clamp(Math.round(p / 25), 0, 4); // +0..4
+
+      score = clamp(score, 0, 100);
+
+      // tier
+      let tier = "Weak";
+      let chance = "НИЗЬКИЙ";
+      let hint = "Заповни детальніше — це підніме шанс.";
+      if (score >= 80) { tier = "Elite"; chance = "ВИСОКИЙ"; hint = "Сильний профіль. Тримай рівень і не лий воду."; }
+      else if (score >= 55) { tier = "Good"; chance = "СЕРЕДНІЙ"; hint = "Добре. Додай конкретики в мотивації/навичках."; }
+      else { tier = "Weak"; chance = "НИЗЬКИЙ"; hint = "Потрібно більше деталей + фото + мікрофон."; }
+
+      return { score, tier, chance, hint };
+    };
+
+    const updateWow = () => {
+      const id = ensureCandidateId();
+      if (candIdEl) candIdEl.textContent = id;
+
+      const u = window.AUTH_USER;
+      const name = (u?.username || u?.global_name || u?.name || "").trim();
+      if (candDiscordEl) candDiscordEl.textContent = name ? ("@" + name.replace(/^@+/, "")) : "—";
+
+      const { score, tier, chance, hint } = computeScore();
+
+      if (wowScoreNum) wowScoreNum.textContent = String(score);
+      if (wowFill) wowFill.style.width = score + "%";
+      if (wowChance) wowChance.textContent = "Шанс: " + chance;
+      if (wowBadge) wowBadge.textContent = tier;
+      if (wowHint) wowHint.textContent = hint;
+
+      if (candClassEl) candClassEl.textContent = tier;
+      if (candStatusEl) candStatusEl.textContent = u?.id ? "Авторизований" : "Очікує Discord";
+
+      // стилізація badge
+      wowBadge?.classList.toggle("is-elite", tier === "Elite");
+      wowBadge?.classList.toggle("is-good", tier === "Good");
+      wowBadge?.classList.toggle("is-weak", tier === "Weak");
+    };
+
+    // init wow
+    wowSafe(updateWow);
+
+    // =========================
+    // =========================
+    // ✅ WOW: Cinematic overlay controls (MAXIMUM WOW)
+    // =========================
+    const wowOverlay = document.getElementById("wowOverlay");
+    const wowOverlayFill = document.getElementById("wowOverlayFill");
+    const wowOverlayMain = document.getElementById("wowOverlayMain");
+    const wowOverlaySub = document.getElementById("wowOverlaySub");
+    const wowStepsWrap = document.getElementById("wowOverlaySteps");
+    const wowOverlayPct = document.getElementById("wowOverlayPct");
+    const wowOverlayId = document.getElementById("wowOverlayId");
+    const wowOverlayTerm = document.getElementById("wowOverlayTerm");
+    const wowOverlayActions = document.getElementById("wowOverlayActions");
+    const wowOverlayJoin = document.getElementById("wowOverlayJoin");
+    const wowOverlayHome = document.getElementById("wowOverlayHome");
+    const wowOverlayClose = document.getElementById("wowOverlayClose");
+
+
+    let wowTimer = null;
+    let wowTypingToken = 0;
+
+    const setOverlayProgress = (pct) => {
+      const p = clamp(Math.round(pct), 0, 100);
+      if (wowOverlayFill) wowOverlayFill.style.width = p + "%";
+      if (wowOverlayPct) wowOverlayPct.textContent = String(p);
+      const bar = wowOverlayFill?.closest?.('[role="progressbar"]');
+      if (bar) bar.setAttribute("aria-valuenow", String(p));
+      return p;
+    };
+
+    const markStep = (idx) => {
+      if (!wowStepsWrap) return;
+      const steps = Array.from(wowStepsWrap.querySelectorAll(".wowStep"));
+      steps.forEach((s, i) => {
+        s.classList.toggle("is-active", i === idx);
+        s.classList.toggle("is-done", i < idx);
+      });
+    };
+
+    const termPush = (line) => {
+      if (!wowOverlayTerm) return;
+      const el = document.createElement("div");
+      el.className = "wowTermLine";
+      el.textContent = line;
+      wowOverlayTerm.appendChild(el);
+      // keep last ~10 lines
+      while (wowOverlayTerm.children.length > 10) wowOverlayTerm.removeChild(wowOverlayTerm.firstElementChild);
+      wowOverlayTerm.scrollTop = wowOverlayTerm.scrollHeight;
+    };
+
+    const typeTo = (el, text, speed = 18) => {
+      if (!el) return;
+      const token = ++wowTypingToken;
+      el.textContent = ""; try{ el.setAttribute("data-text", text); }catch(e){}
+      let i = 0;
+      const tick = () => {
+        if (token !== wowTypingToken) return;
+        el.textContent = text.slice(0, i);
+        i++;
+        if (i <= text.length) setTimeout(tick, speed);
+      };
+      tick();
+    };
+
+    // ---- WebAudio: subtle scan beep ----
+    let audioCtx = null;
+    const ensureAudio = () => {
+      try{
+        if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        if (audioCtx.state === "suspended") audioCtx.resume();
+      }catch(e){}
+    };
+    const beep = (freq = 880, durMs = 80, vol = 0.02) => {
+      if (!audioCtx) return;
+      const t0 = audioCtx.currentTime;
+      const o = audioCtx.createOscillator();
+      const g = audioCtx.createGain();
+      o.type = "sine";
+      o.frequency.setValueAtTime(freq, t0);
+      g.gain.setValueAtTime(0.0001, t0);
+      g.gain.exponentialRampToValueAtTime(vol, t0 + 0.01);
+      g.gain.exponentialRampToValueAtTime(0.0001, t0 + durMs/1000);
+      o.connect(g); g.connect(audioCtx.destination);
+      o.start(t0); o.stop(t0 + durMs/1000 + 0.02);
+    };
+
+    const showOverlay = () => {
+      if (!wowOverlay) return;
+      ensureAudio();
+
+      wowOverlay.classList.remove("wowHidden");
+      wowOverlay.classList.add("is-active");
+      wowOverlay.setAttribute("aria-hidden", "false");
+
+      const cid = ensureCandidateId();
+      if (wowOverlayId) wowOverlayId.textContent = cid;
+
+      if (wowOverlayTerm) wowOverlayTerm.innerHTML = "";
+      termPush(`[${cid}] BOOT :: init protocol`);
+      termPush(`AUTH :: ${window.AUTH_USER?.id ? "OK" : "WAIT"}`);
+
+      setOverlayProgress(0);
+      markStep(0);
+      wowOverlayMain?.classList.remove("wowGlitch--ok", "wowGlitch--err");
+      typeTo(wowOverlayMain, "Перевіряємо анкету…");
+      if (wowOverlaySub) wowOverlaySub.textContent = "Готуємо дані до захищеної передачі.";
+      document.documentElement.classList.add("wowLock");
+      document.body.classList.add("protocolMode");
+      if (wowOverlayJoin) wowOverlayJoin.href = DISCORD_INVITE;
+      if (wowOverlayActions) wowOverlayActions.classList.add("wowHidden");
+      if (wowOverlayClose) wowOverlayClose.classList.add("wowHidden");
+
+      // Short visual timeline; real completion is controlled by the server response.
+      const timeline = [
+        { t: 120,  step:0, p: 16, main:"Перевіряємо анкету…", sub:"Звіряємо обов’язкові поля та вкладення.", log:"FORM :: verified" },
+        { t: 650,  step:1, p: 52, main:"Захищено передаємо заявку…", sub:"Надсилаємо дані на сервер Family Castro.", log:"NET :: secure transfer" },
+        { t: 1250, step:2, p: 84, main:"Очікуємо підтвердження…", sub:"Заявка вже майже передана.", log:"NET :: awaiting response" },
+      ];
+
+      // clear old
+      if (wowTimer) clearInterval(wowTimer);
+      wowTimer = null;
+
+      // drive smooth progress between points
+      const start = performance.now();
+      let lastIdx = -1;
+
+      const tick = () => {
+        const now = performance.now();
+        const elapsed = now - start;
+
+        // find current segment
+        let idx = -1;
+        for (let i = 0; i < timeline.length; i++){
+          if (elapsed >= timeline[i].t) idx = i;
+        }
+
+        if (idx !== lastIdx && idx >= 0){
+          const item = timeline[idx];
+          lastIdx = idx;
+
+          markStep(item.step);
+          typeTo(wowOverlayMain, item.main);
+          if (wowOverlaySub) wowOverlaySub.textContent = item.sub;
+          termPush(item.log);
+          beep(740 + idx*60, 80, 0.018);
+        }
+
+        // interpolate progress
+        const prev = idx <= 0 ? {t:0, p:0} : timeline[idx-1];
+        const curr = idx < 0 ? {t:0, p:0} : timeline[idx];
+        const next = (idx+1 < timeline.length) ? timeline[idx+1] : curr;
+
+        const segStartT = curr.t;
+        const segEndT = next.t;
+        const segStartP = curr.p;
+        const segEndP = next.p;
+
+        const x = (segEndT === segStartT) ? 1 : clamp((elapsed - segStartT) / (segEndT - segStartT), 0, 1);
+        const p = segStartP + (segEndP - segStartP) * x;
+
+        // do not exceed 88 unless success sets 100
+        const capped = Math.min(p, 88);
+        setOverlayProgress(capped);
+
+        // subtle terminal "typing" pulse
+        if (elapsed > 2000 && (Math.floor(elapsed/1200) !== Math.floor((elapsed-50)/1200))) {
+          termPush("…");
+        }
+
+        wowTimer = requestAnimationFrame(tick);
+      };
+
+      wowTimer = requestAnimationFrame(tick);
+    };
+
+    const hideOverlay = () => {
+      if (wowTimer) {
+        try { cancelAnimationFrame(wowTimer); } catch(e) {}
+        wowTimer = null;
+      }
+      if (!wowOverlay) return;
+      wowOverlay.classList.add("wowHidden");
+      wowOverlay.classList.remove("is-active");
+      wowOverlay.setAttribute("aria-hidden", "true");
+      document.documentElement.classList.remove("wowLock");
+      document.body.classList.remove("protocolMode");
+    };
+
+    // Close button (only on error)
+    wowOverlayClose?.addEventListener("click", () => {
+      hideOverlay();
+      // allow user to try again
+      syncAgree?.();
+    });
+
+
+    const overlaySuccess = () => {
+      if (wowTimer) {
+        try { cancelAnimationFrame(wowTimer); } catch(e) {}
+        wowTimer = null;
+      }
+      markStep(3);
+      setOverlayProgress(100);
+      termPush("OK :: protocol complete");
+      if (wowOverlayMain) {
+        wowOverlayMain.classList.add("wowGlitch--ok");
+        typeTo(wowOverlayMain, "Заявку успішно передано", 14);
+      }
+      if (wowOverlaySub) wowOverlaySub.textContent = "Ми отримали анкету. Статус можна відстежувати у Discord.";
+      beep(1100, 110, 0.022);
+            // stay on full-page protocol screen + show buttons
+      if (wowOverlayActions) wowOverlayActions.classList.remove("wowHidden");
+};
+
+    const overlayFail = (msg) => {
+      if (wowTimer) {
+        try { cancelAnimationFrame(wowTimer); } catch(e) {}
+        wowTimer = null;
+      }
+      setOverlayProgress(35);
+      termPush("ERR :: " + (msg || "unknown"));
+      if (wowOverlayMain) {
+        wowOverlayMain.classList.add("wowGlitch--err");
+        typeTo(wowOverlayMain, "⚠ Помилка протоколу", 14);
+      }
+      if (wowOverlaySub) wowOverlaySub.textContent = msg || "Спробуй ще раз.";
+      if (wowOverlayClose) wowOverlayClose.classList.remove("wowHidden");
+      beep(220, 160, 0.028);
+      // Keep the error visible until the user closes it and retries.
+    };
+
+    // =========================
+    // ✅ Відправка форми
+    // =========================
+
+    form.addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  if (!window.AUTH_USER) {
+    statusEl.textContent = "⛔ Увійди через Discord перед відправкою заявки.";
+    return;
+  }
+
+  if (sending) return;
+
+  const v = validateBeforeSubmit();
+  if (!v.ok) {
+    statusEl.textContent = v.msg;
+    return;
+  }
+
+  sending = true;
+  btn.disabled = true;
+
+  try {
+    const api = window.CastroProfile;
+    if (api?.loadProfile && api?.canSubmitJoin) {
+      const prof = await api.loadProfile();
+      const gate = api.canSubmitJoin(prof);
+      if (!gate.ok) {
+        statusEl.textContent = gate.reason;
+        sending = false;
+        syncAgree();
+        wowSafe(updateWow);
+        return;
+      }
+    }
+  } catch (e) {
+    console.warn("join gate check failed:", e);
+    statusEl.textContent = "Не вдалося перевірити профіль. Онови сторінку та спробуй ще раз.";
+    sending = false;
+    syncAgree();
+    wowSafe(updateWow);
+    return;
+  }
+
+  showOverlay();
+  statusEl.textContent = "⏳ Відправляємо заявку…";
+
+  const fd = new FormData(form);
+
+  const file = photoInput?.files?.[0];
+  if (file) fd.set("charPhoto", file, file.name);
+
+  fd.set("agree", agreeChk.checked ? "yes" : "no");
+
+  try {
+    const res = await fetch(SUBMIT_URL, {
+      method: "POST",
+      headers: { "X-Token": submitToken },
+      body: fd,
+      credentials: "include"
+    });
+
+    const json = await res.json().catch(() => ({}));
+
+    if (!res.ok || !json.ok) {
+      const emsg = explainError(res, json);
+      statusEl.textContent = emsg;
+      overlayFail(emsg);
+      await fetchToken();
+      sending = false;
+      syncAgree();
+      wowSafe(updateWow);
+      return;
+    }
+
+    overlaySuccess();
+
+    try {
+      const api = window.CastroProfile;
+      if (api?.setJoinPending) await api.setJoinPending();
+    } catch (e) {
+      console.warn("setJoinPending failed:", e);
+    }
+
+    const cid = ensureCandidateId();
+    statusEl.textContent = "✅ Готово. Перевір Discord.";
+    okEl.style.display = "block";
+    if (actionsEl) actionsEl.style.display = "none";
+
+    if (okText) {
+      okText.textContent = `Твоє досьє створено. Номер кандидата: ${cid}. Приєднуйся до Discord для зв’язку.`;
+    }
+
+    localStorage.removeItem(DRAFT_KEY);
+
+    form.reset();
+    clearPhoto();
+
+    okEl.scrollIntoView({ behavior: "smooth", block: "start" });
+
+    syncAgree();
+    wowSafe(updateWow);
+    await fetchToken();
+  } catch (err) {
+    console.error(err);
+    const msg = "❌ Помилка мережі. Перевір інтернет і спробуй ще раз.";
+    statusEl.textContent = msg;
+    overlayFail(msg);
+    await fetchToken();
+    sending = false;
+    syncAgree();
+    wowSafe(updateWow);
+    return;
+  }
+
+  sending = false;
+});
+
+</script>
+
+  <!-- ✅ Підключення авторизації (в кінці body) -->
+  <script src="/auth.js" defer></script>
+  <script src="/profile.js" defer></script>
+  <script>
+(async () => {
+
+  if (!window.CastroProfile) return;
+
+  try {
+    const profile = await window.CastroProfile.loadProfile();
+
+    if (!profile) return;
+
+    const status = profile.applicationStatus;
+
+    if (status === "accepted") {
+
+      const okBox = document.getElementById("ok");
+      const okText = document.getElementById("okText");
+
+      if (okBox && okText) {
+        okBox.style.display = "block";
+        okText.textContent = "✅ Твою заявку прийнято. Приєднуйся до Discord!";
+      }
+
+    }
+
+    if (status === "rejected") {
+
+      const statusEl = document.getElementById("status");
+
+      if (statusEl) {
+        statusEl.textContent = "❌ Заявку відхилено. Можеш подати нову.";
+      }
+
+    }
+
+  } catch (e) {
+    console.warn("profile refresh failed", e);
+  }
+
+})();
+</script>
+        
+<script>
+(function(){
+
+async function hasProfileIC(){
+  const api = window.CastroProfile;
+  if (!api?.loadProfile) return false;
+  try {
+    const profile = await api.loadProfile();
+    return !!(String(profile?.ic || "").trim() && String(profile?.sid || "").trim());
+  } catch {
+    return false;
+  }
+}
+
+async function renderAuthHint(){
+  const hint = document.getElementById("authHint");
+  const text = document.getElementById("authHintText");
+  const actions = document.getElementById("authHintActions");
+  if(!hint || !text || !actions) return;
+
+  const user = window.AUTH_USER || window.__CASTRO_AUTH__?.user;
+  actions.innerHTML = "";
+  hint.hidden = false;
+
+  if(!user){
+    text.innerHTML = "<b>Крок 1 з 2:</b> увійди через Discord. Після входу потрібно один раз вказати IC ім’я та Static ID у профілі.";
+    actions.innerHTML = `
+      <button class="authHint__btn"
+        onclick="document.getElementById('auth-login')?.click()">
+        🔐 Авторизуватись
+      </button>
+    `;
+    return;
+  }
+
+  if(!(await hasProfileIC())){
+    text.innerHTML = "<b>Крок 2 з 2:</b> профіль не завершений. Натисни кнопку нижче, введи Ім’я Прізвище персонажа та числовий Static ID, потім натисни «Зберегти».";
+    actions.innerHTML = `
+      <button class="authHint__btn"
+        onclick="openProfileSetup()">
+        🛠️ Відкрити та заповнити профіль
+      </button>
+    `;
+    return;
+  }
+
+  // Профіль підтверджено API — службова підказка більше не потрібна.
+  hint.hidden = true;
+
+  const base = (window.CASTRO_JOIN_WORKER_BASE || "https://family-castro.fun/api/join").replace(/\/+$/, "");
+  const uid = user?.id || user?.discord_id || user?.discordId || user?.user_id;
+  const submitBtn = document.getElementById("submitBtn");
+
+  const fmt = (ms) => {
+    const s = Math.max(0, Math.floor(ms / 1000));
+    const mm = String(Math.floor(s / 60)).padStart(2, "0");
+    const ss = String(s % 60).padStart(2, "0");
+    return `${mm}:${ss}`;
+  };
+
+  const setSubmitEnabled = (ok) => {
+    if (!submitBtn) return;
+    submitBtn.disabled = !ok;
+  };
+
+  setSubmitEnabled(true);
+
+  if(!uid){
+    text.innerHTML = "✅ Профіль готовий. Можеш оформлювати анкету.";
+    return;
+  }
+
+  if (renderAuthHint._loading) return;
+  renderAuthHint._loading = true;
+
+  try{
+    const r = await fetch(`${base}/profile?uid=${encodeURIComponent(uid)}`, {
+      method: "GET",
+      credentials: "include"
+    });
+    const data = await r.json().catch(() => ({}));
+    const profile = data?.profile || {};
+
+    const st = String(profile.applicationStatus || profile.application_status || "").toLowerCase();
+    const cooldownUntil = Number(profile.cooldownUntil || profile.cooldown_until || 0) || 0;
+    const now = Date.now();
+    const cdLeft = cooldownUntil ? (cooldownUntil - now) : 0;
+
+    if(st === "accepted"){
+      hint.hidden = false;
+      text.innerHTML = "✅ Твою заявку <b>прийнято</b>. Повторно подати анкету не можна.";
+      actions.innerHTML = `
+        <button class="authHint__btn" onclick="openProfileModal()">👤 Відкрити профіль</button>
+      `;
+      setSubmitEnabled(false);
+      return;
+    }
+
+    if(st === "pending"){
+      hint.hidden = false;
+      text.innerHTML = "⏳ Твоя заявка <b>очікує розгляду</b>. Якщо помилився — відміни заявку в профілі.";
+      actions.innerHTML = `
+        <button class="authHint__btn" onclick="openProfileModal()">👤 Відкрити профіль</button>
+      `;
+      setSubmitEnabled(false);
+      return;
+    }
+
+    if(cdLeft > 0){
+      hint.hidden = false;
+      const renderCd = () => {
+        const left = Math.max(0, cooldownUntil - Date.now());
+        text.innerHTML = `⏱️ Після відміни діє КД <b>${fmt(left)}</b>. Потім можна подати повторно.`;
+        if(left <= 0){
+          clearInterval(renderAuthHint._cdTimer);
+          renderAuthHint._cdTimer = null;
+          renderAuthHint._loading = false;
+          renderAuthHint();
+        }
+      };
+
+      if(renderAuthHint._cdTimer) clearInterval(renderAuthHint._cdTimer);
+      renderCd();
+      renderAuthHint._cdTimer = setInterval(renderCd, 1000);
+
+      actions.innerHTML = `
+        <button class="authHint__btn" onclick="openProfileModal()">👤 Відкрити профіль</button>
+      `;
+      setSubmitEnabled(false);
+      return;
+    }
+
+    if(st === "rejected"){
+      hint.hidden = false;
+      text.innerHTML = "❌ Заявку <b>відхилено</b>. Ти можеш подати анкету повторно.";
+      actions.innerHTML = `
+        <button class="authHint__btn" onclick="openProfileModal()">👤 Відкрити профіль</button>
+      `;
+      setSubmitEnabled(true);
+      return;
+    }
+
+    text.innerHTML = "✅ Профіль готовий. Можеш оформлювати анкету.";
+    setSubmitEnabled(true);
+  } catch(e){
+    console.warn("renderAuthHint failed:", e);
+    hint.hidden = false;
+    text.innerHTML = "⚠️ Не вдалося перевірити статус заявки. Онови сторінку та спробуй ще раз.";
+    setSubmitEnabled(false);
+  } finally{
+    renderAuthHint._loading = false;
+  }
+}
+
+window.addEventListener("castro-auth", renderAuthHint);
+window.addEventListener("castro-profile", renderAuthHint);
+document.addEventListener("DOMContentLoaded", renderAuthHint);
+
+})();
+</script>
+<script>
+(function(){
+  const loader = document.getElementById("vload");
+  if(!loader) return;
+
+  const managedArrival = document.documentElement.classList.contains("page-transition-managed-arrival");
+  const video = document.querySelector(".video-bg video");
+  const loaderStartedAt = Number(window.__JOIN_LOADER_STARTED__) || performance.now();
+  const minimumLoaderDuration = managedArrival ? 0 : 1200;
+  const introDuration = managedArrival ? 0 : 1200;
+
+  document.documentElement.classList.add("is-video-loading");
+  document.body.classList.add("is-video-loading");
+
+  let backgroundReady = false;
+  let revealed = false;
+
+  function revealPage(){
+    if(revealed) return;
+    revealed = true;
+
+    document.documentElement.classList.remove("is-video-loading");
+    document.documentElement.classList.remove("join-intro-pending");
+    document.body.classList.remove("is-video-loading");
+    document.body.classList.toggle("join-intro-reveal", !managedArrival);
+  }
+
+  function showBackground(){
+    if(backgroundReady) return;
+
+    const minimumRemaining = minimumLoaderDuration - (performance.now() - loaderStartedAt);
+    if(minimumRemaining > 0){
+      setTimeout(showBackground, minimumRemaining);
+      return;
+    }
+
+    backgroundReady = true;
+
+    loader.classList.add("is-hide");
+    loader.setAttribute("aria-hidden", "true");
+    setTimeout(() => requestAnimationFrame(revealPage), introDuration);
+  }
+
+  if(!video){
+    showBackground();
+    return;
+  }
+
+  if(video.readyState >= 2){
+    requestAnimationFrame(showBackground);
+  } else {
+    video.addEventListener("loadeddata", showBackground, { once: true });
+    video.addEventListener("canplay", showBackground, { once: true });
+    setTimeout(showBackground, 7000);
+  }
+
+  try { video?.load(); } catch(e) {}
+})();
+</script>
+
+<script>
+(() => {
+  const onlineEl = document.getElementById("fcOnlineTop");
+  const totalEl  = document.getElementById("fcTotalTop");
+  if (!onlineEl || !totalEl) return;
+
+  const STATS_URL = "https://api.family-castro.fun/api/family/stats";
+
+  async function updateStats(){
+    try{
+      const r = await fetch(STATS_URL, { cache: "no-store", credentials: "include" });
+      const j = await r.json().catch(()=>null);
+      if (!r.ok || !j) throw new Error(j?.error || "bad response");
+
+      onlineEl.textContent = (typeof j.online === "number" ? j.online : "—");
+      totalEl.textContent  = (typeof j.total  === "number" ? j.total  : "—");
+    }catch{
+      onlineEl.textContent = "—";
+      totalEl.textContent  = "—";
+    }
+  }
+
+  updateStats();
+  setInterval(updateStats, 60000); // раз на хвилину
+})();
+</script>
+        
+<script src="/button-fx.js"></script>
+<script src="/cursor.js"></script>
+</body>
+</html>
