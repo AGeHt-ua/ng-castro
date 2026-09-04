@@ -4,20 +4,20 @@ if (window.__CASTRO_PROFILE_LOADED__) {
   window.__CASTRO_PROFILE_LOADED__ = true;
 
 (() => {
-  const AUTH_BASE = "https://auth.family-castro.fun";
+  const AUTH_BASE = "https://auth.family-castro.com";
 
   // JOIN worker (анкета)
   const APP_BASE = String(
      window.CASTRO_PROFILE_API ||
      document.documentElement.getAttribute("data-castro-profile-api") ||
-     "https://family-castro.fun/api/join"
+     "https://family-castro.com/api/join"
    ).replace(/\/+$/, "");
 
   // ORDER worker (замовлення / realtime orders)
   const ORDER_BASE = String(
      window.CASTRO_ORDER_API ||
      document.documentElement.getAttribute("data-castro-order-api") ||
-     "https://api.family-castro.fun"
+     "https://api.family-castro.com"
    ).replace(/\/+$/, "");
 
   const PROFILE_URL = AUTH_BASE + "/profile";
@@ -723,7 +723,7 @@ if (window.__CASTRO_PROFILE_LOADED__) {
       const s = String(u || "").trim();
       if (!s) return "";
       if (/^https?:\/\//i.test(s)) return s;
-      const base = (window.location.origin || "https://family-castro.fun").replace(/\/+$/, "");
+      const base = (window.location.origin || "https://family-castro.com").replace(/\/+$/, "");
       if (s.startsWith("/")) return base + s;
       return base + "/" + s.replace(/^\/+/, "");
     };
@@ -843,7 +843,7 @@ if (window.__CASTRO_PROFILE_LOADED__) {
         </div>
 
         <div class="preceipt__footer preceipt__footer--premium">
-          Family Castro • www.family-castro.fun
+          Family Castro • www.family-castro.com
         </div>
       </div>
     `;
