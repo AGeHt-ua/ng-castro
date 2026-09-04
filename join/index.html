@@ -6,11 +6,11 @@
   <link rel="icon" type="image/png" href="/assets/logo.png" />
   <title>Вступ у CASTRO</title>
   <meta name="description" content="Анкета на вступ до сім’ї Family Castro на NG GTA 5." />
-  <link rel="canonical" href="https://family-castro.fun/join/" />
+  <link rel="canonical" href="https://family-castro.com/join/" />
   <meta property="og:title" content="Вступ у Family Castro" />
   <meta property="og:description" content="Подайте анкету на вступ до Family Castro." />
-  <meta property="og:image" content="https://family-castro.fun/assets/image01.png" />
-  <meta property="og:url" content="https://family-castro.fun/join/" />
+  <meta property="og:image" content="https://family-castro.com/assets/image01.png" />
+  <meta property="og:url" content="https://family-castro.com/join/" />
   <meta property="og:type" content="website" />
 
   <link rel="stylesheet" href="/join/join.css">
@@ -341,7 +341,7 @@
             <div class="ok" id="ok">
               <h4>✅ Заявку відправлено!</h4>
               <p id="okText">Приєднуйся до Discord для зв’язку та розгляду заявки.</p>
-              <a class="discord" id="discordBtn" href="https://discord.gg/Jj2DeAm265" target="_blank" rel="noopener">Приєднатися до Discord</a>
+              <a class="discord" id="discordBtn" href="https://discord.gg/Jtrh5RaTX3" target="_blank" rel="noopener">Приєднатися до Discord</a>
             </div>
 
         <div class="footer">
@@ -486,13 +486,13 @@
     // =========================
     // ✅ НАЛАШТУВАННЯ
     // =========================
-    const WORKER_BASE = "https://family-castro.fun/api/join";
+    const WORKER_BASE = "https://family-castro.com/api/join";
     
     // expose for other scripts
     window.CASTRO_JOIN_WORKER_BASE = WORKER_BASE;
     const TOKEN_URL   = WORKER_BASE + "/token";
     const SUBMIT_URL  = WORKER_BASE + "/submit";
-    const DISCORD_INVITE = "https://discord.gg/Tx4VyZSAjN";
+    const DISCORD_INVITE = "https://discord.gg/Jtrh5RaTX3";
 
     const MAX_PHOTO_BYTES = 5 * 1024 * 1024; // 5 MB
     const DRAFT_KEY = "castro_join_draft_v1";
@@ -972,7 +972,7 @@ const explainError = (res, json) => {
   if (json?.error) return "❌ " + String(json.error);
   if (res?.status === 413) return "❌ Фото завелике. Стисни або вибери інше (до 5MB).";
   if (res?.status === 429) return "⏳ Забагато спроб. Зачекай трохи і повтори.";
-  if (res?.status === 403) return "⛔ Доступ заборонено (перевір, що відкрив з family-castro.fun).";
+  if (res?.status === 403) return "⛔ Доступ заборонено (перевір, що відкрив з family-castro.com).";
   if (res?.status === 400) return "❌ Неправильні дані. Перевір поля та спробуй ще раз.";
   return "❌ Помилка відправки. Спробуй ще раз або напиши керівництву.";
 };
@@ -1582,7 +1582,7 @@ async function renderAuthHint(){
   // Профіль підтверджено API — службова підказка більше не потрібна.
   hint.hidden = true;
 
-  const base = (window.CASTRO_JOIN_WORKER_BASE || "https://family-castro.fun/api/join").replace(/\/+$/, "");
+  const base = (window.CASTRO_JOIN_WORKER_BASE || "https://family-castro.com/api/join").replace(/\/+$/, "");
   const uid = user?.id || user?.discord_id || user?.discordId || user?.user_id;
   const submitBtn = document.getElementById("submitBtn");
 
@@ -1759,7 +1759,7 @@ document.addEventListener("DOMContentLoaded", renderAuthHint);
   const totalEl  = document.getElementById("fcTotalTop");
   if (!onlineEl || !totalEl) return;
 
-  const STATS_URL = "https://api.family-castro.fun/api/family/stats";
+  const STATS_URL = "https://api.family-castro.com/api/family/stats";
 
   async function updateStats(){
     try{
