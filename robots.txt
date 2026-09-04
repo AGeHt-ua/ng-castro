@@ -1,5 +1,5 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://family-castro.fun/sitemap.xml
+Sitemap: https://family-castro.com/sitemap.xml
  
