@@ -1,5 +1,5 @@
 // сюди вставиш свій Cloudflare Worker URL
-const WORKER_ENDPOINT = "https://odd-night-e9f6.d-f-12339.workers.dev";
+const WORKER_ENDPOINT = "late-sky-471b-ng.d-f-12339.workers.dev";
 
 const form = document.getElementById("orderForm");
 const statusEl = document.getElementById("status");
