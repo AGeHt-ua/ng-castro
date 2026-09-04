@@ -12,7 +12,7 @@
      ?tip=1 -> форс-показ
 ========================================================= */
 (() => {
-  const AUTH_BASE = "https://auth.family-castro.fun";
+  const AUTH_BASE = "https://auth.family-castro.com";
   const PROFILE_URL = AUTH_BASE + "/profile";
   const DISMISSED_KEY = "castro-auth-tip-dismissed";
 
