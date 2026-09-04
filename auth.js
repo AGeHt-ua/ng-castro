@@ -1,6 +1,6 @@
 (() => {
   // ✅ Твій Worker
-  const AUTH_BASE = "https://auth.family-castro.fun";
+  const AUTH_BASE = "https://auth.family-castro.com";
 
   const $ = (id) => document.getElementById(id);
 
@@ -77,7 +77,7 @@
   loginBtn.addEventListener("click", () => {
     // OAuth Worker очікує абсолютний URL. Будуємо його лише на фіксованому
     // дозволеному домені, щоб після Discord не потрапляти на auth-домен.
-    const siteOrigin = "https://family-castro.fun";
+    const siteOrigin = "https://family-castro.com";
     const sitePath = window.location.pathname + window.location.search + window.location.hash;
     const ret = encodeURIComponent(new URL(sitePath, siteOrigin).href);
     window.location.href = `${loginUrl}?return=${ret}`;
