@@ -1,0 +1,16 @@
+{
+  "name": "ng-castro",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "check": "node --check workers/auth/src/index.js && node --check workers/join/src/index.js",
+    "types:auth": "wrangler types workers/auth/worker-configuration.d.ts --include-runtime false --config workers/auth/wrangler.jsonc",
+    "types:join": "wrangler types workers/join/worker-configuration.d.ts --include-runtime false --config workers/join/wrangler.jsonc",
+    "deploy:auth": "wrangler deploy --config workers/auth/wrangler.jsonc",
+    "deploy:join": "wrangler deploy --config workers/join/wrangler.jsonc"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "5.20260914.1",
+    "wrangler": "4.131.1"
+  }
+}

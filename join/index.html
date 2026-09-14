@@ -224,6 +224,28 @@
                     <input id="hoursPerDay" name="hoursPerDay" placeholder="Наприклад: 3–5 годин" required autocomplete="off">
                   </div>
                 </div>
+
+                <div class="row mt12">
+                  <div class="field">
+                    <label for="birthDate">Дата народження персонажа</label>
+                    <input id="birthDate" name="birthDate" placeholder="Наприклад: 15.08" inputmode="numeric" pattern="[0-3][0-9]\.[0-1][0-9]" title="Використовуй формат ДД.ММ" required autocomplete="off">
+                  </div>
+
+                  <div class="field">
+                    <label for="telegram">Telegram (необов’язково)</label>
+                    <input id="telegram" name="telegram" placeholder="@username" maxlength="33" autocomplete="off">
+                  </div>
+                </div>
+
+                <div class="field mt12">
+                  <label for="department">Відділ для вступу</label>
+                  <select id="department" name="department" required>
+                    <option value="">Обери відділ…</option>
+                    <option value="piar">📢 Піар</option>
+                    <option value="farm">🌾 Фарм</option>
+                    <option value="kapt">⚔️ Капт</option>
+                  </select>
+                </div>
               </div>
             </div>
 
@@ -486,7 +508,7 @@
     // =========================
     // ✅ НАЛАШТУВАННЯ
     // =========================
-    const WORKER_BASE = "https://family-castro.com/api/join";
+    const WORKER_BASE = "https://join.family-castro.com";
     
     // expose for other scripts
     window.CASTRO_JOIN_WORKER_BASE = WORKER_BASE;
@@ -1582,7 +1604,7 @@ async function renderAuthHint(){
   // Профіль підтверджено API — службова підказка більше не потрібна.
   hint.hidden = true;
 
-  const base = (window.CASTRO_JOIN_WORKER_BASE || "https://family-castro.com/api/join").replace(/\/+$/, "");
+  const base = (window.CASTRO_JOIN_WORKER_BASE || "https://join.family-castro.com").replace(/\/+$/, "");
   const uid = user?.id || user?.discord_id || user?.discordId || user?.user_id;
   const submitBtn = document.getElementById("submitBtn");
 

@@ -10,7 +10,7 @@ if (window.__CASTRO_PROFILE_LOADED__) {
   const APP_BASE = String(
      window.CASTRO_PROFILE_API ||
      document.documentElement.getAttribute("data-castro-profile-api") ||
-     "https://family-castro.com/api/join"
+     "https://join.family-castro.com"
    ).replace(/\/+$/, "");
 
   // ORDER worker (замовлення / realtime orders)
@@ -541,44 +541,20 @@ if (window.__CASTRO_PROFILE_LOADED__) {
   };
 
   const setJoinPending = async () => {
-    setPfLoading(true);
-    try {
-      const p = await loadProfile();
-      const st = String(p?.applicationStatus || "").toLowerCase();
-
-      if (st === "accepted") return p;
-      if (st === "pending") return p;
-
-      const now = new Date().toISOString();
-      const next = { ...(p || {}) };
-      next.applicationStatus = "pending";
-      next.applicationCreatedAt = next.applicationCreatedAt || now;
-      next.applicationUpdatedAt = now;
-
-      const saved = await saveProfile(next);
-      window.dispatchEvent(new Event("castro-profile"));
-      return saved;
-    } finally {
-      setPfLoading(false);
-    }
+    // The join Worker persists the application before it responds. Reload its
+    // authoritative state instead of storing a second client-written copy.
+    const profile = await loadProfile();
+    window.dispatchEvent(new Event("castro-profile"));
+    return profile;
   };
 
   const cancelJoinPending = async () => {
     setPfLoading(true);
     try {
-      const p = await loadProfile();
-      const st = String(p?.applicationStatus || "").toLowerCase();
-      if (st !== "pending") return p;
-
-      const now = Date.now();
-      const until = new Date(now + COOLDOWN_MS).toISOString();
-
-      const next = { ...(p || {}) };
-      next.applicationStatus = "cancelled";
-      next.applicationUpdatedAt = new Date().toISOString();
-      next.joinCooldownUntil = until;
-
-      const saved = await saveProfile(next);
+      const res = await fetch(`${APP_BASE}/cancel`, { method: "POST", credentials: "include" });
+      const data = await res.json().catch(() => null);
+      if (!res.ok || !data?.ok) throw new Error(data?.error || "cancel_failed");
+      const saved = await loadProfile();
       window.dispatchEvent(new Event("castro-profile"));
       return saved;
     } finally {

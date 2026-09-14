@@ -1,0 +1,17 @@
+{
+  "$schema": "../../node_modules/wrangler/config-schema.json",
+  "name": "ng-castro-auth",
+  "main": "src/index.js",
+  "compatibility_date": "2026-09-14",
+  "workers_dev": false,
+  "routes": [{ "pattern": "auth.family-castro.com", "custom_domain": true }],
+  "kv_namespaces": [
+    { "binding": "SESSIONS", "id": "REPLACE_WITH_SESSIONS_KV_ID" },
+    { "binding": "PROFILES", "id": "REPLACE_WITH_PROFILES_KV_ID" }
+  ],
+  "vars": {
+    "SITE_ORIGINS": "https://family-castro.com,https://www.family-castro.com",
+    "COOKIE_DOMAIN": ".family-castro.com",
+    "OAUTH_REDIRECT_URI": "https://auth.family-castro.com/auth/callback"
+  }
+}
