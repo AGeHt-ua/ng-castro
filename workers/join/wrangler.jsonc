@@ -6,10 +6,10 @@
   "workers_dev": false,
   "routes": [{ "pattern": "join.family-castro.com", "custom_domain": true }],
   "kv_namespaces": [
-    { "binding": "SESSIONS", "id": "REPLACE_WITH_SESSIONS_KV_ID" },
-    { "binding": "PROFILES", "id": "REPLACE_WITH_PROFILES_KV_ID" },
-    { "binding": "JOIN_TOKENS", "id": "REPLACE_WITH_JOIN_TOKENS_KV_ID" },
-    { "binding": "APPLICATIONS", "id": "REPLACE_WITH_APPLICATIONS_KV_ID" }
+    { "binding": "SESSIONS", "id": "d6a5a8e2401844259296c7a6877ef9f2" },
+    { "binding": "PROFILES", "id": "a1169b8d86b64cf79c35a794231a556d" },
+    { "binding": "JOIN_TOKENS", "id": "7b0db2ad6b244f20b9fed2a129dc7356" },
+    { "binding": "APPLICATIONS", "id": "939fc54f988949799a2c7f066ec7a16f" }
   ],
   "vars": {
     "SITE_ORIGINS": "https://family-castro.com,https://www.family-castro.com"
