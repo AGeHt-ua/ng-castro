@@ -1,6 +1,7 @@
 // Міні-гра «Мийка»: нанеси піну й змий бруд з авто за 60 секунд.
 // playCarWash({ practice, onStart }) → Promise<{ score, cancelled }>
 import * as THREE from "three";
+import { makeCar, nightEnvironment } from "/cabinet/game/models.js?v=20261117c";
 
 const TIME_LIMIT = 60;
 const CELL = 128;              // клітинка атласу (6 граней = 3×2)
@@ -9,20 +10,6 @@ const BOTTOM_FACE = 3;         // ny — днище не рахуємо
 const PAINTS = [0xe0182d, 0xf4f4f4, 0x15151a, 0x2f6bff, 0xf2c14e, 0x1f8a4c, 0x8a8f99];
 
 const el = (tag, cls, html) => { const e = document.createElement(tag); if (cls) e.className = cls; if (html != null) e.innerHTML = html; return e; };
-
-// BoxGeometry з окремою клітинкою атласу для кожної грані
-const atlasBox = (w, h, d) => {
-  const g = new THREE.BoxGeometry(w, h, d);
-  const uv = g.attributes.uv;
-  for (let face = 0; face < 6; face += 1) {
-    const col = face % 3, row = Math.floor(face / 3);
-    for (let k = 0; k < 4; k += 1) {
-      const i = face * 4 + k;
-      uv.setXY(i, (col + uv.getX(i)) / 3, (row + uv.getY(i)) / 2);
-    }
-  }
-  return g;
-};
 
 const makeLayer = () => {
   const c = document.createElement("canvas");
@@ -54,14 +41,29 @@ const paintDirt = (g) => {
   }
 };
 
-const alphaSum = (g) => {
+// Маска: які пікселі атласу реально зайняті поверхнею авто (без схованих граней)
+const buildMask = (geometry, skipFaces) => {
+  const c = document.createElement("canvas"); c.width = ATLAS_W; c.height = ATLAS_H;
+  const g = c.getContext("2d");
+  g.fillStyle = "#fff";
+  const uv = geometry.attributes.uv;
+  for (let i = 0; i < uv.count; i += 3) {
+    const u0 = uv.getX(i), v0 = uv.getY(i);
+    const face = Math.floor(u0 * 3) + 3 * Math.floor(v0 * 2);
+    if (skipFaces.includes(face)) continue;
+    g.beginPath();
+    for (let k = 0; k < 3; k += 1) { const x = uv.getX(i + k) * ATLAS_W, y = (1 - uv.getY(i + k)) * ATLAS_H; k ? g.lineTo(x, y) : g.moveTo(x, y); }
+    g.closePath(); g.fill();
+  }
+  const data = g.getImageData(0, 0, ATLAS_W, ATLAS_H).data;
+  const mask = [];
+  for (let y = 0; y < ATLAS_H; y += 2) for (let x = 0; x < ATLAS_W; x += 2) if (data[(y * ATLAS_W + x) * 4 + 3] > 0) mask.push(y * ATLAS_W + x);
+  return mask;
+};
+const alphaSum = (g, mask) => {
   const data = g.getImageData(0, 0, ATLAS_W, ATLAS_H).data;
   let sum = 0;
-  for (let face = 0; face < 6; face += 1) {
-    if (face === BOTTOM_FACE) continue;
-    const x0 = (face % 3) * CELL, y0 = (1 - Math.floor(face / 3)) * CELL;
-    for (let y = y0; y < y0 + CELL; y += 2) for (let x = x0; x < x0 + CELL; x += 2) sum += data[(y * ATLAS_W + x) * 4 + 3];
-  }
+  for (const i of mask) sum += data[i * 4 + 3];
   return sum;
 };
 
@@ -113,6 +115,7 @@ export function playCarWash({ practice = false, onStart } = {}) {
     renderer.outputColorSpace = THREE.SRGBColorSpace;
     renderer.shadowMap.enabled = true;
     const scene = new THREE.Scene();
+    scene.environment = nightEnvironment(renderer);
     scene.background = new THREE.Color(0x0a0c12);
     scene.fog = new THREE.Fog(0x0a0c12, 14, 30);
     const camera = new THREE.PerspectiveCamera(40, 1, 0.1, 100);
@@ -143,36 +146,23 @@ export function playCarWash({ practice = false, onStart } = {}) {
     turntable.position.y = 0.06; turntable.receiveShadow = true; scene.add(turntable);
     const ringGlow = new THREE.Mesh(new THREE.TorusGeometry(3.22, 0.04, 6, 64), neon(0x3fb6ff)); ringGlow.rotation.x = Math.PI / 2; ringGlow.position.y = 0.13; scene.add(ringGlow);
 
-    // авто
-    const car = new THREE.Group();
+    // авто — та сама модель, що й у місті, з атлас-UV для бруду
+    const carType = ["sedan", "suv", "super"][Math.floor(Math.random() * 3)];
+    const car = makeCar(carType, PAINTS[Math.floor(Math.random() * PAINTS.length)], { atlas: true });
+    car.traverse((o) => { if (o.isMesh) o.castShadow = true; });
     scene.add(car);
-    const paint = std(PAINTS[Math.floor(Math.random() * PAINTS.length)], { metalness: 0.55, roughness: 0.35 });
-    const glassMat = std(0x0b0d12, { metalness: 0.8, roughness: 0.1 });
-    const parts = [
-      { geo: atlasBox(4.2, 0.95, 1.9), pos: [0, 0.78, 0], mat: paint },
-      { geo: atlasBox(2.3, 0.78, 1.72), pos: [-0.25, 1.64, 0], mat: glassMat },
-    ];
-    const layers = parts.map((p) => {
-      const base = new THREE.Mesh(p.geo, p.mat);
-      base.position.set(...p.pos); base.castShadow = true;
-      car.add(base);
+    const paint = car.userData.paintMeshes[0].material;
+    const layers = car.userData.paintMeshes.map((base, idx) => {
+      const mask = buildMask(base.geometry, idx === 0 ? [BOTTOM_FACE] : [BOTTOM_FACE, 2]);
       const dirt = makeLayer(); paintDirt(dirt.g); dirt.tex.needsUpdate = true;
       const foam = makeLayer();
-      const dirtMesh = new THREE.Mesh(p.geo, new THREE.MeshStandardMaterial({ map: dirt.tex, transparent: true, roughness: 1, depthWrite: false, polygonOffset: true, polygonOffsetFactor: -1 }));
-      dirtMesh.position.copy(base.position); dirtMesh.scale.setScalar(1.004);
-      const foamMesh = new THREE.Mesh(p.geo, new THREE.MeshStandardMaterial({ map: foam.tex, transparent: true, roughness: 0.9, depthWrite: false, polygonOffset: true, polygonOffsetFactor: -2 }));
-      foamMesh.position.copy(base.position); foamMesh.scale.setScalar(1.008);
+      const overlay = (map, factor) => new THREE.Mesh(base.geometry, new THREE.MeshStandardMaterial({ map, transparent: true, roughness: 1, depthWrite: false, polygonOffset: true, polygonOffsetFactor: factor, polygonOffsetUnits: factor * 4 }));
+      const dirtMesh = overlay(dirt.tex, -1);
+      const foamMesh = overlay(foam.tex, -2);
+      dirtMesh.position.copy(base.position); foamMesh.position.copy(base.position);
       car.add(dirtMesh, foamMesh);
-      return { base, dirt, foam, dirtMesh, foamMesh, dirt0: alphaSum(dirt.g) };
+      return { base, dirt, foam, dirtMesh, foamMesh, mask, dirt0: alphaSum(dirt.g, mask) };
     });
-    const wheelGeo = new THREE.CylinderGeometry(0.42, 0.42, 0.32, 20);
-    const wheelMat = std(0x0d0d10, { roughness: 0.9 });
-    [[1.35, 0.95], [-1.35, 0.95], [1.35, -0.95], [-1.35, -0.95]].forEach(([x, z]) => {
-      const w = new THREE.Mesh(wheelGeo, wheelMat); w.rotation.x = Math.PI / 2; w.position.set(x, 0.42, z); w.castShadow = true; car.add(w);
-      const rim = new THREE.Mesh(new THREE.CylinderGeometry(0.22, 0.22, 0.34, 12), std(0xb8bcc6, { metalness: 0.9, roughness: 0.2 })); rim.rotation.x = Math.PI / 2; rim.position.set(x, 0.42, z); car.add(rim);
-    });
-    [[2.11, 0.6], [2.11, -0.6]].forEach(([x, z]) => { const l = new THREE.Mesh(new THREE.BoxGeometry(0.04, 0.16, 0.42), neon(0xfff2c0)); l.position.set(x, 0.92, z); car.add(l); });
-    [[-2.11, 0.6], [-2.11, -0.6]].forEach(([x, z]) => { const l = new THREE.Mesh(new THREE.BoxGeometry(0.04, 0.14, 0.42), neon(0xff1a2a)); l.position.set(x, 0.92, z); car.add(l); });
 
     // частинки: вода й піна
     const MAXP = 400;
@@ -201,7 +191,6 @@ export function playCarWash({ practice = false, onStart } = {}) {
     let timeLeft = TIME_LIMIT;
     let rotTarget = 0;
     let cleanPct = 0, foamLeft = 0;
-    const foam0 = ATLAS_W * ATLAS_H * 255 * (5 / 6) / 4; // повне покриття піною (з кроком 2 px)
 
     const raycaster = new THREE.Raycaster();
     const pointer = new THREE.Vector2();
@@ -222,15 +211,16 @@ export function playCarWash({ practice = false, onStart } = {}) {
         layer.foam.tex.needsUpdate = true;
       } else {
         const foamHere = layer.foam.g.getImageData(Math.min(ATLAS_W - 1, Math.max(0, x | 0)), Math.min(ATLAS_H - 1, Math.max(0, y | 0)), 1, 1).data[3];
-        const strength = foamHere > 40 ? 0.95 : 0.18; // без піни бруд майже не змивається
-        [layer.foam.g, layer.dirt.g].forEach((g, idx) => {
+        const strength = foamHere > 30 ? 0.95 : 0.25; // без піни бруд відмивається слабко
+        const erase = (g, alpha, solid) => {
           g.globalCompositeOperation = "destination-out";
           const grad = g.createRadialGradient(x, y, 0, x, y, radius);
-          const a = idx === 0 ? 0.9 : strength;
-          grad.addColorStop(0, `rgba(0,0,0,${a})`); grad.addColorStop(1, "rgba(0,0,0,0)");
+          grad.addColorStop(0, `rgba(0,0,0,${alpha})`); grad.addColorStop(solid, `rgba(0,0,0,${alpha})`); grad.addColorStop(1, "rgba(0,0,0,0)");
           g.fillStyle = grad; g.beginPath(); g.arc(x, y, radius, 0, Math.PI * 2); g.fill();
           g.globalCompositeOperation = "source-over";
-        });
+        };
+        erase(layer.dirt.g, strength, 0.7);
+        erase(layer.foam.g, 0.45, 0.5); // піна сходить поступово — сусідні мазки ще працюють
         layer.foam.tex.needsUpdate = true;
         layer.dirt.tex.needsUpdate = true;
       }
@@ -250,9 +240,10 @@ export function playCarWash({ practice = false, onStart } = {}) {
 
     const measure = () => {
       let left = 0, total = 0, foamSum = 0;
-      layers.forEach((l) => { left += alphaSum(l.dirt.g); total += l.dirt0; foamSum += alphaSum(l.foam.g); });
+      let foamMax = 0;
+      layers.forEach((l) => { left += alphaSum(l.dirt.g, l.mask); total += l.dirt0; foamSum += alphaSum(l.foam.g, l.mask); foamMax += l.mask.length * 255; });
       cleanPct = Math.max(0, Math.min(100, (1 - left / total) * 100));
-      foamLeft = Math.min(1, foamSum / (foam0 * layers.length));
+      foamLeft = Math.min(1, foamSum / Math.max(1, foamMax));
       const score = Math.round(Math.max(0, cleanPct - foamLeft * 25));
       q("[data-clean]").textContent = `${score}%`;
       q("[data-clean-bar]").style.width = `${score}%`;

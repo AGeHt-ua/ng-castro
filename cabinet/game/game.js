@@ -3,7 +3,12 @@ import * as THREE from "three";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 import { CSS2DRenderer, CSS2DObject } from "three/addons/renderers/CSS2DRenderer.js";
 import * as E from "/workers/auth/src/empire.js";
-import { playCarWash } from "/cabinet/game/minigames/carwash.js";
+import { playCarWash } from "/cabinet/game/minigames/carwash.js?v=20261117c";
+import { EffectComposer } from "three/addons/postprocessing/EffectComposer.js";
+import { RenderPass } from "three/addons/postprocessing/RenderPass.js";
+import { UnrealBloomPass } from "three/addons/postprocessing/UnrealBloomPass.js";
+import { OutputPass } from "three/addons/postprocessing/OutputPass.js";
+import * as Models from "/cabinet/game/models.js?v=20261117c";
 
 const API = "https://auth.family-castro.com";
 const SITE = "https://family-castro.com";
@@ -105,11 +110,12 @@ try {
   gateFail("Твій пристрій не підтримує 3D (WebGL). Спробуй інший браузер.", `<a class="gx-btn" href="/cabinet/">Назад у кабінет</a>`);
   throw new Error("WebGL unavailable");
 }
-renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+const LOW_END = innerWidth < 760 || (navigator.hardwareConcurrency || 8) <= 4;
+renderer.setPixelRatio(Math.min(devicePixelRatio, LOW_END ? 1.25 : 2));
 renderer.shadowMap.enabled = true;
 renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 renderer.toneMapping = THREE.ACESFilmicToneMapping;
-renderer.toneMappingExposure = 1.05;
+renderer.toneMappingExposure = 1.0;
 renderer.outputColorSpace = THREE.SRGBColorSpace;
 
 const labelRenderer = new CSS2DRenderer({ element: $("labels") });
@@ -118,14 +124,16 @@ const scene = new THREE.Scene();
 scene.background = new THREE.Color(0x07070a);
 scene.fog = new THREE.Fog(0x07070a, 55, 140);
 
+scene.environment = Models.nightEnvironment(renderer);
+
 const camera = new THREE.PerspectiveCamera(45, 1, 0.5, 400);
-camera.position.set(34, 36, 42);
+camera.position.set(40, 42, 50);
 
 const controls = new OrbitControls(camera, canvas);
 controls.enableDamping = true;
 controls.dampingFactor = 0.08;
 controls.minDistance = 18;
-controls.maxDistance = 95;
+controls.maxDistance = 105;
 controls.minPolarAngle = 0.35;
 controls.maxPolarAngle = 1.22;
 controls.screenSpacePanning = false;
@@ -135,15 +143,22 @@ let idleTimer = 0;
 controls.addEventListener("start", () => { controls.autoRotate = false; clearTimeout(idleTimer); });
 controls.addEventListener("end", () => { idleTimer = setTimeout(() => { if (!game.selected && !REDUCED) controls.autoRotate = true; }, 9000); });
 
+const composer = new EffectComposer(renderer);
+composer.addPass(new RenderPass(scene, camera));
+const bloom = new UnrealBloomPass(new THREE.Vector2(256, 256), LOW_END ? 0.5 : 0.65, 0.5, 0.93);
+composer.addPass(bloom);
+composer.addPass(new OutputPass());
+
 // Світло
-scene.add(new THREE.HemisphereLight(0x8fa2ff, 0x140808, 0.55));
-const moon = new THREE.DirectionalLight(0xc9d6ff, 1.25);
+scene.add(new THREE.HemisphereLight(0x8fa2ff, 0x140808, 0.45));
+const moon = new THREE.DirectionalLight(0xc9d6ff, 1.1);
 moon.position.set(-40, 60, 25);
 moon.castShadow = true;
-moon.shadow.mapSize.set(2048, 2048);
+moon.shadow.mapSize.set(LOW_END ? 1024 : 2048, LOW_END ? 1024 : 2048);
+moon.shadow.bias = -0.0005;
 Object.assign(moon.shadow.camera, { left: -60, right: 60, top: 60, bottom: -60, near: 10, far: 160 });
 scene.add(moon);
-const hqLight = new THREE.PointLight(0xff2a3d, 60, 40, 1.6);
+const hqLight = new THREE.PointLight(0xff2a3d, 45, 34, 1.6);
 hqLight.position.set(0, 14, 0);
 scene.add(hqLight);
 
@@ -151,181 +166,83 @@ scene.add(hqLight);
 const mat = (color, opts = {}) => new THREE.MeshStandardMaterial({ color, roughness: 0.75, metalness: 0.1, ...opts });
 const glow = (color, intensity = 2) => new THREE.MeshStandardMaterial({ color, emissive: color, emissiveIntensity: intensity, roughness: 0.4 });
 
-// Земля, площа, дороги
-const ground = new THREE.Mesh(new THREE.CircleGeometry(150, 64), mat(0x0c0c10, { roughness: 1 }));
+// Земля, дороги, тротуари
+const asphalt = Models.asphaltTexture();
+const ground = new THREE.Mesh(new THREE.CircleGeometry(150, 72), new THREE.MeshStandardMaterial({ color: 0x101114, roughness: 1 }));
 ground.rotation.x = -Math.PI / 2;
 ground.receiveShadow = true;
 scene.add(ground);
-
-const grid = new THREE.GridHelper(260, 65, 0x2a0a10, 0x15151b);
+const grid = new THREE.GridHelper(260, 52, 0x2a0a10, 0x131419);
 grid.position.y = 0.01;
 grid.material.transparent = true;
-grid.material.opacity = 0.55;
+grid.material.opacity = 0.35;
 scene.add(grid);
 
-const PLOT_R = 26;
+const PLOT_R = 31;
 const ROAD_R = 17;
-const ring = new THREE.Mesh(new THREE.RingGeometry(ROAD_R - 2.2, ROAD_R + 2.2, 96), mat(0x17171d, { roughness: 0.95 }));
+const ringTex = asphalt.clone(); ringTex.needsUpdate = true; ringTex.repeat.set(24, 2);
+const ring = new THREE.Mesh(new THREE.RingGeometry(ROAD_R - 2.4, ROAD_R + 2.4, 128, 1), new THREE.MeshStandardMaterial({ map: ringTex, roughness: 0.9, metalness: 0.05 }));
 ring.rotation.x = -Math.PI / 2;
-ring.position.y = 0.02;
+ring.position.y = 0.03;
 ring.receiveShadow = true;
 scene.add(ring);
-for (let i = 0; i < 48; i += 1) {
-  const a = (i / 48) * Math.PI * 2;
-  const dash = new THREE.Mesh(new THREE.PlaneGeometry(1.1, 0.16), glow(0xffd27a, 0.6));
+[[ROAD_R - 2.4, ROAD_R - 2.75], [ROAD_R + 2.4, ROAD_R + 2.75]].forEach(([a, b]) => {
+  const curb = new THREE.Mesh(new THREE.RingGeometry(Math.min(a, b), Math.max(a, b), 128), new THREE.MeshStandardMaterial({ color: 0x5b5e66, roughness: 0.8 }));
+  curb.rotation.x = -Math.PI / 2; curb.position.y = 0.06; curb.receiveShadow = true;
+  scene.add(curb);
+});
+const sidewalk = new THREE.Mesh(new THREE.RingGeometry(ROAD_R + 2.75, ROAD_R + 4.2, 128), new THREE.MeshStandardMaterial({ color: 0x2b2d33, roughness: 0.85 }));
+sidewalk.rotation.x = -Math.PI / 2; sidewalk.position.y = 0.05; sidewalk.receiveShadow = true;
+scene.add(sidewalk);
+for (let i = 0; i < 64; i += 1) {
+  const a = (i / 64) * Math.PI * 2;
+  const dash = new THREE.Mesh(new THREE.PlaneGeometry(1.0, 0.12), new THREE.MeshStandardMaterial({ color: 0xffe2a0, emissive: 0xffd27a, emissiveIntensity: 0.35, roughness: 0.6 }));
   dash.rotation.x = -Math.PI / 2;
   dash.rotation.z = -a;
-  dash.position.set(Math.cos(a) * ROAD_R, 0.03, Math.sin(a) * ROAD_R);
+  dash.position.set(Math.cos(a) * ROAD_R, 0.045, Math.sin(a) * ROAD_R);
   scene.add(dash);
 }
-const outerRing = new THREE.Mesh(new THREE.RingGeometry(ROAD_R + 2.2, ROAD_R + 2.45, 96), glow(0xe0182d, 1.2));
+const outerRing = new THREE.Mesh(new THREE.RingGeometry(ROAD_R + 4.2, ROAD_R + 4.36, 128), new THREE.MeshStandardMaterial({ color: 0xe0182d, emissive: 0xe0182d, emissiveIntensity: 1.2 }));
 outerRing.rotation.x = -Math.PI / 2;
-outerRing.position.y = 0.03;
+outerRing.position.y = 0.055;
 scene.add(outerRing);
+// ліхтарі й дерева вздовж кільця
+for (let i = 0; i < 18; i += 1) {
+  const a = (i / 18) * Math.PI * 2 + 0.17;
+  const lamp = Models.makeLamp();
+  lamp.position.set(Math.cos(a) * (ROAD_R + 3.4), 0.05, Math.sin(a) * (ROAD_R + 3.4));
+  lamp.rotation.y = -a + Math.PI;
+  scene.add(lamp);
+}
+for (let i = 0; i < 26; i += 1) {
+  const a = (i / 26) * Math.PI * 2 + 0.05;
+  const r = 40 + (i % 3) * 5 + Math.random() * 3;
+  const tree = Math.random() < 0.45 ? Models.makePalm(4 + Math.random() * 2) : Models.makeTree(0.9 + Math.random() * 0.5);
+  tree.position.set(Math.cos(a) * r, 0, Math.sin(a) * r);
+  tree.rotation.y = Math.random() * Math.PI * 2;
+  scene.add(tree);
+}
 
-// ---------- Особняк (штаб) ----------
+// ---------- Вілла-штаб ----------
 const textureLoader = new THREE.TextureLoader();
 const hqGroup = new THREE.Group();
 hqGroup.userData.target = "hq";
 scene.add(hqGroup);
-
-const windowTexture = (base, lit, cols = 6, rows = 10) => {
-  const c = document.createElement("canvas");
-  c.width = 128; c.height = 256;
-  const g = c.getContext("2d");
-  g.fillStyle = base; g.fillRect(0, 0, c.width, c.height);
-  const w = c.width / cols, h = c.height / rows;
-  for (let y = 0; y < rows; y += 1) for (let x = 0; x < cols; x += 1) {
-    const on = Math.random() < 0.62;
-    g.fillStyle = on ? lit : "rgba(255,255,255,0.05)";
-    g.globalAlpha = on ? 0.6 + Math.random() * 0.4 : 1;
-    g.fillRect(x * w + w * 0.18, y * h + h * 0.22, w * 0.64, h * 0.5);
-  }
-  g.globalAlpha = 1;
-  const t = new THREE.CanvasTexture(c);
-  t.colorSpace = THREE.SRGBColorSpace;
-  t.wrapS = t.wrapT = THREE.RepeatWrapping;
-  return t;
-};
-
-const logoSprite = new THREE.Sprite(new THREE.SpriteMaterial({ transparent: true, depthWrite: false }));
-textureLoader.load("/assets/castro-logo.webp", (t) => { t.colorSpace = THREE.SRGBColorSpace; logoSprite.material.map = t; logoSprite.material.needsUpdate = true; });
-logoSprite.scale.set(6.5, 6.5, 1);
-const logoRing = new THREE.Mesh(new THREE.TorusGeometry(4.2, 0.12, 8, 64), glow(0xff2a3d, 3));
-logoRing.rotation.x = Math.PI / 2;
-
+let logoTexture = null;
+textureLoader.load("/assets/castro-logo.webp", (t) => { t.colorSpace = THREE.SRGBColorSpace; logoTexture = t; if (game.state) buildHQ(game.state.hq); });
 const buildHQ = (hq) => {
   hqGroup.clear();
-  const plaza = new THREE.Mesh(new THREE.CylinderGeometry(13, 13.4, 0.5, 64), mat(0x16161b, { roughness: 0.9 }));
-  plaza.position.y = 0.25; plaza.receiveShadow = true;
-  hqGroup.add(plaza);
-  const trim = new THREE.Mesh(new THREE.TorusGeometry(13.2, 0.08, 6, 96), glow(0xe0182d, 1.6));
-  trim.rotation.x = Math.PI / 2; trim.position.y = 0.52;
-  hqGroup.add(trim);
-
-  const floors = 1 + Math.min(3, Math.floor((hq - 1) / 3) + 1);
-  const wall = mat(0xe8e2d8, { roughness: 0.6 });
-  const tex = windowTexture("#d9d2c6", "#ffcf8a", 8, 3);
-  const glass = new THREE.MeshStandardMaterial({ map: tex, emissiveMap: tex, emissive: 0xffffff, emissiveIntensity: 0.9, roughness: 0.5 });
-  for (let f = 0; f < floors; f += 1) {
-    const w = 11 - f * 1.8, d = 7.5 - f * 1.1;
-    const block = new THREE.Mesh(new THREE.BoxGeometry(w, 2.6, d), [glass, glass, wall, wall, glass, glass]);
-    block.position.set(-1.2 + f * 0.3, 0.5 + 1.3 + f * 2.6, -1 + f * 0.2);
-    block.castShadow = true; block.receiveShadow = true;
-    hqGroup.add(block);
-    const slab = new THREE.Mesh(new THREE.BoxGeometry(w + 0.6, 0.25, d + 0.6), mat(0x2a2a30));
-    slab.position.set(block.position.x, block.position.y + 1.42, block.position.z);
-    slab.castShadow = true;
-    hqGroup.add(slab);
-  }
-  const pool = new THREE.Mesh(new THREE.BoxGeometry(6, 0.2, 2.6), glow(0x2fb6ff, 0.9));
-  pool.position.set(2.5, 0.6, 5.4);
-  hqGroup.add(pool);
-  const palm = (x, z) => {
-    const trunk = new THREE.Mesh(new THREE.CylinderGeometry(0.14, 0.22, 4.2, 6), mat(0x5a3e2b));
-    trunk.position.set(x, 0.5 + 2.1, z); trunk.castShadow = true;
-    const leaves = new THREE.Mesh(new THREE.ConeGeometry(1.5, 1.2, 7), mat(0x1f6b3a, { roughness: 0.9 }));
-    leaves.position.set(x, 0.5 + 4.4, z); leaves.rotation.x = Math.PI; leaves.castShadow = true;
-    hqGroup.add(trunk, leaves);
-  };
-  [[-9, 6], [9, 6], [-9, -7], [9, -7], [-4.5, 8], [7.5, 2]].forEach(([x, z]) => palm(x, z));
-  // золоті кільця за рівнем штабу
-  for (let i = 0; i < hq - 1; i += 1) {
-    const r = new THREE.Mesh(new THREE.TorusGeometry(10 + i * 0.35, 0.05, 6, 96), glow(0xf2c14e, 1.4));
-    r.rotation.x = Math.PI / 2; r.position.y = 0.56;
-    hqGroup.add(r);
-  }
-  const top = 0.5 + floors * 2.6 + 3.2;
-  logoSprite.position.set(0, top + 2.6, 0);
-  logoRing.position.set(0, top, 0);
-  hqGroup.add(logoSprite, logoRing);
-  hqLight.position.y = top + 2;
-  hqGroup.userData.top = top + 6;
+  const villa = Models.makeMansion(hq, logoTexture);
+  hqGroup.add(villa);
+  hqGroup.userData.logo = villa.userData.logo;
+  hqGroup.userData.ring = villa.userData.ring;
+  hqGroup.userData.top = villa.userData.top;
+  hqLight.position.y = villa.userData.top - 3;
 };
 
 // ---------- Бізнеси ----------
 const plots = new Map(); // id -> { group, label, pos, level, top }
-const tmpColor = new THREE.Color();
-
-const buildBusinessMesh = (b, level, group) => {
-  group.clear();
-  const color = new THREE.Color(b.color);
-  const pad = new THREE.Mesh(new THREE.CylinderGeometry(6.2, 6.5, 0.35, 48), mat(0x131318, { roughness: 0.9 }));
-  pad.position.y = 0.17; pad.receiveShadow = true;
-  group.add(pad);
-  const padGlow = new THREE.Mesh(new THREE.TorusGeometry(6.35, 0.06, 6, 64), glow(color, level > 0 ? 1.8 : 0.5));
-  padGlow.rotation.x = Math.PI / 2; padGlow.position.y = 0.36;
-  group.add(padGlow);
-
-  if (level <= 0) {
-    const box = new THREE.BoxGeometry(5, 6, 5);
-    const lines = new THREE.LineSegments(new THREE.EdgesGeometry(box), new THREE.LineBasicMaterial({ color, transparent: true, opacity: 0.7 }));
-    lines.position.y = 3.4;
-    const holo = new THREE.Mesh(box, new THREE.MeshBasicMaterial({ color, transparent: true, opacity: 0.06, depthWrite: false }));
-    holo.position.y = 3.4;
-    group.add(lines, holo);
-    group.userData.holo = [lines, holo];
-    return 7;
-  }
-  group.userData.holo = null;
-  const height = 3 + Math.log2(level + 1) * 2.1;
-  tmpColor.copy(color).multiplyScalar(0.18);
-  const tex = windowTexture(`#${tmpColor.getHexString()}`, b.color, 6, Math.max(4, Math.round(height * 1.2)));
-  const facade = new THREE.MeshStandardMaterial({ map: tex, emissiveMap: tex, emissive: 0xffffff, emissiveIntensity: 1.1, roughness: 0.55, metalness: 0.2 });
-  const roofMat = mat(0x1d1d23);
-  const tower = new THREE.Mesh(new THREE.BoxGeometry(4.6, height, 4.6), [facade, facade, roofMat, roofMat, facade, facade]);
-  tower.position.y = 0.35 + height / 2;
-  tower.castShadow = true; tower.receiveShadow = true;
-  group.add(tower);
-  const band = new THREE.Mesh(new THREE.BoxGeometry(4.9, 0.3, 4.9), glow(color, 2.6));
-  band.position.y = 0.35 + height + 0.15;
-  group.add(band);
-  // прибудова з рівнем
-  if (level >= 5) {
-    const wingH = Math.min(height * 0.55, 6);
-    const wing = new THREE.Mesh(new THREE.BoxGeometry(2.6, wingH, 3.6), [facade, facade, roofMat, roofMat, facade, facade]);
-    wing.position.set(3.4, 0.35 + wingH / 2, 0.4);
-    wing.castShadow = true;
-    group.add(wing);
-  }
-  // віхи — дахові елементи
-  const ms = E.MILESTONES.filter((m) => level >= m).length;
-  for (let i = 0; i < ms; i += 1) {
-    const ringM = new THREE.Mesh(new THREE.TorusGeometry(2.9 + i * 0.25, 0.05, 6, 48), glow(i % 2 ? 0xf2c14e : color, 2));
-    ringM.rotation.x = Math.PI / 2;
-    ringM.position.y = 0.35 + height + 0.5 + i * 0.35;
-    group.add(ringM);
-  }
-  if (level >= 25) {
-    const antenna = new THREE.Mesh(new THREE.CylinderGeometry(0.06, 0.1, 3, 6), mat(0x8a8a92, { metalness: 0.8 }));
-    antenna.position.y = 0.35 + height + 1.5;
-    const tip = new THREE.Mesh(new THREE.SphereGeometry(0.18, 8, 8), glow(0xff2a3d, 4));
-    tip.position.y = 0.35 + height + 3.05;
-    group.add(antenna, tip);
-    group.userData.tip = tip;
-  }
-  return 0.35 + height + 2;
-};
+const buildBusinessMesh = (b, level, group) => Models.buildBusiness(group, b, level);
 
 const labelFor = (b) => {
   const el = document.createElement("div");
@@ -341,14 +258,16 @@ const setupPlots = () => {
     const pos = new THREE.Vector3(Math.cos(a) * PLOT_R, 0, Math.sin(a) * PLOT_R);
     const group = new THREE.Group();
     group.position.copy(pos);
+    group.rotation.y = Math.atan2(-Math.cos(a), -Math.sin(a)); // фасадом до дороги
     group.userData.target = b.id;
     scene.add(group);
     // дорога від кільця до ділянки
-    const spoke = new THREE.Mesh(new THREE.PlaneGeometry(3.2, PLOT_R - ROAD_R - 6), mat(0x17171d, { roughness: 0.95 }));
+    const inner = ROAD_R + 2.4, outer = PLOT_R - 6.2;
+    const spoke = new THREE.Mesh(new THREE.PlaneGeometry(3.4, outer - inner), new THREE.MeshStandardMaterial({ map: asphalt, roughness: 0.9 }));
     spoke.rotation.x = -Math.PI / 2;
     spoke.rotation.z = -a + Math.PI / 2;
-    const mid = (ROAD_R + 2 + PLOT_R - 6.2) / 2;
-    spoke.position.set(Math.cos(a) * mid, 0.025, Math.sin(a) * mid);
+    const mid = (inner + outer) / 2;
+    spoke.position.set(Math.cos(a) * mid, 0.07, Math.sin(a) * mid);
     spoke.receiveShadow = true;
     scene.add(spoke);
     const label = labelFor(b);
@@ -383,26 +302,20 @@ scene.add(selRing);
 // ---------- Машини на кільці ----------
 const cars = [];
 const CAR_COLORS = [0xe0182d, 0xf2f2f2, 0x111111, 0x2fb6ff, 0xf2c14e, 0x22c55e, 0xc04bff, 0xff7a1a];
-const makeCar = (color) => {
-  const g = new THREE.Group();
-  const body = new THREE.Mesh(new THREE.BoxGeometry(1.9, 0.55, 0.95), mat(color, { metalness: 0.6, roughness: 0.35 }));
-  body.position.y = 0.45; body.castShadow = true;
-  const cabin = new THREE.Mesh(new THREE.BoxGeometry(1.0, 0.45, 0.85), mat(0x0d0d12, { metalness: 0.5, roughness: 0.2 }));
-  cabin.position.set(-0.1, 0.92, 0);
-  const lights = new THREE.Mesh(new THREE.BoxGeometry(0.05, 0.12, 0.8), glow(0xfff2c0, 3));
-  lights.position.set(0.96, 0.5, 0);
-  const tail = new THREE.Mesh(new THREE.BoxGeometry(0.05, 0.12, 0.8), glow(0xff1a2a, 3));
-  tail.position.set(-0.96, 0.5, 0);
-  g.add(body, cabin, lights, tail);
-  return g;
+const CAR_TYPES = ["sedan", "suv", "super", "sedan", "suv"];
+const makeCar = (color, i) => {
+  const car = Models.makeCar(CAR_TYPES[i % CAR_TYPES.length], color);
+  car.scale.setScalar(0.5);
+  car.traverse((o) => { if (o.isMesh) o.castShadow = !LOW_END; });
+  return car;
 };
 const syncCars = () => {
   const unlocked = game.config.businesses.filter((b) => (game.state.levels[b.id] || 0) > 0).length;
   const want = Math.min(16, 2 + unlocked * 2 + Math.floor(game.state.hq / 2));
   while (cars.length < want) {
-    const car = makeCar(CAR_COLORS[cars.length % CAR_COLORS.length]);
+    const car = makeCar(CAR_COLORS[cars.length % CAR_COLORS.length], cars.length);
     const lane = cars.length % 2;
-    car.userData = { a: Math.random() * Math.PI * 2, r: ROAD_R + (lane ? 1.05 : -1.05), dir: lane ? 1 : -1, speed: 0.12 + Math.random() * 0.08 };
+    car.userData = { ...car.userData, a: Math.random() * Math.PI * 2, r: ROAD_R + (lane ? 1.15 : -1.15), dir: lane ? 1 : -1, speed: 0.1 + Math.random() * 0.06 };
     scene.add(car);
     cars.push(car);
   }
@@ -827,6 +740,9 @@ canvas.addEventListener("pointerup", (e) => {
 const resize = () => {
   const w = innerWidth, h = innerHeight;
   renderer.setSize(w, h, false);
+  composer.setPixelRatio(renderer.getPixelRatio());
+  composer.setSize(w, h);
+  bloom.resolution.set(w / 2, h / 2);
   labelRenderer.setSize(w, h);
   camera.aspect = w / h;
   camera.fov = w < 760 ? 58 : 45;
@@ -846,8 +762,8 @@ const loop = () => {
     if (controls.target.distanceTo(camGoal.target) < 0.05) camGoal.active = false;
   }
   controls.update();
-  logoSprite.position.y += Math.sin(t * 1.6) * 0.004;
-  logoRing.rotation.z += dt * 0.8;
+  if (hqGroup.userData.logo) hqGroup.userData.logo.material.rotation = Math.sin(t * 0.8) * 0.05;
+  if (hqGroup.userData.ring) hqGroup.userData.ring.rotation.z += dt * 0.8;
   hqLight.intensity = 55 + Math.sin(t * 2.2) * 10;
   selRing.material.opacity = 0.5 + Math.sin(t * 4) * 0.3;
   outerRing.material.emissiveIntensity = 1 + Math.sin(t * 1.4) * 0.4;
@@ -859,6 +775,9 @@ const loop = () => {
       plot.group.scale.setScalar(0.6 + 0.4 * easeBack);
       if (plot.pop >= 1) { plot.group.scale.setScalar(1); plot.pop = null; }
     }
+    const beams = plot.group.userData.beams;
+    if (beams) beams.forEach((p, i) => { p.rotation.z = Math.sin(t * 0.7 + i * 1.7) * 0.45; p.rotation.x = Math.cos(t * 0.5 + i) * 0.3; });
+    if (plot.group.userData.rotor) plot.group.userData.rotor.rotation.y += dt * 6;
     const holo = plot.group.userData.holo;
     if (holo) { holo[0].material.opacity = 0.35 + Math.sin(t * 2.5) * 0.3; holo[0].rotation.y += dt * 0.3; holo[1].rotation.y = holo[0].rotation.y; }
     if (plot.beacon?.visible) {
@@ -868,8 +787,7 @@ const loop = () => {
       plot.beacon.rotation.y += dt * 3;
       plot.beacon.position.y = plot.top + 0.6 + Math.sin(t * 3) * 0.15;
     }
-    const tip = plot.group.userData.tip;
-    if (tip) tip.material.emissiveIntensity = Math.sin(t * 5) > 0 ? 5 : 0.3;
+
   });
   cars.forEach((car) => {
     const d = car.userData;
@@ -901,7 +819,7 @@ const loop = () => {
       renderList();
     }
   }
-  renderer.render(scene, camera);
+  composer.render();
   labelRenderer.render(scene, camera);
   requestAnimationFrame(loop);
 };
