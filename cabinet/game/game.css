@@ -269,3 +269,5 @@ button{ font:inherit; color:inherit; }
   .mg__rotate button{ width:52px; height:52px; }
   .mg__hint{ display:none; }
 }
+
+.gx-float--icon{ font-size:20px; text-shadow:0 2px 8px rgba(0,0,0,.8); }

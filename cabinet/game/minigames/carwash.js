@@ -1,7 +1,7 @@
 // Міні-гра «Мийка»: нанеси піну й змий бруд з авто за 60 секунд.
 // playCarWash({ practice, onStart }) → Promise<{ score, cancelled }>
 import * as THREE from "three";
-import { makeCar, nightEnvironment } from "/cabinet/game/models.js?v=20261117c";
+import { makeCar, nightEnvironment } from "/cabinet/game/models.js?v=20261117d";
 
 const TIME_LIMIT = 60;
 const CELL = 128;              // клітинка атласу (6 граней = 3×2)

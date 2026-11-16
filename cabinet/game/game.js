@@ -3,12 +3,13 @@ import * as THREE from "three";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 import { CSS2DRenderer, CSS2DObject } from "three/addons/renderers/CSS2DRenderer.js";
 import * as E from "/workers/auth/src/empire.js";
-import { playCarWash } from "/cabinet/game/minigames/carwash.js?v=20261117c";
+import { playCarWash } from "/cabinet/game/minigames/carwash.js?v=20261117d";
 import { EffectComposer } from "three/addons/postprocessing/EffectComposer.js";
 import { RenderPass } from "three/addons/postprocessing/RenderPass.js";
 import { UnrealBloomPass } from "three/addons/postprocessing/UnrealBloomPass.js";
 import { OutputPass } from "three/addons/postprocessing/OutputPass.js";
-import * as Models from "/cabinet/game/models.js?v=20261117c";
+import * as Models from "/cabinet/game/models.js?v=20261117d";
+import { createCity } from "/cabinet/game/city.js?v=20261117d";
 
 const API = "https://auth.family-castro.com";
 const SITE = "https://family-castro.com";
@@ -57,7 +58,7 @@ const api = async (path, body) => {
 };
 const demoApi = async (path, body) => {
   const now = Date.now();
-  if (!demoState) { demoState = E.freshState(now - 3 * 3600e3); demoState.cash = 25000; demoState.levels = { wash: 32, garage: 12, club: 1 }; demoState.earned = 3e5; demoState.incidents = { wash: { type: "sick", started_at: now - 40 * 60e3 } }; }
+  if (!demoState) { demoState = E.freshState(now - 3 * 3600e3); demoState.cash = 2e7; demoState.levels = { wash: 32, garage: 12, club: 1 }; demoState.earned = 3e5; demoState.incidents = { wash: { type: "sick", started_at: now - 40 * 60e3 } }; }
   if (path === "/game/state") {
     const offline = E.settle(demoState, now);
     return { status: 200, data: { ok: true, player: { id: "demo", name: "Dominic Castro", avatar: null }, config: E.publicConfig(), state: E.view(demoState), offline: offline.seconds >= 60 ? offline : null, place: { place: 1, total: 12 } } };
@@ -223,6 +224,13 @@ for (let i = 0; i < 26; i += 1) {
   scene.add(tree);
 }
 
+// ---------- Живе місто: дороги до бізнесів, машини, люди ----------
+const city = createCity({
+  scene, ROAD_R, PLOT_R, LOW_END, asphalt,
+  onArrive: (id, pos, isPerson) => popCash(pos, isPerson ? "🛍️" : "💵"),
+});
+
+
 // ---------- Вілла-штаб ----------
 const textureLoader = new THREE.TextureLoader();
 const hqGroup = new THREE.Group();
@@ -261,15 +269,7 @@ const setupPlots = () => {
     group.rotation.y = Math.atan2(-Math.cos(a), -Math.sin(a)); // фасадом до дороги
     group.userData.target = b.id;
     scene.add(group);
-    // дорога від кільця до ділянки
-    const inner = ROAD_R + 2.4, outer = PLOT_R - 6.2;
-    const spoke = new THREE.Mesh(new THREE.PlaneGeometry(3.4, outer - inner), new THREE.MeshStandardMaterial({ map: asphalt, roughness: 0.9 }));
-    spoke.rotation.x = -Math.PI / 2;
-    spoke.rotation.z = -a + Math.PI / 2;
-    const mid = (inner + outer) / 2;
-    spoke.position.set(Math.cos(a) * mid, 0.07, Math.sin(a) * mid);
-    spoke.receiveShadow = true;
-    scene.add(spoke);
+    city.addPlot(b.id, a, group, b.color);
     const label = labelFor(b);
     scene.add(label);
     const beacon = new THREE.Group();
@@ -299,26 +299,11 @@ selRing.position.y = 0.05;
 selRing.visible = false;
 scene.add(selRing);
 
-// ---------- Машини на кільці ----------
-const cars = [];
-const CAR_COLORS = [0xe0182d, 0xf2f2f2, 0x111111, 0x2fb6ff, 0xf2c14e, 0x22c55e, 0xc04bff, 0xff7a1a];
-const CAR_TYPES = ["sedan", "suv", "super", "sedan", "suv"];
-const makeCar = (color, i) => {
-  const car = Models.makeCar(CAR_TYPES[i % CAR_TYPES.length], color);
-  car.scale.setScalar(0.5);
-  car.traverse((o) => { if (o.isMesh) o.castShadow = !LOW_END; });
-  return car;
-};
 const syncCars = () => {
   const unlocked = game.config.businesses.filter((b) => (game.state.levels[b.id] || 0) > 0).length;
-  const want = Math.min(16, 2 + unlocked * 2 + Math.floor(game.state.hq / 2));
-  while (cars.length < want) {
-    const car = makeCar(CAR_COLORS[cars.length % CAR_COLORS.length], cars.length);
-    const lane = cars.length % 2;
-    car.userData = { ...car.userData, a: Math.random() * Math.PI * 2, r: ROAD_R + (lane ? 1.15 : -1.15), dir: lane ? 1 : -1, speed: 0.1 + Math.random() * 0.06 };
-    scene.add(car);
-    cars.push(car);
-  }
+  const nCars = Math.min(LOW_END ? 10 : 16, 3 + unlocked * 2 + Math.floor(game.state.hq / 2));
+  const nPeople = Math.min(LOW_END ? 12 : 26, 5 + unlocked * (LOW_END ? 1 : 3));
+  city.setDensity(nCars, nPeople);
 };
 
 // ---------- Частинки (вибух при покращенні) ----------
@@ -352,6 +337,21 @@ const floatMoney = (id, amount) => {
   setTimeout(() => { scene.remove(obj); el.remove(); }, 1600);
 };
 
+// Клієнт приїхав / зайшов — маленька іконка
+let lastPop = 0;
+const popCash = (pos, icon) => {
+  const now = performance.now();
+  if (document.hidden || now - lastPop < 250) return;
+  lastPop = now;
+  const el = document.createElement("div");
+  el.className = "gx-float gx-float--icon";
+  el.textContent = icon;
+  const obj = new CSS2DObject(el);
+  obj.position.set(pos.x, pos.y + 1.6, pos.z);
+  scene.add(obj);
+  setTimeout(() => { scene.remove(obj); el.remove(); }, 1600);
+};
+
 // ---------- Камера до обʼєкта ----------
 const camGoal = { target: new THREE.Vector3(), active: false };
 const focusOn = (id) => {
@@ -373,6 +373,8 @@ const refreshWorld = (changedId) => {
   game.config.businesses.forEach((b) => {
     const plot = plots.get(b.id);
     const lvl = game.state.levels[b.id] || 0;
+    const wasLevel = plot.level;
+    city.setPlot(b.id, { open: lvl > 0, down: isDown(b.id), animate: changedId === b.id && wasLevel === 0 && lvl > 0 });
     if (plot.level !== lvl) {
       plot.top = buildBusinessMesh(b, lvl, plot.group);
       plot.level = lvl;
@@ -789,12 +791,7 @@ const loop = () => {
     }
 
   });
-  cars.forEach((car) => {
-    const d = car.userData;
-    d.a += d.dir * d.speed * dt;
-    car.position.set(Math.cos(d.a) * d.r, 0, Math.sin(d.a) * d.r);
-    car.rotation.y = -d.a + (d.dir > 0 ? -Math.PI / 2 : Math.PI / 2);
-  });
+  city.update(dt, t);
   for (let i = bursts.length - 1; i >= 0; i -= 1) {
     const bst = bursts[i];
     bst.life -= dt;
