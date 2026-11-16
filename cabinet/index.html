@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="uk">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Family Castro • Кабінет</title>
+  <meta name="description" content="Особистий кабінет учасника Family Castro.">
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" type="image/png" href="/assets/logo.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&display=swap">
+
+  <link rel="stylesheet" href="/auth.css?v=20260926b">
+  <link rel="stylesheet" href="/profile.css?v=20261116">
+  <link rel="stylesheet" href="/castro.css?v=20260926h">
+  <link rel="stylesheet" href="/cabinet/cabinet.css?v=20261116">
+  <link rel="stylesheet" href="/page-transition.css?v=20260926">
+  <link rel="stylesheet" href="/cursor.css?v=20260926">
+  <link rel="stylesheet" href="/screen-scale.css?v=20260926">
+  <script src="/page-transition.js?v=20260926"></script>
+</head>
+
+<body class="castro cabinet">
+<div class="page-transition" aria-hidden="true">
+  <div class="page-transition__loader">
+    <img class="page-transition__logo" src="/assets/castro-logo.webp" alt="CASTRO">
+    <div class="page-transition__text">Завантаження…</div>
+    <div class="page-transition__line"><span></span></div>
+  </div>
+</div>
+
+<nav class="cnav" aria-label="Головне меню">
+  <a class="cnav__brand" href="/"><img src="/assets/castro-logo.webp" alt="">CASTRO</a>
+  <div class="cnav__links">
+    <a href="/">Головна</a>
+    <a href="/info/">Сімʼя</a>
+    <a href="/join/">Вступ</a>
+    <a href="/shop/">Магазин</a>
+  </div>
+  <button class="cnav__burger" type="button" aria-label="Меню" aria-expanded="false">☰</button>
+  <div id="auth-box" class="auth">
+    <button id="auth-login" class="auth__btn" type="button">
+      <img class="auth__discord" src="/assets/discord.svg" alt="">
+      Увійти через Discord
+    </button>
+    <div id="auth-user" class="auth__user hidden">
+      <img id="auth-avatar" class="auth__avatar" alt="">
+      <span id="auth-name" class="auth__name"></span>
+      <button id="auth-logout" class="auth__logout" type="button" title="Вийти">⎋</button>
+    </div>
+  </div>
+</nav>
+
+<div class="cb-bg" aria-hidden="true">
+  <div class="cb-bg__grid"></div>
+  <div class="cb-bg__glow"></div>
+  <div class="cb-bg__scan"></div>
+</div>
+
+<main class="cb" id="cabinet" aria-live="polite">
+
+  <!-- Перевірка доступу / екрани відмови -->
+  <section class="cb-gate" id="cbGate" data-state="loading">
+    <div class="cb-gate__card">
+      <span class="cb-corners" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+      <div class="cb-gate__ring" aria-hidden="true">
+        <svg viewBox="0 0 120 120"><circle cx="60" cy="60" r="54"></circle><circle class="cb-gate__arc" cx="60" cy="60" r="54"></circle></svg>
+        <img src="/assets/castro-logo.webp" alt="">
+      </div>
+      <span class="cb-gate__eyebrow" id="cbGateEyebrow">CASTRO • Закритий доступ</span>
+      <h1 class="cb-gate__title" id="cbGateTitle">Перевірка доступу</h1>
+      <p class="cb-gate__text" id="cbGateText">Бот звіряє твою роль у Discord…</p>
+      <div class="cb-gate__actions" id="cbGateActions"></div>
+      <div class="cb-gate__log" id="cbGateLog" aria-hidden="true"></div>
+    </div>
+  </section>
+
+  <!-- Кабінет (наповнює cabinet.js) -->
+  <div class="cb-app" id="cbApp" hidden>
+
+    <header class="cb-hero">
+      <span class="cb-corners" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+      <div class="cb-hero__word" aria-hidden="true">CASTRO</div>
+      <div class="cb-hero__id">
+        <div class="cb-hero__avatar"><img id="cbAvatar" alt=""><span class="cb-hero__pulse" aria-hidden="true"></span></div>
+        <div class="cb-hero__meta">
+          <span class="cb-eyebrow" id="cbEyebrow">Особистий кабінет • NG GTA 5</span>
+          <h1 class="cb-hero__name" id="cbName">—</h1>
+          <div class="cb-hero__nick" id="cbNick"></div>
+          <div class="cb-chips" id="cbChips"></div>
+        </div>
+      </div>
+      <div class="cb-hero__score">
+        <span class="cb-hero__label">Е-бали</span>
+        <b class="cb-hero__points" id="cbPoints" data-count="0">0</b>
+        <span class="cb-hero__place" id="cbPlace"></span>
+      </div>
+    </header>
+
+    <nav class="cb-tabs" aria-label="Розділи кабінету">
+      <a href="#overview" class="is-active" data-section="overview">Огляд</a>
+      <a href="#dossier" data-section="dossier">Досьє</a>
+      <a href="#family" data-section="family">Сімʼя</a>
+      <a href="#roadmap" data-section="roadmap">Контракти й звіти</a>
+      <a href="#leadership" data-section="leadership" id="cbLeadTab" hidden>Керівництво</a>
+    </nav>
+
+    <section class="cb-stats" id="overview" aria-label="Показники"></section>
+
+    <div class="cb-grid">
+      <article class="cb-card cb-card--dossier" id="dossier">
+        <header class="cb-card__head"><span class="cb-card__icon">🪪</span><h2>Досьє</h2><span class="cb-card__tag" id="cbCardNo"></span></header>
+        <dl class="cb-dl" id="cbDossier"></dl>
+        <div class="cb-history" id="cbHistory"></div>
+      </article>
+
+      <article class="cb-card cb-card--top">
+        <header class="cb-card__head"><span class="cb-card__icon">🔥</span><h2>ТОП Е-балів</h2></header>
+        <ol class="cb-top" id="cbTop"></ol>
+      </article>
+
+      <article class="cb-card cb-card--invite">
+        <header class="cb-card__head"><span class="cb-card__icon">🤝</span><h2>Запрошення</h2></header>
+        <div class="cb-invitedby" id="cbInvitedBy"></div>
+        <div class="cb-sub">Кого привів ти</div>
+        <div class="cb-people" id="cbInvited"></div>
+        <p class="cb-note">Скоро за кожного запрошеного учасника нараховуватимуться бали.</p>
+      </article>
+
+      <article class="cb-card cb-card--roles">
+        <header class="cb-card__head"><span class="cb-card__icon">🎖️</span><h2>Ролі в Discord</h2></header>
+        <div class="cb-roles" id="cbRoles"></div>
+      </article>
+
+      <article class="cb-card cb-card--family" id="family">
+        <header class="cb-card__head"><span class="cb-card__icon">🏛️</span><h2>Сімʼя зараз</h2></header>
+        <div class="cb-family__count"><b id="cbFamilyCount" data-count="0">0</b><span>учасників з роллю</span></div>
+        <div class="cb-bars" id="cbDepts"></div>
+        <div class="cb-fund" id="cbFund"></div>
+      </article>
+    </div>
+
+    <section class="cb-roadmap" id="roadmap">
+      <header class="cb-section-head">
+        <span class="cb-eyebrow">Система звітності</span>
+        <h2>Контракти, звіти, активність</h2>
+        <p>Розділи, які відкриються наступними. Усе буде повʼязане з ботом: звіт із сайту одразу потрапляє керівництву в Discord.</p>
+      </header>
+      <div class="cb-locks">
+        <article class="cb-lock"><span class="cb-lock__n">01</span><h3>Контракти</h3><p>Доступні завдання сімʼї: взяти, виконати, отримати Е-бали.</p><span class="cb-lock__badge">Скоро</span></article>
+        <article class="cb-lock"><span class="cb-lock__n">02</span><h3>Звіти</h3><p>Здача звіту зі скріншотами, статуси «на перевірці / прийнято / відхилено».</p><span class="cb-lock__badge">Скоро</span></article>
+        <article class="cb-lock"><span class="cb-lock__n">03</span><h3>Активність</h3><p>Час у голосових каналах і графік за тиждень.</p><span class="cb-lock__badge">Скоро</span></article>
+        <article class="cb-lock"><span class="cb-lock__n">04</span><h3>Фонд і відпустка</h3><p>Внески на рахунок сімʼї та оформлення відпустки без команд у Discord.</p><span class="cb-lock__badge">Скоро</span></article>
+      </div>
+    </section>
+
+    <section class="cb-roadmap cb-roadmap--lead" id="leadership" hidden>
+      <header class="cb-section-head">
+        <span class="cb-eyebrow">Тільки для керівництва</span>
+        <h2>Панель керівництва</h2>
+        <p>Черга звітів на перевірку, таблиця учасників з фільтрами, створення контрактів і нарахування балів.</p>
+      </header>
+      <div class="cb-locks">
+        <article class="cb-lock"><span class="cb-lock__n">A</span><h3>Перевірка звітів</h3><p>Прийняти чи відхилити звіт і нарахувати бали в один клік.</p><span class="cb-lock__badge">Скоро</span></article>
+        <article class="cb-lock"><span class="cb-lock__n">B</span><h3>Учасники</h3><p>Відділи, ранги, неактивні, відпустки — в одній таблиці.</p><span class="cb-lock__badge">Скоро</span></article>
+        <article class="cb-lock"><span class="cb-lock__n">C</span><h3>Контракти</h3><p>Створення контрактів і ціни в Е-балах.</p><span class="cb-lock__badge">Скоро</span></article>
+      </div>
+    </section>
+
+    <p class="cb-updated" id="cbUpdated"></p>
+  </div>
+</main>
+
+<footer class="cfoot">
+  © Family Castro •
+  <a href="https://ng-gta5.com/" target="_blank" rel="noopener">NG GTA 5 <img src="/assets/NG.png" alt=""></a>
+  <br>
+  <a href="/info/legal/">⚖️ Правова інформація</a>
+</footer>
+
+<script src="/auth.js?v=20260926" defer></script>
+<script src="/profile.js?v=20261116" defer></script>
+<script src="/castro.js?v=20260926f"></script>
+<script src="/cabinet/cabinet.js?v=20261116"></script>
+<script src="/cursor.js?v=20260926"></script>
+</body>
+</html>

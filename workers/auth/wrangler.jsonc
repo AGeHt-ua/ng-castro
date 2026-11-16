@@ -12,6 +12,7 @@
   "vars": {
     "SITE_ORIGINS": "https://family-castro.com,https://www.family-castro.com",
     "COOKIE_DOMAIN": ".family-castro.com",
-    "OAUTH_REDIRECT_URI": "https://auth.family-castro.com/auth/callback"
+    "OAUTH_REDIRECT_URI": "https://auth.family-castro.com/auth/callback",
+    "CABINET_API_URL": "http://ng-api.family-castro.com:25992"
   }
 }

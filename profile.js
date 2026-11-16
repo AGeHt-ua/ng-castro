@@ -1272,6 +1272,7 @@ if (window.__CASTRO_PROFILE_LOADED__) {
               <button class="pftab is-active" type="button" data-tab="profile">Профіль</button>
               <button class="pftab" type="button" data-tab="application">Анкета</button>
               <button class="pftab" type="button" data-tab="orders">Замовлення</button>
+              <a class="pftab pftab--cabinet" href="/cabinet/" title="Особистий кабінет учасника">Кабінет <span aria-hidden="true">↗</span></a>
             </div>
 
             <div class="pftabpanes">

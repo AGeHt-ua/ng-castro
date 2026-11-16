@@ -128,6 +128,38 @@ const cleanProfile = (value, current) => {
   return { ...current, ic, sid, updatedAt: new Date().toISOString() };
 };
 
+// ---- Особистий кабінет: підписаний запит до бота CASTRO NG (cabinet_api.py) ----
+const CABINET_TIMEOUT_MS = 8000;
+
+const callCabinet = async (env, action, payload) => {
+  if (!env.CABINET_API_URL || !env.CABINET_API_SECRET) return { status: 503, data: { ok: false, error: "cabinet_not_configured" } };
+  const body = JSON.stringify(payload);
+  const timestamp = String(Math.floor(Date.now() / 1000));
+  const nonce = randomToken(18);
+  const signature = base64UrlEncode(await hmac(env.CABINET_API_SECRET, `${timestamp}.${nonce}.${body}`));
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), CABINET_TIMEOUT_MS);
+  try {
+    const response = await fetch(`${String(env.CABINET_API_URL).replace(/\/+$/, "")}/cabinet/${action}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "X-Castro-Timestamp": timestamp,
+        "X-Castro-Nonce": nonce,
+        "X-Castro-Signature": signature,
+      },
+      body,
+      signal: controller.signal,
+    });
+    const data = await response.json().catch(() => ({ ok: false, error: "bad_bot_response" }));
+    return { status: response.ok ? 200 : (response.status >= 500 ? 503 : response.status), data };
+  } catch {
+    return { status: 503, data: { ok: false, error: "bot_unreachable" } };
+  } finally {
+    clearTimeout(timer);
+  }
+};
+
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
@@ -189,6 +221,13 @@ export default {
       const session = await getSession(request, env);
       if (session) await env.SESSIONS.delete(`session:${session.sessionId}`);
       return json(request, env, { ok: true }, 200, { "Set-Cookie": sessionCookie(env, "deleted", 0) });
+    }
+
+    if (request.method === "GET" && url.pathname === "/cabinet/state") {
+      const session = await getSession(request, env);
+      if (!session) return json(request, env, { ok: false, error: "unauthorized" }, 401);
+      const { status, data } = await callCabinet(env, "state", { user_id: String(session.user.id) });
+      return json(request, env, { ...data, user: session.user }, status);
     }
 
     if (url.pathname === "/profile") {

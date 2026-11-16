@@ -249,6 +249,11 @@ body.modal-open{ overflow:hidden; }
 #profile-modal .pftab:hover{ color:#fff; }
 #profile-modal .pftab.is-active{ color:#fff; }
 #profile-modal .pftab.is-active::after{ transform:none; }
+/* Посилання на особистий кабінет — праворуч, червоне */
+#profile-modal .pftab--cabinet{ margin-left:auto; display:inline-flex; align-items:center; gap:6px; color:var(--p-red); text-decoration:none; white-space:nowrap; }
+#profile-modal .pftab--cabinet span{ transition:transform .2s ease; }
+#profile-modal .pftab--cabinet:hover{ color:#fff; }
+#profile-modal .pftab--cabinet:hover span{ transform:translate(2px, -2px); }
 
 #profile-modal .pftabpanes{ padding:28px 32px 30px; }
 #profile-modal .pftabpane{ display:none; }
