@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="uk">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>CASTRO: Empire</title>
+  <meta name="description" content="CASTRO: Empire — 3D-гра сімʼї Castro: будуй імперію, прокачуй бізнеси, піднімайся в ТОП.">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#050506">
+  <link rel="icon" type="image/png" href="/assets/logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&display=swap">
+  <link rel="stylesheet" href="/cabinet/game/game.css?v=20261117">
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+      }
+    }
+  </script>
+</head>
+<body>
+  <canvas id="scene" aria-label="3D-карта імперії CASTRO"></canvas>
+  <div id="labels" aria-hidden="true"></div>
+
+  <!-- Завантаження / доступ -->
+  <section class="gx-gate" id="gate">
+    <div class="gx-gate__box">
+      <div class="gx-gate__logo"><img src="/assets/castro-logo.webp" alt=""><span></span></div>
+      <h1 class="gx-gate__title">CASTRO<b>EMPIRE</b></h1>
+      <p class="gx-gate__text" id="gateText">Завантаження імперії…</p>
+      <div class="gx-gate__bar"><span id="gateBar"></span></div>
+      <div class="gx-gate__actions" id="gateActions"></div>
+    </div>
+  </section>
+
+  <!-- HUD -->
+  <header class="gx-hud" id="hud" hidden>
+    <a class="gx-brand" href="/cabinet/" title="Назад у кабінет">
+      <img src="/assets/castro-logo.webp" alt=""><span>CASTRO<b>EMPIRE</b></span>
+    </a>
+    <div class="gx-cash">
+      <b id="cash">$0</b>
+      <span id="rate">+$0 / сек</span>
+    </div>
+    <div class="gx-me">
+      <div class="gx-rank"><small>Ранг</small><b id="rank">Новачок</b><i><span id="rankBar"></span></i></div>
+      <img id="meAvatar" alt="">
+    </div>
+  </header>
+
+  <!-- Панель вибраного обʼєкта -->
+  <aside class="gx-panel" id="panel" hidden>
+    <button class="gx-panel__close" type="button" id="panelClose" aria-label="Закрити">✕</button>
+    <div class="gx-panel__head">
+      <span class="gx-panel__icon" id="pIcon">🏛️</span>
+      <div><small id="pKind">Бізнес</small><h2 id="pName">—</h2></div>
+    </div>
+    <p class="gx-panel__desc" id="pDesc"></p>
+    <div class="gx-panel__stats">
+      <div><small>Рівень</small><b id="pLevel">0</b></div>
+      <div><small>Дохід</small><b id="pIncome">$0/с</b></div>
+      <div><small>Наступний</small><b id="pNext">+$0/с</b></div>
+    </div>
+    <div class="gx-milestone" id="pMilestone">
+      <div class="gx-milestone__top"><span id="pMsText">Віха ×2 на рівні 10</span><span id="pMsVal">0/10</span></div>
+      <i><span id="pMsBar"></span></i>
+    </div>
+    <div class="gx-buy">
+      <button type="button" class="gx-btn gx-btn--red" data-count="1"><span>Покращити</span><b id="pCost1">$0</b></button>
+      <button type="button" class="gx-btn" data-count="10"><span>×10</span><b id="pCost10">$0</b></button>
+      <button type="button" class="gx-btn" data-count="max"><span>MAX</span><b id="pCostMax">—</b></button>
+    </div>
+  </aside>
+
+  <!-- Нижня панель -->
+  <nav class="gx-dock" id="dock" hidden>
+    <button type="button" data-open="list" class="is-active"><span>🏙️</span>Імперія</button>
+    <button type="button" data-open="games"><span>🎮</span>Міні-ігри</button>
+    <button type="button" data-open="top"><span>🏆</span>ТОП</button>
+    <a href="/cabinet/"><span>↩</span>Кабінет</a>
+  </nav>
+
+  <!-- Список бізнесів -->
+  <section class="gx-sheet" id="sheet-list" hidden>
+    <header><h2>Імперія</h2><button type="button" data-close aria-label="Закрити">✕</button></header>
+    <div class="gx-list" id="list"></div>
+  </section>
+
+  <!-- Міні-ігри -->
+  <section class="gx-sheet gx-sheet--wide" id="sheet-games" hidden>
+    <header><h2>Міні-ігри</h2><button type="button" data-close aria-label="Закрити">✕</button></header>
+    <p class="gx-sheet__lead">Короткі ігри всередині імперії: бонуси до доходу, рідкісні нагороди й окремі ТОПи.</p>
+    <div class="gx-games">
+      <article class="gx-game"><span class="gx-game__art">🏎️</span><h3>Заїзд по Вайнвуду</h3><p>Аркадні перегони на авто з автопарку сімʼї.</p><b>Скоро</b></article>
+      <article class="gx-game"><span class="gx-game__art">🚚</span><h3>Доставка вантажу</h3><p>Довези контейнер з порту за таймер — отримай бонус.</p><b>Скоро</b></article>
+      <article class="gx-game"><span class="gx-game__art">🚨</span><h3>Втеча від копів</h3><p>Відірвись від погоні якомога довше.</p><b>Скоро</b></article>
+      <article class="gx-game"><span class="gx-game__art">🧠</span><h3>Вгадай авто</h3><p>Впізнай тачку з автопарку за силуетом.</p><b>Скоро</b></article>
+    </div>
+  </section>
+
+  <!-- ТОП -->
+  <section class="gx-sheet" id="sheet-top" hidden>
+    <header><h2>ТОП імперій</h2><button type="button" data-close aria-label="Закрити">✕</button></header>
+    <ol class="gx-top" id="top"></ol>
+    <p class="gx-sheet__foot" id="myPlace"></p>
+  </section>
+
+  <!-- Офлайн-дохід / повідомлення -->
+  <div class="gx-modal" id="modal" hidden>
+    <div class="gx-modal__box">
+      <span class="gx-modal__icon" id="mIcon">💰</span>
+      <small id="mKicker">Поки тебе не було</small>
+      <h2 id="mTitle">+$0</h2>
+      <p id="mText"></p>
+      <button type="button" class="gx-btn gx-btn--red" id="mOk">Забрати</button>
+    </div>
+  </div>
+
+  <div class="gx-toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script type="module" src="/cabinet/game/game.js?v=20261117"></script>
+</body>
+</html>

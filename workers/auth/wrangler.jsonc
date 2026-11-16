@@ -9,6 +9,9 @@
     { "binding": "SESSIONS", "id": "d6a5a8e2401844259296c7a6877ef9f2" },
     { "binding": "PROFILES", "id": "a1169b8d86b64cf79c35a794231a556d" }
   ],
+  "d1_databases": [
+    { "binding": "GAME_DB", "database_name": "ng-castro-game", "database_id": "915ee3a6-b1d6-4cf8-8447-5c9aaf430c26", "migrations_dir": "migrations" }
+  ],
   "vars": {
     "SITE_ORIGINS": "https://family-castro.com,https://www.family-castro.com",
     "COOKIE_DOMAIN": ".family-castro.com",

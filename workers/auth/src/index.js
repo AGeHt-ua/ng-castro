@@ -1,3 +1,5 @@
+import * as Empire from "./empire.js";
+
 const SESSION_TTL_SECONDS = 60 * 60 * 24 * 14;
 const STATE_TTL_SECONDS = 10 * 60;
 const SESSION_COOKIE = "ng_castro_session";
@@ -160,6 +162,73 @@ const callCabinet = async (env, action, payload) => {
   }
 };
 
+// ---- CASTRO: Empire — доступ лише учасникам (поки гра в кабінеті) ----
+const ACCESS_TTL_MS = 10 * 60 * 1000;
+const ACCESS_STALE_MS = 24 * 60 * 60 * 1000;
+
+const gameAccess = async (env, userId) => {
+  const now = Date.now();
+  const cached = await env.GAME_DB.prepare("SELECT ok, checked_at FROM access_cache WHERE user_id = ?").bind(userId).first();
+  if (cached && now - Number(cached.checked_at) < ACCESS_TTL_MS) return { ok: !!cached.ok };
+  const { status, data } = await callCabinet(env, "state", { user_id: userId });
+  if (status === 200 && data?.ok) {
+    await env.GAME_DB.prepare("INSERT INTO access_cache (user_id, ok, checked_at) VALUES (?, ?, ?) ON CONFLICT(user_id) DO UPDATE SET ok = excluded.ok, checked_at = excluded.checked_at")
+      .bind(userId, data.access ? 1 : 0, now).run();
+    return { ok: !!data.access, reason: data.reason };
+  }
+  // Бот тимчасово недоступний — пускаємо за нещодавньою успішною перевіркою.
+  if (cached && cached.ok && now - Number(cached.checked_at) < ACCESS_STALE_MS) return { ok: true };
+  return { ok: false, unavailable: true };
+};
+
+const avatarUrl = (user) => (user?.id && user?.avatar ? `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png?size=128` : null);
+
+const handleGame = async (request, env, url) => {
+  const session = await getSession(request, env);
+  if (!session) return json(request, env, { ok: false, error: "unauthorized" }, 401);
+  if (!env.GAME_DB) return json(request, env, { ok: false, error: "game_not_configured" }, 503);
+  const userId = String(session.user.id);
+  const access = await gameAccess(env, userId);
+  if (!access.ok) {
+    return access.unavailable
+      ? json(request, env, { ok: false, error: "bot_unreachable" }, 503)
+      : json(request, env, { ok: false, error: "no_access", reason: access.reason || "no_role" }, 403);
+  }
+  const player = { name: session.user.name, avatar: avatarUrl(session.user) };
+  const now = Date.now();
+
+  if (request.method === "GET" && url.pathname === "/game/state") {
+    const { state, isNew } = await Empire.loadState(env.GAME_DB, userId, now);
+    const offline = isNew ? { gain: 0, seconds: 0, capped: false } : Empire.settle(state, now);
+    await Empire.saveState(env.GAME_DB, userId, player, state);
+    const place = await Empire.placeOf(env.GAME_DB, state.earned);
+    return json(request, env, {
+      ok: true, isNew, player: { id: userId, ...player }, config: Empire.publicConfig(),
+      state: Empire.view(state), offline: offline.seconds >= 60 ? offline : null, place,
+    });
+  }
+
+  if (request.method === "POST" && url.pathname === "/game/upgrade") {
+    let body;
+    try { body = await request.json(); } catch { return json(request, env, { ok: false, error: "bad_json" }, 400); }
+    const target = String(body?.target || "");
+    const count = body?.count === "max" ? "max" : Number(body?.count) || 1;
+    const { state } = await Empire.loadState(env.GAME_DB, userId, now);
+    Empire.settle(state, now);
+    let result;
+    try { result = Empire.upgrade(state, target, count); } catch { return json(request, env, { ok: false, error: "unknown_target" }, 400); }
+    await Empire.saveState(env.GAME_DB, userId, player, state);
+    return json(request, env, { ok: true, result, state: Empire.view(state) });
+  }
+
+  if (request.method === "GET" && url.pathname === "/game/top") {
+    const { state } = await Empire.loadState(env.GAME_DB, userId, now);
+    return json(request, env, { ok: true, top: await Empire.topPlayers(env.GAME_DB), me: { id: userId, ...(await Empire.placeOf(env.GAME_DB, state.earned)) } });
+  }
+
+  return json(request, env, { ok: false, error: "Not found" }, 404);
+};
+
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
@@ -222,6 +291,8 @@ export default {
       if (session) await env.SESSIONS.delete(`session:${session.sessionId}`);
       return json(request, env, { ok: true }, 200, { "Set-Cookie": sessionCookie(env, "deleted", 0) });
     }
+
+    if (url.pathname.startsWith("/game/")) return handleGame(request, env, url);
 
     if (request.method === "GET" && url.pathname === "/cabinet/state") {
       const session = await getSession(request, env);
