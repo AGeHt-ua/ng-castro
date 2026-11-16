@@ -11,7 +11,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&display=swap">
-  <link rel="stylesheet" href="/cabinet/game/game.css?v=20261117d">
+  <link rel="stylesheet" href="/cabinet/game/game.css?v=20261117e">
   <script type="importmap">
     {
       "imports": {
@@ -63,9 +63,14 @@
       <div class="gx-incident__head"><span id="iIcon">🤒</span><div><small>Простій • бізнес не заробляє</small><b id="iTitle">—</b></div></div>
       <p id="iText"></p>
       <div class="gx-incident__btns">
-        <button type="button" class="gx-btn gx-btn--red" id="iPlay"><span>🧽 Підмінити</span><b>Міні-гра</b></button>
+        <button type="button" class="gx-btn gx-btn--red" id="iPlay"><span>🧽 Підмінити</span><b>Сам</b></button>
         <button type="button" class="gx-btn" id="iHire"><span>Найняти</span><b id="iHireCost">$0</b></button>
       </div>
+    </div>
+    <div class="gx-mg" id="pGame" hidden>
+      <span class="gx-mg__icon" id="gIcon">🎮</span>
+      <div class="gx-mg__text"><small id="gKicker">Попрацюй сам</small><b id="gName">—</b><em id="gDesc"></em></div>
+      <button type="button" class="gx-btn" id="gPlay"><b>Грати</b></button>
     </div>
     <div class="gx-panel__stats">
       <div><small>Рівень</small><b id="pLevel">0</b></div>
@@ -86,7 +91,6 @@
   <!-- Нижня панель -->
   <nav class="gx-dock" id="dock" hidden>
     <button type="button" data-open="list" class="is-active"><span>🏙️</span>Імперія</button>
-    <button type="button" data-open="games"><span>🎮</span>Міні-ігри</button>
     <button type="button" data-open="top"><span>🏆</span>ТОП</button>
     <a href="/cabinet/"><span>↩</span>Кабінет</a>
   </nav>
@@ -95,19 +99,6 @@
   <section class="gx-sheet" id="sheet-list" hidden>
     <header><h2>Імперія</h2><button type="button" data-close aria-label="Закрити">✕</button></header>
     <div class="gx-list" id="list"></div>
-  </section>
-
-  <!-- Міні-ігри -->
-  <section class="gx-sheet gx-sheet--wide" id="sheet-games" hidden>
-    <header><h2>Міні-ігри</h2><button type="button" data-close aria-label="Закрити">✕</button></header>
-    <p class="gx-sheet__lead">Короткі ігри всередині імперії: бонуси до доходу, рідкісні нагороди й окремі ТОПи.</p>
-    <div class="gx-games">
-      <article class="gx-game is-live" id="gameWash" role="button" tabindex="0"><span class="gx-game__art">🧽</span><h3>Мийка авто</h3><p id="gameWashText">Піна, вода й 60 секунд. Коли на мийці простій — рятуй бізнес і отримуй бонус.</p><b id="gameWashBadge">Тренування</b></article>
-      <article class="gx-game"><span class="gx-game__art">🏎️</span><h3>Заїзд по Вайнвуду</h3><p>Аркадні перегони на авто з автопарку сімʼї.</p><b>Скоро</b></article>
-      <article class="gx-game"><span class="gx-game__art">🚚</span><h3>Доставка вантажу</h3><p>Довези контейнер з порту за таймер — отримай бонус.</p><b>Скоро</b></article>
-      <article class="gx-game"><span class="gx-game__art">🚨</span><h3>Втеча від копів</h3><p>Відірвись від погоні якомога довше.</p><b>Скоро</b></article>
-      <article class="gx-game"><span class="gx-game__art">🧠</span><h3>Вгадай авто</h3><p>Впізнай тачку з автопарку за силуетом.</p><b>Скоро</b></article>
-    </div>
   </section>
 
   <!-- ТОП -->
@@ -130,6 +121,6 @@
 
   <div class="gx-toast" id="toast" role="status" aria-live="polite"></div>
 
-  <script type="module" src="/cabinet/game/game.js?v=20261117d"></script>
+  <script type="module" src="/cabinet/game/game.js?v=20261117e"></script>
 </body>
 </html>

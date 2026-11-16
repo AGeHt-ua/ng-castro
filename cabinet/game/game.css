@@ -271,3 +271,20 @@ button{ font:inherit; color:inherit; }
 }
 
 .gx-float--icon{ font-size:20px; text-shadow:0 2px 8px rgba(0,0,0,.8); }
+
+/* Картка міні-гри в панелі бізнесу */
+.gx-mg{ display:grid; grid-template-columns:auto 1fr auto; align-items:center; gap:12px; margin:0 0 14px; padding:12px; background:rgba(63,182,255,.08); border:1px solid rgba(63,182,255,.45); border-left:3px solid #3fb6ff; }
+.gx-mg__icon{ display:grid; place-items:center; width:44px; height:44px; font-size:24px; background:rgba(63,182,255,.14); }
+.gx-mg__text{ min-width:0; }
+.gx-mg__text small{ display:block; font-size:9px; font-weight:800; letter-spacing:.22em; text-transform:uppercase; color:#7fd0ff; }
+.gx-mg__text b{ display:block; margin-top:3px; font:400 17px/1.05 var(--display); letter-spacing:.04em; text-transform:uppercase; }
+.gx-mg__text em{ display:block; margin-top:4px; font-style:normal; font-size:12px; line-height:1.4; color:var(--muted); }
+.gx-mg .gx-btn{ min-height:44px; padding:8px 14px; background:#3fb6ff; border-color:#3fb6ff; color:#04121c; }
+.gx-mg .gx-btn b{ font-size:15px; }
+.gx-mg.is-alert{ background:rgba(255,42,61,.1); border-color:rgba(255,42,61,.55); border-left-color:#ff2a3d; }
+.gx-mg.is-alert small{ color:#ff8a96; }
+.gx-mg.is-alert .gx-btn{ background:#ff2a3d; border-color:#ff2a3d; color:#fff; }
+.gx-mg.is-soon{ background:rgba(255,255,255,.03); border-color:rgba(255,255,255,.12); border-left-color:#555; border-style:dashed; }
+.gx-mg.is-soon small{ color:var(--dim); }
+.gx-mg.is-soon .gx-btn{ background:rgba(255,255,255,.06); border-color:var(--line); color:var(--muted); }
+@media (max-width:760px){ .gx-mg__text em{ display:none; } }

@@ -483,6 +483,7 @@ const renderPanel = () => {
     ? `Серце імперії. Кожен рівень штабу збільшує дохід УСІХ бізнесів. Зараз ×${game.state.hqMult.toFixed(1)}.`
     : b.desc;
   $("pLevel").textContent = isHQ ? `${lvl}/${game.config.hqMax}` : lvl;
+  renderGameCard(id, lvl);
   const inc = !isHQ && game.state.incidents?.[id];
   const incCfg = inc && game.config.incidents?.[id];
   panel.classList.toggle("is-down", !!inc);
@@ -624,7 +625,39 @@ const buy = async (count) => {
   }
 };
 
-// ---------- Події: підміна (міні-гра) або найм ----------
+// ---------- Ігри живуть у бізнесах ----------
+const MINIGAMES = {
+  wash:   { icon: "🧽", name: "Мийка авто", desc: "Піна, вода й 60 секунд. Чисте авто — щасливий клієнт.", ready: true },
+  garage: { icon: "🔧", name: "Ремонт на підйомнику", desc: "Знайди поломку й полагодь авто, поки клієнт чекає.", ready: false },
+  club:   { icon: "🍸", name: "Фейс-контроль", desc: "Пропусти своїх, не пусти проблемних — тримай рівень клубу.", ready: false },
+  dealer: { icon: "🚘", name: "Угода дня", desc: "Торгуйся з клієнтом і продай авто з вітрини дорожче.", ready: false },
+  port:   { icon: "⚓", name: "Розвантаження", desc: "Керуй краном і швидко розстав контейнери.", ready: false },
+  hangar: { icon: "🚁", name: "Політ над містом", desc: "Проведи гелікоптер через контрольні точки.", ready: false },
+};
+const renderGameCard = (id, lvl) => {
+  const box = $("pGame");
+  const mg = id !== "hq" && MINIGAMES[id];
+  const down = isDown(id);
+  box.hidden = !mg || (mg.ready && down); // під час простою дію дає картка події
+  if (!mg) return;
+  box.classList.toggle("is-alert", mg.ready && down);
+  box.classList.toggle("is-soon", !mg.ready);
+  $("gIcon").textContent = mg.icon;
+  $("gName").textContent = mg.name;
+  $("gDesc").textContent = !mg.ready ? mg.desc : down ? "Бізнес стоїть — зроби роботу сам, і він знову запрацює, ще й з бонусом." : `${mg.desc} Зараз без нагороди — просто набий руку.`;
+  $("gKicker").textContent = !mg.ready ? "Скоро" : down ? "⚠️ Бізнес стоїть" : "Попрацюй сам";
+  const btn = $("gPlay");
+  btn.disabled = !mg.ready || lvl === 0 || game.busy;
+  btn.querySelector("b").textContent = !mg.ready ? "Скоро" : lvl === 0 ? "Купи бізнес" : down ? "Рятувати" : "Грати";
+};
+const playBusinessGame = (id) => {
+  if (id === "wash") {
+    if (isDown("wash")) fixIncident("wash");
+    else playCarWash({ practice: true });
+  }
+};
+
+// ---------- Події: підміна (гра) або найм ----------
 const fixIncident = async (id) => {
   if (game.busy || !isDown(id)) return;
   let token = null;
@@ -653,7 +686,7 @@ const fixIncident = async (id) => {
     }
   } finally {
     game.busy = false;
-    renderPanel(); renderHud(); renderList(); renderGames();
+    renderPanel(); renderHud(); renderList();
   }
 };
 
@@ -668,15 +701,10 @@ const hireIncident = async (id) => {
     toast(`👷 Підміну найнято за ${fmt(data.result.cost)} — бізнес знову працює`);
   } finally {
     game.busy = false;
-    renderPanel(); renderHud(); renderList(); renderGames();
+    renderPanel(); renderHud(); renderList();
   }
 };
 
-const renderGames = () => {
-  const down = isDown("wash");
-  $("gameWash").classList.toggle("is-alert", down);
-  $("gameWashBadge").textContent = down ? "⚠️ Мийка стоїть — врятуй!" : "Тренування";
-};
 
 // Сповіщення про нову подію — один раз на кожну
 const seenIncidents = new Set(JSON.parse(sessionStorage.getItem("gx-seen-incidents") || "[]"));
@@ -688,7 +716,7 @@ const announceIncidents = () => {
     try { sessionStorage.setItem("gx-seen-incidents", JSON.stringify([...seenIncidents])); } catch {}
     const cfg = game.config.incidents?.[id];
     if (!cfg || !$("modal").hidden) return;
-    showModal({ icon: "⚠️", kicker: `${bizById(id).short} • простій`, title: cfg.title, text: `${cfg.text} Підміни працівника в міні-грі або найми когось.`, ok: "До бізнесу" });
+    showModal({ icon: "⚠️", kicker: `${bizById(id).short} • простій`, title: cfg.title, text: `${cfg.text} Підміни працівника сам або найми когось.`, ok: "До бізнесу" });
     $("mOk").onclick = () => { $("modal").hidden = true; $("mOk").onclick = null; select(id); };
   });
 };
@@ -711,12 +739,7 @@ $("list").addEventListener("click", (e) => { const item = e.target.closest("[dat
 $("mOk").addEventListener("click", () => { $("modal").hidden = true; });
 $("iPlay").addEventListener("click", () => fixIncident(game.selected));
 $("iHire").addEventListener("click", () => hireIncident(game.selected));
-const openWashGame = () => {
-  if (isDown("wash")) { closeSheets(); fixIncident("wash"); }
-  else playCarWash({ practice: true });
-};
-$("gameWash").addEventListener("click", openWashGame);
-$("gameWash").addEventListener("keydown", (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); openWashGame(); } });
+$("gPlay").addEventListener("click", () => playBusinessGame(game.selected));
 addEventListener("keydown", (e) => {
   if (e.key === "Escape") { if (!$("modal").hidden) $("modal").hidden = true; else if (game.selected) select(null); else closeSheets(); }
 });
@@ -825,7 +848,7 @@ const loop = () => {
 const resync = async () => {
   try {
     const { status, data } = await api("/game/state");
-    if (status === 200 && data?.ok) { game.state = data.state; game.syncedAt = performance.now(); refreshWorld(); renderPanel(); renderGames(); announceIncidents(); }
+    if (status === 200 && data?.ok) { game.state = data.state; game.syncedAt = performance.now(); refreshWorld(); renderPanel(); announceIncidents(); }
   } catch { /* наступного разу */ }
 };
 
@@ -866,7 +889,7 @@ const start = async () => {
   } else if (data.isNew) {
     showModal({ icon: "🏛️", kicker: "Ласкаво просимо", title: "CASTRO: Empire", text: "Твоя імперія починається з автомийки. Клікай на будівлі, прокачуй бізнеси, відкривай нові точки й піднімайся в ТОП сімʼї.", ok: "Почати" });
   }
-  renderGames();
+ 
   if ($("modal").hidden) announceIncidents();
   else {
     const prev = $("mOk").onclick;
