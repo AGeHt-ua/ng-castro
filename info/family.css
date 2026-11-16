@@ -200,7 +200,7 @@
 }
 .car[hidden]{ display:none; }
 .car:hover{ border-color:rgba(255,64,78,.55); transform:translateY(-4px); }
-.car__media{ position:relative; aspect-ratio:16/10; overflow:hidden; background:#000; }
+.car__media{ position:relative; aspect-ratio:16/10; overflow:hidden; background:radial-gradient(ellipse 70% 60% at 50% 62%, #2c2c31 0%, #111114 55%, #050506 100%); }
 .car__media img{ width:100%; height:100%; object-fit:cover; display:block; transition:transform .6s cubic-bezier(.2,.7,.2,1); }
 .car:hover .car__media img{ transform:scale(1.07); }
 .car__count{ position:absolute; left:12px; top:12px; padding:6px 10px; font:400 20px/1 var(--c-display); background:#fff; color:#050506; }

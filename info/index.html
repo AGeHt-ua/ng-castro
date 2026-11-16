@@ -91,7 +91,7 @@
     <div class="fm-live reveal" style="--d:.4s" aria-label="Статистика Discord">
       <div><b id="fcTotal2">—</b><span>У сімʼї</span></div>
       <div class="fm-live__on"><b id="fcOnline2">—</b><span><i></i>Онлайн</span></div>
-      <div><b>14</b><span>Авто в автопарку</span></div>
+      <div><b>12</b><span>Моделей авто</span></div>
       <div><b>18–23</b><span>Прайм-тайм</span></div>
     </div>
   </div>
@@ -295,74 +295,158 @@
       <div class="csec__head reveal">
         <span class="csec__eyebrow">Castro Family Fleet</span>
         <h2 class="csec__title">Авто<em>парк</em></h2>
-        <p class="csec__lead">Преміум, тактичний і електро-сегмент. Кожне авто закріплене за рангом, стоїть на базі й доступне для виїздів.</p>
+        <p class="csec__lead">Преміум, тактичний, електро-сегмент і авіація. Кожна одиниця закріплена за рангом, стоїть на базі й доступна для виїздів.</p>
       </div>
 
       <div class="fm-tabs reveal" role="tablist" aria-label="Категорії автопарку">
-        <button type="button" role="tab" aria-selected="true" data-fleet="all">Усі <small>14</small></button>
-        <button type="button" role="tab" aria-selected="false" data-fleet="premium">Преміум <small>6</small></button>
-        <button type="button" role="tab" aria-selected="false" data-fleet="tactical">Тактичні <small>4</small></button>
-        <button type="button" role="tab" aria-selected="false" data-fleet="electric">Електро <small>4</small></button>
+        <button type="button" role="tab" aria-selected="true" data-fleet="all">Усі <small>13</small></button>
+        <button type="button" role="tab" aria-selected="false" data-fleet="premium">Преміум <small>5</small></button>
+        <button type="button" role="tab" aria-selected="false" data-fleet="tactical">Тактичні <small>5</small></button>
+        <button type="button" role="tab" aria-selected="false" data-fleet="electric">Електро <small>2</small></button>
+        <button type="button" role="tab" aria-selected="false" data-fleet="air">Авіа <small>1</small></button>
       </div>
 
       <div class="fm-fleet">
+        <article class="car reveal" data-cat="tactical">
+          <div class="car__media"><img src="/cars/g63-w464.webp" alt="Mercedes-AMG G 63" loading="lazy" width="1280" height="800"><span class="car__count">×3</span><span class="car__rank">з 7 рангу</span></div>
+          <div class="car__body">
+            <span class="car__cat">Tactical Line</span>
+            <h3>Mercedes-AMG G 63</h3>
+            <p>W464 • легендарний «Гелік», силовий виїзд</p>
+            <div class="car__quick"><span>585 к.с.</span><span>4.0 V8 Biturbo</span><span>4MATIC</span><span>220 км/год</span></div>
+            <dl class="car__specs"><div><dt>0–100</dt><dd>4.3 с</dd></div><div><dt>Салон</dt><dd>5 місць</dd></div><div><dt>Локація</dt><dd>Західний Вайнвуд</dd></div></dl>
+          </div>
+        </article>
+
+        <article class="car reveal" style="--d:0.06s" data-cat="premium">
+          <div class="car__media"><img src="/cars/s-class-w223.webp" alt="Mercedes-Benz S 580" loading="lazy" width="1280" height="800"><span class="car__count">×3</span><span class="car__rank">з 4 рангу</span></div>
+          <div class="car__body">
+            <span class="car__cat">Premium Class</span>
+            <h3>Mercedes-Benz S 580</h3>
+            <p>W223 • бізнес-седан, статусний виїзд</p>
+            <div class="car__quick"><span>503 к.с.</span><span>4.0 V8 Mild-Hybrid</span><span>4MATIC</span><span>250 км/год</span></div>
+            <dl class="car__specs"><div><dt>0–100</dt><dd>4.4 с</dd></div><div><dt>Салон</dt><dd>5 місць</dd></div><div><dt>Локація</dt><dd>Західний Вайнвуд</dd></div></dl>
+          </div>
+        </article>
+
+        <article class="car reveal" style="--d:0.12s" data-cat="tactical">
+          <div class="car__media"><img src="/cars/v-class-w447.webp" alt="Mercedes-Benz V 300 d" loading="lazy" width="1280" height="800"><span class="car__count">×3</span><span class="car__rank">з 5 рангу</span></div>
+          <div class="car__body">
+            <span class="car__cat">Tactical Line</span>
+            <h3>Mercedes-Benz V 300 d</h3>
+            <p>W447 • мінівен, трансфер складу</p>
+            <div class="car__quick"><span>239 к.с.</span><span>2.0 Turbo Diesel</span><span>4MATIC</span><span>220 км/год</span></div>
+            <dl class="car__specs"><div><dt>0–100</dt><dd>7.8 с</dd></div><div><dt>Салон</dt><dd>7 місць</dd></div><div><dt>Локація</dt><dd>Західний Вайнвуд</dd></div></dl>
+          </div>
+        </article>
+
         <article class="car reveal" data-cat="premium">
-          <div class="car__media"><img src="/cars/gemera.png" alt="Koenigsegg Gemera" loading="lazy"><span class="car__count">×3</span><span class="car__rank">з 7 рангу</span></div>
+          <div class="car__media"><img src="/cars/bentayga.webp" alt="Bentley Bentayga V8" loading="lazy" width="1280" height="800"><span class="car__count">×1</span><span class="car__rank">з 3 рангу</span></div>
           <div class="car__body">
             <span class="car__cat">Premium Class</span>
-            <h3>Koenigsegg Gemera</h3>
-            <p>Гіперкар • 4-місний Mega GT</p>
-            <div class="car__quick"><span>2300 к.с.</span><span>5.0 Hybrid</span><span>AWD</span><span>≈ 400 км/год</span></div>
-            <dl class="car__specs"><div><dt>0–100</dt><dd>≈ 1.9–2.0 с</dd></div><div><dt>Салон</dt><dd>4 місця</dd></div><div><dt>Локація</dt><dd>Західний Вайнвуд</dd></div></dl>
-            <div class="car__plates"><span>CASTRO</span><span>CASTRO</span><span>CASTRO</span></div>
+            <h3>Bentley Bentayga V8</h3>
+            <p>Luxury SUV • статусний виїзд</p>
+            <div class="car__quick"><span>550 к.с.</span><span>4.0 V8 Twin-Turbo</span><span>AWD</span><span>290 км/год</span></div>
+            <dl class="car__specs"><div><dt>0–100</dt><dd>4.5 с</dd></div><div><dt>Салон</dt><dd>5 місць</dd></div><div><dt>Локація</dt><dd>Західний Вайнвуд</dd></div></dl>
           </div>
         </article>
 
-        <article class="car reveal" style="--d:.06s" data-cat="premium">
-          <div class="car__media"><img src="/cars/bentley.png" alt="Bentley Continental GT" loading="lazy"><span class="car__count">×3</span><span class="car__rank">з 4 рангу</span></div>
+        <article class="car reveal" style="--d:0.06s" data-cat="tactical">
+          <div class="car__media"><img src="/cars/cullinan.webp" alt="Rolls-Royce Cullinan" loading="lazy" width="1280" height="800"><span class="car__count">×4</span><span class="car__rank">з 1 рангу</span></div>
+          <div class="car__body">
+            <span class="car__cat">Tactical Line</span>
+            <h3>Rolls-Royce Cullinan</h3>
+            <p>Ultra-Luxury SUV • виїзд керівництва</p>
+            <div class="car__quick"><span>571 к.с.</span><span>6.75 V12 Twin-Turbo</span><span>AWD</span><span>250 км/год</span></div>
+            <dl class="car__specs"><div><dt>0–100</dt><dd>5.2 с</dd></div><div><dt>Салон</dt><dd>5 місць</dd></div><div><dt>Локація</dt><dd>Західний Вайнвуд</dd></div></dl>
+          </div>
+        </article>
+
+        <article class="car reveal" style="--d:0.12s" data-cat="premium">
+          <div class="car__media"><img src="/cars/phantom.webp" alt="Rolls-Royce Phantom VIII" loading="lazy" width="1280" height="800"><span class="car__count">×4</span><span class="car__rank">з 1 рангу</span></div>
           <div class="car__body">
             <span class="car__cat">Premium Class</span>
-            <h3>Bentley Continental GT</h3>
-            <p>Luxury GT • статусний виїзд</p>
-            <div class="car__quick"><span>771 к.с.</span><span>4.0 Hybrid</span><span>AWD</span><span>335 км/год</span></div>
-            <dl class="car__specs"><div><dt>0–100</dt><dd>3.2 с</dd></div><div><dt>Салон</dt><dd>4 місця</dd></div><div><dt>Локація</dt><dd>Західний Вайнвуд</dd></div></dl>
-            <div class="car__plates"><span>АА 1488 АА</span><span>ХІ 1488 ІХ</span><span>ІІ 1488 ІІ</span></div>
+            <h3>Rolls-Royce Phantom VIII</h3>
+            <p>EWB • лімузин, представницький виїзд</p>
+            <div class="car__quick"><span>571 к.с.</span><span>6.75 V12 Twin-Turbo</span><span>RWD</span><span>250 км/год</span></div>
+            <dl class="car__specs"><div><dt>0–100</dt><dd>5.4 с</dd></div><div><dt>Салон</dt><dd>4 місця</dd></div><div><dt>Локація</dt><dd>Західний Вайнвуд</dd></div></dl>
           </div>
         </article>
 
-        <article class="car reveal" style="--d:.12s" data-cat="tactical">
-          <div class="car__media"><img src="/cars/1312.png" alt="Brabus 900 Rocket Edition G63" loading="lazy"><span class="car__count">×3</span><span class="car__rank">з 5 рангу</span></div>
-          <div class="car__body">
-            <span class="car__cat">Tactical Line</span>
-            <h3>Brabus 900 Rocket G63</h3>
-            <p>Tactical SUV • силовий сегмент</p>
-            <div class="car__quick"><span>900 к.с.</span><span>4.5 V8</span><span>AWD</span><span>400 км/год</span></div>
-            <dl class="car__specs"><div><dt>0–100</dt><dd>3.4 с</dd></div><div><dt>Салон</dt><dd>4 місця</dd></div><div><dt>Локація</dt><dd>Західний Вайнвуд</dd></div></dl>
-            <div class="car__plates"><span>1312</span><span>АА 1312 АА</span><span>ІІ 1312 ІІ</span></div>
-          </div>
-        </article>
-
-        <article class="car reveal" style="--d:.18s" data-cat="tactical">
-          <div class="car__media"><img src="/cars/g63.png" alt="Mercedes-AMG G63" loading="lazy"><span class="car__count">×1</span><span class="car__rank">з 3 рангу</span></div>
-          <div class="car__body">
-            <span class="car__cat">Tactical Line</span>
-            <h3>Mercedes-AMG G63</h3>
-            <p>Tactical SUV • силовий сегмент</p>
-            <div class="car__quick"><span>585 к.с.</span><span>4.0 V8</span><span>4MATIC</span><span>350 км/год</span></div>
-            <dl class="car__specs"><div><dt>0–100</dt><dd>4.4 с</dd></div><div><dt>Салон</dt><dd>4 місця</dd></div><div><dt>Локація</dt><dd>Західний Вайнвуд</dd></div></dl>
-            <div class="car__plates"><span>б/н</span></div>
-          </div>
-        </article>
-
-        <article class="car reveal" style="--d:.24s" data-cat="electric">
-          <div class="car__media"><img src="/cars/cybertruck.png" alt="Tesla Cybertruck" loading="lazy"><span class="car__count">×4</span><span class="car__rank">з 1 рангу</span></div>
+        <article class="car reveal" data-cat="electric">
+          <div class="car__media"><img src="/cars/macan-ev.webp" alt="Porsche Macan Turbo Electric" loading="lazy" width="1280" height="800"><span class="car__count">×4</span><span class="car__rank">з 1 рангу</span></div>
           <div class="car__body">
             <span class="car__cat">Electric Line</span>
-            <h3>Tesla Cybertruck</h3>
-            <p>Electric Utility Truck • швидкі переїзди</p>
-            <div class="car__quick"><span>AWD</span><span>523 км</span><span>4.3 с</span><span>180 км/год</span></div>
-            <dl class="car__specs"><div><dt>Буксир</dt><dd>до 4 990 кг</dd></div><div><dt>Салон</dt><dd>5 місць</dd></div><div><dt>Локація</dt><dd>Рокфорд-Хіллз</dd></div></dl>
-            <div class="car__plates"><span>МЕ 7777 ЕР</span><span>ТТ 7777 ТТ</span><span>ОО 7777 ОО</span><span>МЕ 7777 НТ</span></div>
+            <h3>Porsche Macan Turbo Electric</h3>
+            <p>Електро-SUV • швидкі переїзди</p>
+            <div class="car__quick"><span>639 к.с.</span><span>AWD</span><span>до 591 км</span><span>260 км/год</span></div>
+            <dl class="car__specs"><div><dt>0–100</dt><dd>3.3 с</dd></div><div><dt>Салон</dt><dd>5 місць</dd></div><div><dt>Локація</dt><dd>Західний Вайнвуд</dd></div></dl>
+          </div>
+        </article>
+
+        <article class="car reveal" style="--d:0.06s" data-cat="premium">
+          <div class="car__media"><img src="/cars/brouillard.webp" alt="Bugatti Brouillard" loading="lazy" width="1280" height="800"><span class="car__count">×4</span><span class="car__rank">з 1 рангу</span></div>
+          <div class="car__body">
+            <span class="car__cat">Premium Class</span>
+            <h3>Bugatti Brouillard</h3>
+            <p>Гіперкар • єдиний у світі екземпляр</p>
+            <div class="car__quick"><span>1600 к.с.</span><span>8.0 W16 Quad-Turbo</span><span>AWD</span><span>≈ 420 км/год</span></div>
+            <dl class="car__specs"><div><dt>0–100</dt><dd>≈ 2.4 с</dd></div><div><dt>Салон</dt><dd>2 місця</dd></div><div><dt>Локація</dt><dd>Західний Вайнвуд</dd></div></dl>
+          </div>
+        </article>
+
+        <article class="car reveal" style="--d:0.12s" data-cat="premium">
+          <div class="car__media"><img src="/cars/bmw-g70.webp" alt="BMW 760i xDrive" loading="lazy" width="1280" height="800"><span class="car__count">×4</span><span class="car__rank">з 1 рангу</span></div>
+          <div class="car__body">
+            <span class="car__cat">Premium Class</span>
+            <h3>BMW 760i xDrive</h3>
+            <p>G70 • бізнес-седан 7-ї серії</p>
+            <div class="car__quick"><span>544 к.с.</span><span>4.4 V8 Mild-Hybrid</span><span>xDrive</span><span>250 км/год</span></div>
+            <dl class="car__specs"><div><dt>0–100</dt><dd>4.2 с</dd></div><div><dt>Салон</dt><dd>5 місць</dd></div><div><dt>Локація</dt><dd>Західний Вайнвуд</dd></div></dl>
+          </div>
+        </article>
+
+        <article class="car reveal" data-cat="tactical">
+          <div class="car__media"><img src="/cars/bmw-xm.webp" alt="BMW XM" loading="lazy" width="1280" height="800"><span class="car__count">×4</span><span class="car__rank">з 1 рангу</span></div>
+          <div class="car__body">
+            <span class="car__cat">Tactical Line</span>
+            <h3>BMW XM</h3>
+            <p>M-SUV • гібридна міць</p>
+            <div class="car__quick"><span>653 к.с.</span><span>4.4 V8 Hybrid</span><span>xDrive</span><span>250 км/год</span></div>
+            <dl class="car__specs"><div><dt>0–100</dt><dd>4.3 с</dd></div><div><dt>Салон</dt><dd>5 місць</dd></div><div><dt>Локація</dt><dd>Західний Вайнвуд</dd></div></dl>
+          </div>
+        </article>
+
+        <article class="car reveal" style="--d:0.06s" data-cat="tactical">
+          <div class="car__media"><img src="/cars/raptor.webp" alt="Ford F-150 Raptor R" loading="lazy" width="1280" height="800"><span class="car__count">×4</span><span class="car__rank">з 1 рангу</span></div>
+          <div class="car__body">
+            <span class="car__cat">Tactical Line</span>
+            <h3>Ford F-150 Raptor R</h3>
+            <p>Off-road пікап • бездоріжжя</p>
+            <div class="car__quick"><span>720 к.с.</span><span>5.2 V8 Supercharged</span><span>4x4</span><span>180 км/год</span></div>
+            <dl class="car__specs"><div><dt>0–100</dt><dd>≈ 3.9 с</dd></div><div><dt>Салон</dt><dd>5 місць</dd></div><div><dt>Локація</dt><dd>Західний Вайнвуд</dd></div></dl>
+          </div>
+        </article>
+
+        <article class="car reveal" style="--d:0.12s" data-cat="electric">
+          <div class="car__media"><img src="/cars/tesla-semi.webp" alt="Tesla Semi" loading="lazy" width="1280" height="800"><span class="car__count">×4</span><span class="car__rank">з 1 рангу</span></div>
+          <div class="car__body">
+            <span class="car__cat">Electric Line</span>
+            <h3>Tesla Semi</h3>
+            <p>Електро-тягач • вантажна логістика</p>
+            <div class="car__quick"><span>3 електромотори</span><span>до 800 км</span><span>до 37 т</span></div>
+            <dl class="car__specs"><div><dt>0–96</dt><dd>20 с з вантажем</dd></div><div><dt>Салон</dt><dd>2 місця</dd></div><div><dt>Локація</dt><dd>Західний Вайнвуд</dd></div></dl>
+          </div>
+        </article>
+
+        <article class="car reveal" data-cat="air">
+          <div class="car__media"><img src="/cars/bell-429.webp" alt="Bell 429 GlobalRanger" loading="lazy" width="1280" height="800"><span class="car__count">×2</span></div>
+          <div class="car__body">
+            <span class="car__cat">Air Line</span>
+            <h3>Bell 429 GlobalRanger</h3>
+            <p>Гелікоптер • швидкі перельоти над штатом</p>
+            <div class="car__quick"><span>2× PW207D1</span><span>до 730 к.с. кожен</span><span>≈ 287 км/год</span><span>до 722 км</span></div>
+            <dl class="car__specs"><div><dt>Стеля</dt><dd>6 100 м</dd></div><div><dt>Салон</dt><dd>1 + 7 місць</dd></div><div><dt>Локація</dt><dd>Західний Вайнвуд</dd></div></dl>
           </div>
         </article>
       </div>
