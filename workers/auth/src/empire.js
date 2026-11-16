@@ -42,25 +42,130 @@ export const rankFor = (earned) => {
   return { index, name: RANKS[index].name, next: RANKS[index + 1] || null };
 };
 
+// ---------- Події: бізнес стає (простій), поки гравець не вирішить проблему ----------
+export const INCIDENTS = {
+  wash: {
+    type: "sick",
+    icon: "🤒",
+    title: "Мийник захворів",
+    text: "Тоні звалила застуда — нікому мити авто. Автомийка стоїть і не приносить дохід.",
+    action: "Підмінити Тоні",
+    game: "carwash",
+    meanHours: 3,          // у середньому раз на 3 години
+    minLevel: 5,           // не раніше 5 рівня мийки
+    cooldownMinutes: 30,   // після вирішення — пауза
+    hireMinutes: 20,       // найм підміни = 20 хв загального доходу
+    bonusMinutes: 10,      // бонус за міні-гру = до 10 хв доходу мийки
+    passScore: 70,
+  },
+};
+export const GRACE_MINUTES = 15;           // нові гравці — без подій перші 15 хв
+export const GAME_MIN_SECONDS = 8;
+export const GAME_MAX_SECONDS = 300;
+
 export const milestoneMult = (level) => Math.pow(2, MILESTONES.filter((m) => level >= m).length);
 export const businessIncome = (b, level) => (level > 0 ? b.income * level * milestoneMult(level) : 0);
 // ціна переходу level → level+1 (для level 0 — розблокування)
 export const levelCost = (b, level) => (level <= 0 ? b.unlock : Math.round(b.upBase * Math.pow(b.growth, level - 1)));
 
-export const ratePerSecond = (levels, hq) =>
-  BUSINESSES.reduce((sum, b) => sum + businessIncome(b, levels[b.id] || 0), 0) * hqMult(hq);
+const isDown = (incidents, id) => !!(incidents && incidents[id] && incidents[id].started_at);
+export const ratePerSecond = (levels, hq, incidents) =>
+  BUSINESSES.reduce((sum, b) => sum + (isDown(incidents, b.id) ? 0 : businessIncome(b, levels[b.id] || 0)), 0) * hqMult(hq);
 
-export const freshState = (now) => ({ cash: START_CASH, earned: 0, levels: { wash: 1 }, hq: 1, updated_at: now, created_at: now });
+export const freshState = (now) => ({ cash: START_CASH, earned: 0, levels: { wash: 1 }, hq: 1, incidents: {}, cooldowns: {}, updated_at: now, created_at: now });
 
 // Нарахувати дохід за час, що минув. Повертає скільки додано і за скільки секунд.
-export const settle = (state, now) => {
+export const settle = (state, now, random = Math.random) => {
+  state.incidents ||= {};
+  state.cooldowns ||= {};
   const elapsed = Math.max(0, (now - state.updated_at) / 1000);
   const seconds = Math.min(elapsed, OFFLINE_CAP_SECONDS);
-  const gain = ratePerSecond(state.levels, state.hq) * seconds;
+  const windowStart = now - seconds * 1000;
+  const mult = hqMult(state.hq);
+  let gain = 0;
+  const started = [];
+  for (const b of BUSINESSES) {
+    const level = state.levels[b.id] || 0;
+    if (level <= 0) continue;
+    const income = businessIncome(b, level) * mult;
+    if (isDown(state.incidents, b.id)) continue; // простій — нічого не заробляє
+    let activeSeconds = seconds;
+    const cfg = INCIDENTS[b.id];
+    const eligible = cfg && level >= cfg.minLevel
+      && now - state.created_at > GRACE_MINUTES * 60e3
+      && (!state.cooldowns[b.id] || now - state.cooldowns[b.id] > cfg.cooldownMinutes * 60e3);
+    if (eligible && seconds > 0) {
+      const chance = 1 - Math.exp(-seconds / (cfg.meanHours * 3600));
+      if (random() < chance) {
+        const cooldownEnd = state.cooldowns[b.id] ? state.cooldowns[b.id] + cfg.cooldownMinutes * 60e3 : 0;
+        const at = Math.max(windowStart, cooldownEnd, state.created_at + GRACE_MINUTES * 60e3);
+        const startAt = Math.min(now, at + random() * Math.max(0, now - at));
+        activeSeconds = Math.max(0, (startAt - windowStart) / 1000);
+        state.incidents[b.id] = { type: cfg.type, started_at: Math.round(startAt) };
+        started.push(b.id);
+      }
+    }
+    gain += income * activeSeconds;
+  }
   state.cash += gain;
   state.earned += gain;
   state.updated_at = now;
-  return { gain, seconds, capped: elapsed > OFFLINE_CAP_SECONDS };
+  return { gain, seconds, capped: elapsed > OFFLINE_CAP_SECONDS, started };
+};
+
+const randomToken = () => {
+  const bytes = new Uint8Array(12);
+  crypto.getRandomValues(bytes);
+  return [...bytes].map((x) => x.toString(16).padStart(2, "0")).join("");
+};
+
+export const hireCost = (state, id) => {
+  const cfg = INCIDENTS[id];
+  const total = BUSINESSES.reduce((sum, b) => sum + businessIncome(b, state.levels[b.id] || 0), 0) * hqMult(state.hq);
+  return Math.max(100, Math.round(total * cfg.hireMinutes * 60));
+};
+
+const resolveIncident = (state, id, now) => {
+  delete state.incidents[id];
+  state.cooldowns[id] = now;
+};
+
+// Старт міні-гри: видаємо одноразовий токен.
+export const startIncidentGame = (state, id, now) => {
+  const inc = state.incidents?.[id];
+  if (!INCIDENTS[id] || !inc) throw new Error("no_incident");
+  inc.game = { token: randomToken(), at: now };
+  return { token: inc.game.token };
+};
+
+// Фініш міні-гри: score 0..100. Від passScore — бізнес знову працює + бонус.
+export const finishIncidentGame = (state, id, token, score, now) => {
+  const cfg = INCIDENTS[id];
+  const inc = state.incidents?.[id];
+  if (!cfg || !inc) throw new Error("no_incident");
+  if (!inc.game || inc.game.token !== token) throw new Error("bad_token");
+  const took = (now - inc.game.at) / 1000;
+  if (took < GAME_MIN_SECONDS || took > GAME_MAX_SECONDS) { delete inc.game; throw new Error("bad_timing"); }
+  delete inc.game;
+  const clean = Math.max(0, Math.min(100, Math.round(Number(score) || 0)));
+  if (clean < cfg.passScore) return { passed: false, score: clean, stars: 0, bonus: 0 };
+  const stars = clean >= 95 ? 3 : clean >= 85 ? 2 : 1;
+  const b = BY_ID[id];
+  const bonus = Math.round(businessIncome(b, state.levels[id] || 0) * hqMult(state.hq) * cfg.bonusMinutes * 60 * (clean / 100));
+  state.cash += bonus;
+  state.earned += bonus;
+  resolveIncident(state, id, now);
+  return { passed: true, score: clean, stars, bonus };
+};
+
+// Найняти підміну без міні-гри.
+export const hireForIncident = (state, id, now) => {
+  if (!INCIDENTS[id] || !state.incidents?.[id]) throw new Error("no_incident");
+  const cost = hireCost(state, id);
+  if (state.cash < cost) return { hired: false, cost };
+  state.cash -= cost;
+  resolveIncident(state, id, now);
+  return { hired: true, cost };
 };
 
 // Покращення: target = "hq" або id бізнесу; count = 1 | 10 | "max".
@@ -95,6 +200,7 @@ export const publicConfig = () => ({
   hqMax: HQ_MAX,
   ranks: RANKS,
   offlineCap: OFFLINE_CAP_SECONDS,
+  incidents: INCIDENTS,
 });
 
 export const view = (state) => {
@@ -106,7 +212,8 @@ export const view = (state) => {
     hq: state.hq,
     hqCost: state.hq < HQ_MAX ? hqCost(state.hq) : null,
     hqMult: hqMult(state.hq),
-    rate: ratePerSecond(state.levels, state.hq),
+    rate: ratePerSecond(state.levels, state.hq, state.incidents),
+    incidents: Object.fromEntries(Object.entries(state.incidents || {}).map(([id, inc]) => [id, { type: inc.type, started_at: inc.started_at, hireCost: hireCost(state, id) }])),
     rank,
     server_time: state.updated_at,
   };
@@ -118,6 +225,7 @@ const parseRow = (row) => ({
   earned: Number(row.earned) || 0,
   levels: (() => { try { return JSON.parse(row.levels || "{}"); } catch { return {}; } })(),
   hq: Math.max(1, Math.min(HQ_MAX, Number(row.hq) || 1)),
+  ...(() => { try { const x = JSON.parse(row.incidents || "{}"); return { incidents: x.active || {}, cooldowns: x.cooldowns || {} }; } catch { return { incidents: {}, cooldowns: {} }; } })(),
   updated_at: Number(row.updated_at) || Date.now(),
   created_at: Number(row.created_at) || Date.now(),
 });
@@ -129,12 +237,13 @@ export const loadState = async (db, userId, now) => {
 
 export const saveState = async (db, userId, user, state) => {
   await db.prepare(
-    `INSERT INTO empire (user_id, name, avatar, cash, earned, levels, hq, updated_at, created_at)
-     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+    `INSERT INTO empire (user_id, name, avatar, cash, earned, levels, hq, incidents, updated_at, created_at)
+     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
      ON CONFLICT(user_id) DO UPDATE SET name = excluded.name, avatar = excluded.avatar, cash = excluded.cash,
-       earned = excluded.earned, levels = excluded.levels, hq = excluded.hq, updated_at = excluded.updated_at`,
+       earned = excluded.earned, levels = excluded.levels, hq = excluded.hq, incidents = excluded.incidents, updated_at = excluded.updated_at`,
   ).bind(userId, String(user?.name || "").slice(0, 64), user?.avatar || null, state.cash, state.earned,
-    JSON.stringify(state.levels), state.hq, state.updated_at, state.created_at).run();
+    JSON.stringify(state.levels), state.hq, JSON.stringify({ active: state.incidents || {}, cooldowns: state.cooldowns || {} }),
+    state.updated_at, state.created_at).run();
 };
 
 export const topPlayers = async (db, limit = 15) => {

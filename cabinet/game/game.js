@@ -3,6 +3,7 @@ import * as THREE from "three";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 import { CSS2DRenderer, CSS2DObject } from "three/addons/renderers/CSS2DRenderer.js";
 import * as E from "/workers/auth/src/empire.js";
+import { playCarWash } from "/cabinet/game/minigames/carwash.js";
 
 const API = "https://auth.family-castro.com";
 const SITE = "https://family-castro.com";
@@ -33,6 +34,7 @@ const game = {
 };
 const liveCash = () => (game.state ? game.state.cash + game.state.rate * Math.max(0, (performance.now() - game.syncedAt) / 1000) : 0);
 const levelOf = (id) => (id === "hq" ? game.state.hq : game.state.levels[id] || 0);
+const isDown = (id) => !!game.state?.incidents?.[id];
 
 // ---------- API (або демо на localhost) ----------
 let demoState = null;
@@ -50,7 +52,7 @@ const api = async (path, body) => {
 };
 const demoApi = async (path, body) => {
   const now = Date.now();
-  if (!demoState) { demoState = E.freshState(now - 3 * 3600e3); demoState.cash = 25000; demoState.levels = { wash: 32, garage: 12, club: 1 }; demoState.earned = 3e5; }
+  if (!demoState) { demoState = E.freshState(now - 3 * 3600e3); demoState.cash = 25000; demoState.levels = { wash: 32, garage: 12, club: 1 }; demoState.earned = 3e5; demoState.incidents = { wash: { type: "sick", started_at: now - 40 * 60e3 } }; }
   if (path === "/game/state") {
     const offline = E.settle(demoState, now);
     return { status: 200, data: { ok: true, player: { id: "demo", name: "Dominic Castro", avatar: null }, config: E.publicConfig(), state: E.view(demoState), offline: offline.seconds >= 60 ? offline : null, place: { place: 1, total: 12 } } };
@@ -59,6 +61,16 @@ const demoApi = async (path, body) => {
     E.settle(demoState, now);
     const result = E.upgrade(demoState, body.target, body.count);
     return { status: 200, data: { ok: true, result, state: E.view(demoState) } };
+  }
+  if (path.startsWith("/game/incident/")) {
+    E.settle(demoState, now, () => 1);
+    const action = path.slice("/game/incident/".length);
+    try {
+      const result = action === "start" ? E.startIncidentGame(demoState, body.id, now)
+        : action === "finish" ? E.finishIncidentGame(demoState, body.id, body.token, body.score, now + 20e3)
+          : E.hireForIncident(demoState, body.id, now);
+      return { status: 200, data: { ok: true, result, state: E.view(demoState) } };
+    } catch (error) { return { status: 409, data: { ok: false, error: error.message, state: E.view(demoState) } }; }
   }
   if (path === "/game/top") {
     return { status: 200, data: { ok: true, me: { id: "demo", place: 1, total: 5 }, top: [
@@ -341,7 +353,16 @@ const setupPlots = () => {
     scene.add(spoke);
     const label = labelFor(b);
     scene.add(label);
-    plots.set(b.id, { b, group, label, pos, level: -1, top: 7 });
+    const beacon = new THREE.Group();
+    const bulb = new THREE.Mesh(new THREE.SphereGeometry(0.55, 16, 12), glow(0xff2a3d, 4));
+    const halo = new THREE.Mesh(new THREE.ConeGeometry(2.2, 5, 24, 1, true), new THREE.MeshBasicMaterial({ color: 0xff2a3d, transparent: true, opacity: 0.12, side: THREE.DoubleSide, depthWrite: false }));
+    halo.position.y = -2.6;
+    const beam = new THREE.PointLight(0xff2a3d, 30, 16, 1.5);
+    beacon.add(bulb, halo, beam);
+    beacon.visible = false;
+    beacon.userData = { bulb, beam };
+    scene.add(beacon);
+    plots.set(b.id, { b, group, label, pos, level: -1, top: 7, beacon });
   });
   const hqLabelEl = document.createElement("div");
   hqLabelEl.className = "gx-label";
@@ -448,6 +469,8 @@ const refreshWorld = (changedId) => {
       }
     }
     plot.label.position.set(plot.pos.x, plot.top + 1.2, plot.pos.z);
+    plot.beacon.position.set(plot.pos.x, plot.top + 0.6, plot.pos.z);
+    plot.beacon.visible = isDown(b.id);
   });
   const hqPlot = plots.get("hq");
   hqPlot.label.position.set(0, hqPlot.top + 2.4, 0);
@@ -463,9 +486,11 @@ const refreshLabels = () => {
     const lvl = levelOf(id);
     const cost = nextCost(id);
     const locked = id !== "hq" && lvl === 0;
+    const down = isDown(id);
     el.classList.toggle("is-locked", locked);
-    el.classList.toggle("is-ready", cost != null && cash >= cost);
-    lvlEl.textContent = locked ? `🔒 ${fmt(cost)}` : id === "hq" ? `РІВ. ${lvl}/${game.config.hqMax}` : `РІВ. ${lvl}`;
+    el.classList.toggle("is-alert", down);
+    el.classList.toggle("is-ready", !down && cost != null && cash >= cost);
+    lvlEl.textContent = down ? "⚠️ ПРОСТІЙ" : locked ? `🔒 ${fmt(cost)}` : id === "hq" ? `РІВ. ${lvl}/${game.config.hqMax}` : `РІВ. ${lvl}`;
   });
 };
 
@@ -543,6 +568,20 @@ const renderPanel = () => {
     ? `Серце імперії. Кожен рівень штабу збільшує дохід УСІХ бізнесів. Зараз ×${game.state.hqMult.toFixed(1)}.`
     : b.desc;
   $("pLevel").textContent = isHQ ? `${lvl}/${game.config.hqMax}` : lvl;
+  const inc = !isHQ && game.state.incidents?.[id];
+  const incCfg = inc && game.config.incidents?.[id];
+  panel.classList.toggle("is-down", !!inc);
+  $("pIncident").hidden = !inc;
+  if (inc && incCfg) {
+    $("iIcon").textContent = incCfg.icon;
+    $("iTitle").textContent = incCfg.title;
+    const mins = Math.max(1, Math.round((Date.now() - inc.started_at) / 60000));
+    $("iText").textContent = `${incCfg.text} Простій уже ${mins} хв.`;
+    $("iPlay").querySelector("span").textContent = `🧽 ${incCfg.action}`;
+    $("iHireCost").textContent = fmt(inc.hireCost);
+    $("iHire").disabled = liveCash() < inc.hireCost || game.busy;
+    $("iPlay").disabled = game.busy;
+  }
   if (isHQ) {
     $("pIncome").textContent = `×${E.hqMult(lvl).toFixed(1)}`;
     $("pNext").textContent = lvl < game.config.hqMax ? `×${E.hqMult(lvl + 1).toFixed(1)}` : "MAX";
@@ -551,7 +590,7 @@ const renderPanel = () => {
     const mult = game.state.hqMult;
     const now = E.businessIncome(b, lvl) * mult;
     const next = E.businessIncome(b, lvl + 1) * mult;
-    $("pIncome").textContent = `${fmt(now)}/с`;
+    $("pIncome").textContent = inc ? "$0/с ⚠️" : `${fmt(now)}/с`;
     $("pNext").textContent = `+${fmt(next - now)}/с`;
     const nextMs = game.config.milestones.find((m) => m > lvl);
     $("pMilestone").hidden = !nextMs;
@@ -590,7 +629,7 @@ const renderList = () => {
     const lvl = levelOf(r.id);
     const cost = nextCost(r.id);
     const locked = r.id !== "hq" && lvl === 0;
-    const income = r.id === "hq" ? `Множник ×${game.state.hqMult.toFixed(1)}` : locked ? "Не куплено" : `${fmt(E.businessIncome(bizById(r.id), lvl) * game.state.hqMult)}/с • рів. ${lvl}`;
+    const income = r.id === "hq" ? `Множник ×${game.state.hqMult.toFixed(1)}` : locked ? "Не куплено" : isDown(r.id) ? `⚠️ Простій • рів. ${lvl}` : `${fmt(E.businessIncome(bizById(r.id), lvl) * game.state.hqMult)}/с • рів. ${lvl}`;
     const ready = cost != null && cash >= cost;
     return `<button type="button" class="gx-item ${locked ? "is-locked" : ""} ${ready ? "is-ready" : ""}" data-pick="${r.id}" style="--c:${r.color}">
       <span class="gx-item__icon">${esc(r.icon)}</span>
@@ -670,6 +709,75 @@ const buy = async (count) => {
   }
 };
 
+// ---------- Події: підміна (міні-гра) або найм ----------
+const fixIncident = async (id) => {
+  if (game.busy || !isDown(id)) return;
+  let token = null;
+  const res = await playCarWash({
+    practice: false,
+    onStart: async () => {
+      const { data } = await api("/game/incident/start", { id });
+      if (!data?.ok) { toast("Подію вже вирішено або сталася помилка"); if (data?.state) { game.state = data.state; game.syncedAt = performance.now(); refreshWorld(); } return false; }
+      token = data.result.token;
+      return true;
+    },
+  });
+  if (res.cancelled || !token) return;
+  game.busy = true;
+  try {
+    const { data } = await api("/game/incident/finish", { id, token, score: res.score });
+    if (data?.state) { game.state = data.state; game.syncedAt = performance.now(); }
+    if (!data?.ok) { toast(data?.error === "bad_timing" ? "Надто швидко — спробуй ще раз" : "Не вдалося зарахувати. Спробуй ще раз."); return; }
+    refreshWorld(id);
+    if (data.result.passed) {
+      const plot = plots.get(id);
+      burst(new THREE.Vector3(plot.pos.x, plot.top, plot.pos.z), new THREE.Color(0x3fb6ff));
+      showModal({ icon: "✨", kicker: `${"★".repeat(data.result.stars)} Мийка знову працює`, title: `+${fmt(data.result.bonus)}`, text: `Чистота ${data.result.score}%. Клієнти повертаються, а за якісну роботу — бонус.`, ok: "Супер" });
+    } else {
+      toast(`Чистота ${data.result.score}% — замало. Мийка ще стоїть.`);
+    }
+  } finally {
+    game.busy = false;
+    renderPanel(); renderHud(); renderList(); renderGames();
+  }
+};
+
+const hireIncident = async (id) => {
+  if (game.busy || !isDown(id)) return;
+  game.busy = true;
+  try {
+    const { data } = await api("/game/incident/hire", { id });
+    if (data?.state) { game.state = data.state; game.syncedAt = performance.now(); }
+    if (!data?.ok || !data.result.hired) { toast("Не вистачає грошей на підміну"); return; }
+    refreshWorld(id);
+    toast(`👷 Підміну найнято за ${fmt(data.result.cost)} — бізнес знову працює`);
+  } finally {
+    game.busy = false;
+    renderPanel(); renderHud(); renderList(); renderGames();
+  }
+};
+
+const renderGames = () => {
+  const down = isDown("wash");
+  $("gameWash").classList.toggle("is-alert", down);
+  $("gameWashBadge").textContent = down ? "⚠️ Мийка стоїть — врятуй!" : "Тренування";
+};
+
+// Сповіщення про нову подію — один раз на кожну
+const seenIncidents = new Set(JSON.parse(sessionStorage.getItem("gx-seen-incidents") || "[]"));
+const announceIncidents = () => {
+  Object.entries(game.state.incidents || {}).forEach(([id, inc]) => {
+    const key = `${id}:${inc.started_at}`;
+    if (seenIncidents.has(key)) return;
+    seenIncidents.add(key);
+    try { sessionStorage.setItem("gx-seen-incidents", JSON.stringify([...seenIncidents])); } catch {}
+    const cfg = game.config.incidents?.[id];
+    if (!cfg || !$("modal").hidden) return;
+    showModal({ icon: "⚠️", kicker: `${bizById(id).short} • простій`, title: cfg.title, text: `${cfg.text} Підміни працівника в міні-грі або найми когось.`, ok: "До бізнесу" });
+    $("mOk").onclick = () => { $("modal").hidden = true; $("mOk").onclick = null; select(id); };
+  });
+};
+
 const showModal = ({ icon, kicker, title, text, ok }) => {
   $("mIcon").textContent = icon;
   $("mKicker").textContent = kicker;
@@ -686,6 +794,14 @@ document.querySelectorAll(".gx-dock [data-open]").forEach((btn) => btn.addEventL
 document.querySelectorAll(".gx-sheet [data-close]").forEach((btn) => btn.addEventListener("click", closeSheets));
 $("list").addEventListener("click", (e) => { const item = e.target.closest("[data-pick]"); if (item) select(item.dataset.pick); });
 $("mOk").addEventListener("click", () => { $("modal").hidden = true; });
+$("iPlay").addEventListener("click", () => fixIncident(game.selected));
+$("iHire").addEventListener("click", () => hireIncident(game.selected));
+const openWashGame = () => {
+  if (isDown("wash")) { closeSheets(); fixIncident("wash"); }
+  else playCarWash({ practice: true });
+};
+$("gameWash").addEventListener("click", openWashGame);
+$("gameWash").addEventListener("keydown", (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); openWashGame(); } });
 addEventListener("keydown", (e) => {
   if (e.key === "Escape") { if (!$("modal").hidden) $("modal").hidden = true; else if (game.selected) select(null); else closeSheets(); }
 });
@@ -745,6 +861,13 @@ const loop = () => {
     }
     const holo = plot.group.userData.holo;
     if (holo) { holo[0].material.opacity = 0.35 + Math.sin(t * 2.5) * 0.3; holo[0].rotation.y += dt * 0.3; holo[1].rotation.y = holo[0].rotation.y; }
+    if (plot.beacon?.visible) {
+      const on = Math.sin(t * 9) > 0;
+      plot.beacon.userData.bulb.material.emissiveIntensity = on ? 6 : 0.6;
+      plot.beacon.userData.beam.intensity = on ? 40 : 4;
+      plot.beacon.rotation.y += dt * 3;
+      plot.beacon.position.y = plot.top + 0.6 + Math.sin(t * 3) * 0.15;
+    }
     const tip = plot.group.userData.tip;
     if (tip) tip.material.emissiveIntensity = Math.sin(t * 5) > 0 ? 5 : 0.3;
   });
@@ -771,7 +894,7 @@ const loop = () => {
       incomeTick = 0;
       game.config.businesses.forEach((b) => {
         const lvl = game.state.levels[b.id] || 0;
-        if (lvl > 0) floatMoney(b.id, E.businessIncome(b, lvl) * game.state.hqMult * 2.5);
+        if (lvl > 0 && !isDown(b.id)) floatMoney(b.id, E.businessIncome(b, lvl) * game.state.hqMult * 2.5);
       });
       refreshLabels();
       if (game.selected) renderPanel();
@@ -787,7 +910,7 @@ const loop = () => {
 const resync = async () => {
   try {
     const { status, data } = await api("/game/state");
-    if (status === 200 && data?.ok) { game.state = data.state; game.syncedAt = performance.now(); refreshWorld(); }
+    if (status === 200 && data?.ok) { game.state = data.state; game.syncedAt = performance.now(); refreshWorld(); renderPanel(); renderGames(); announceIncidents(); }
   } catch { /* наступного разу */ }
 };
 
@@ -827,6 +950,12 @@ const start = async () => {
       text: `Бізнеси працювали ${h ? `${h} год ` : ""}${m} хв${data.offline.capped ? " (максимум 8 год — заходь частіше!)" : ""}.`, ok: "Забрати" });
   } else if (data.isNew) {
     showModal({ icon: "🏛️", kicker: "Ласкаво просимо", title: "CASTRO: Empire", text: "Твоя імперія починається з автомийки. Клікай на будівлі, прокачуй бізнеси, відкривай нові точки й піднімайся в ТОП сімʼї.", ok: "Почати" });
+  }
+  renderGames();
+  if ($("modal").hidden) announceIncidents();
+  else {
+    const prev = $("mOk").onclick;
+    $("mOk").onclick = () => { $("modal").hidden = true; $("mOk").onclick = prev; setTimeout(announceIncidents, 250); };
   }
   setInterval(resync, 45000);
   document.addEventListener("visibilitychange", () => { if (!document.hidden) resync(); });

@@ -11,7 +11,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&display=swap">
-  <link rel="stylesheet" href="/cabinet/game/game.css?v=20261117">
+  <link rel="stylesheet" href="/cabinet/game/game.css?v=20261117b">
   <script type="importmap">
     {
       "imports": {
@@ -59,6 +59,14 @@
       <div><small id="pKind">Бізнес</small><h2 id="pName">—</h2></div>
     </div>
     <p class="gx-panel__desc" id="pDesc"></p>
+    <div class="gx-incident" id="pIncident" hidden>
+      <div class="gx-incident__head"><span id="iIcon">🤒</span><div><small>Простій • бізнес не заробляє</small><b id="iTitle">—</b></div></div>
+      <p id="iText"></p>
+      <div class="gx-incident__btns">
+        <button type="button" class="gx-btn gx-btn--red" id="iPlay"><span>🧽 Підмінити</span><b>Міні-гра</b></button>
+        <button type="button" class="gx-btn" id="iHire"><span>Найняти</span><b id="iHireCost">$0</b></button>
+      </div>
+    </div>
     <div class="gx-panel__stats">
       <div><small>Рівень</small><b id="pLevel">0</b></div>
       <div><small>Дохід</small><b id="pIncome">$0/с</b></div>
@@ -94,6 +102,7 @@
     <header><h2>Міні-ігри</h2><button type="button" data-close aria-label="Закрити">✕</button></header>
     <p class="gx-sheet__lead">Короткі ігри всередині імперії: бонуси до доходу, рідкісні нагороди й окремі ТОПи.</p>
     <div class="gx-games">
+      <article class="gx-game is-live" id="gameWash" role="button" tabindex="0"><span class="gx-game__art">🧽</span><h3>Мийка авто</h3><p id="gameWashText">Піна, вода й 60 секунд. Коли на мийці простій — рятуй бізнес і отримуй бонус.</p><b id="gameWashBadge">Тренування</b></article>
       <article class="gx-game"><span class="gx-game__art">🏎️</span><h3>Заїзд по Вайнвуду</h3><p>Аркадні перегони на авто з автопарку сімʼї.</p><b>Скоро</b></article>
       <article class="gx-game"><span class="gx-game__art">🚚</span><h3>Доставка вантажу</h3><p>Довези контейнер з порту за таймер — отримай бонус.</p><b>Скоро</b></article>
       <article class="gx-game"><span class="gx-game__art">🚨</span><h3>Втеча від копів</h3><p>Відірвись від погоні якомога довше.</p><b>Скоро</b></article>
@@ -121,6 +130,6 @@
 
   <div class="gx-toast" id="toast" role="status" aria-live="polite"></div>
 
-  <script type="module" src="/cabinet/game/game.js?v=20261117"></script>
+  <script type="module" src="/cabinet/game/game.js?v=20261117b"></script>
 </body>
 </html>
