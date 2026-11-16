@@ -1,13 +1,17 @@
 <!doctype html>
 <html lang="uk">
 <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
   <!-- SEO -->
   <title>Family Castro • Офіційний сайт</title>
   <meta name="description" content="Офіційна сторінка родини Family Castro.">
-  <link rel="canonical" href="https://family-castro.com/" /> 
+  <link rel="canonical" href="https://family-castro.com/" />
 
   <!-- Open Graph / Discord / Telegram -->
   <meta property="og:title" content="Family Castro • Офіційний сайт" />
+  <meta property="og:description" content="Офіційна сторінка родини Family Castro • NG GTA 5." />
   <meta property="og:image" content="https://family-castro.com/assets/image01.png" />
   <meta property="og:url" content="https://family-castro.com/" />
   <meta property="og:type" content="website" />
@@ -15,25 +19,30 @@
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image" />
 
-  <link rel="icon" type="image/png" href="assets/logo.png" />
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="icon" type="image/png" href="/assets/logo.png" />
   <script>document.documentElement.classList.add("home-intro-pending");</script>
 
+  <!-- Шрифт заголовків головної -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&display=swap">
+
   <!-- CSS -->
-  <link rel="stylesheet" href="/styles.css">
-  <link rel="stylesheet" href="/home.css">
-  <link rel="stylesheet" href="/auth.css">
-  <link rel="stylesheet" href="/auth-dock.css">
-  <link rel="stylesheet" href="/page-transition.css">
-  <script src="/page-transition.js"></script>
-  <link rel="stylesheet" href="/cursor.css">
+  <link rel="stylesheet" href="/styles.css?v=20260926">
+  <link rel="stylesheet" href="/home.css?v=20260926m">
+  <link rel="stylesheet" href="/auth.css?v=20260926b">
+  <link rel="stylesheet" href="/profile.css?v=20260926">
+  <link rel="stylesheet" href="/auth-dock.css?v=20260926">
+  <link rel="stylesheet" href="/page-transition.css?v=20260926">
+  <script src="/page-transition.js?v=20260926"></script>
+  <link rel="stylesheet" href="/cursor.css?v=20260926">
+  <link rel="stylesheet" href="/screen-scale.css?v=20260926">
 </head>
 
 <body class="home">
 <div class="page-transition" aria-hidden="true">
   <div class="page-transition__loader">
-    <img class="page-transition__logo" src="/assets/hero.gif" alt="CASTRO">
+    <img class="page-transition__logo" src="/assets/castro-logo.webp" alt="CASTRO">
     <div class="page-transition__text">Завантаження…</div>
     <div class="page-transition__line"><span></span></div>
   </div>
@@ -43,7 +52,7 @@
   <div class="vload__bg"></div>
 
   <div class="vload__center">
-    <img class="vload__logo" src="assets/hero.gif" alt="CASTRO">
+    <img class="vload__logo" src="assets/castro-logo.webp" alt="CASTRO">
     <div class="vload__text">Завантаження…</div>
   </div>
 
@@ -65,69 +74,46 @@
   </div>
 </div>
 
-<!-- AUTH NUDGE (one-time spotlight) -->
-<div id="auth-nudge" class="nudge" aria-hidden="true">
-  <div class="nudge__backdrop"></div>
-
-  <div class="nudge__tooltip" role="dialog" aria-modal="true" aria-label="Підказка авторизації">
-    <div class="nudge__title">👑 Важливо</div>
-    <div class="nudge__text">
-      Авторизуйся через Discord і <b>відредагуй профіль</b>:
-      <br><span class="nudge__mono">[Ім’я Прізвище | Static ID]</span>
+<header class="hero" id="hero">
+  <!-- Кадр, що «прилипає» до екрана: логотип-вікно → повне відео → меню -->
+  <div class="hero-stage" id="heroStage">
+    <div class="hero-bg">
+      <video autoplay muted loop playsinline preload="auto" aria-hidden="true">
+        <source src="/assets/bg.mp4" type="video/mp4">
+      </video>
     </div>
+    <!-- Фони розділів меню: ті самі відео, що на їхніх сторінках; вантажаться лише при першому наведенні -->
+    <div class="hero-previews" aria-hidden="true">
+      <video data-for="info" muted loop playsinline preload="none" src="/assets/info-bg.mp4"></video>
+      <video data-for="join" muted loop playsinline preload="none" src="/assets/join-bag.mp4"></video>
+      <video data-for="shop" muted loop playsinline preload="none" src="/assets/order-bg.mp4"></video>
+    </div>
+    <div class="hero-shade" aria-hidden="true"></div>
 
-    <div class="nudge__actions">
-      <button id="nudge-go" class="nudge__btn nudge__btn--primary" type="button">Авторизуватись</button>
-      <button id="nudge-close" class="nudge__btn" type="button">Зрозуміло</button>
+    <div class="hero-mask" aria-hidden="true"><b>CASTRO</b></div>
+    <div class="hero-cap hero-cap--top" aria-hidden="true">Family</div>
+    <div class="hero-cap hero-cap--bottom" aria-hidden="true">NG GTA 5</div>
+
+    <button class="hero-scroll" type="button" data-hero-skip aria-label="Прокрутити до меню">
+      <i aria-hidden="true"></i>Гортай
+    </button>
+
+    <!-- Фінальний кадр: великі слова-меню зліва, опис розділу справа внизу -->
+    <div class="hero-content hero-final">
+      <a class="hero-brand" href="/"><img src="/assets/castro-logo.webp" alt="">Family <span>Castro</span></a>
+      <h1 class="sr-only">Family Castro</h1>
+
+      <nav aria-label="Розділи сайту">
+        <ul class="hmenu">
+          <li><a href="/info/" data-key="info" data-text="Кодекс сімʼї, керівництво, база в штаті, автопарк і галерея — усе, що варто знати про сімʼю до вступу."><small>01</small><span>Інформація</span><i aria-hidden="true">→</i></a></li>
+          <li><a href="/join/" data-key="join" data-text="Анкета кандидата CASTRO: вимоги, чотири кроки до сімʼї і форма заявки. Анкета одразу летить у кадровий канал — керівництво розгляне її та відповість у Discord."><small>02</small><span>Вступ у сімʼю</span><i aria-hidden="true">→</i></a></li>
+          <li><a href="/shop/" data-key="shop" data-text="Оптові поставки зброї, боєприпасів і спорядження. Що більша партія — то більша знижка, а замовлення одразу летить менеджеру в Discord."><small>03</small><span>Магазин</span><i aria-hidden="true">→</i></a></li>
+        </ul>
+      </nav>
+
+      <p class="hmenu-desc"><b>Порядок • Дисципліна • Сила</b><span id="hmenuText">Обери розділ.</span></p>
     </div>
   </div>
-</div>
-  
-<header class="hero">
-  <div class="hero-bg">
-  <video autoplay muted playsinline>
-    <source src="assets/bg.mp4" type="video/mp4">
-  </video>
-</div>
-
-  <div class="hero-content">
-
-    <h1>Family <span>Castro</span></h1>
-    <p class="subtitle">Official Family NG GTA 5</p>
-
-    <div class="actions">
-  <a href="/info" class="btn-glass">
-    <span class="btn-glass__icon" aria-hidden="true">
-      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 10.5v6M12 7.5h.01"/></svg>
-    </span>
-    <span class="btn-glass__copy">
-      <strong>Інформація</strong>
-      <small>Про сімʼю та діяльність</small>
-    </span>
-  </a>
-
-  <a href="/join" class="btn-glass btn-glass--red">
-    <span class="btn-glass__icon" aria-hidden="true">
-      <svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3"/><path d="M3.5 18c.5-3.2 2.3-5 5.5-5s5 1.8 5.5 5M17.5 8v6M14.5 11h6"/></svg>
-    </span>
-    <span class="btn-glass__copy">
-      <strong>Вступ у сімʼю</strong>
-      <small>Оформлення заявки</small>
-    </span>
-  </a>
-
-  <a href="/" class="btn-glass">
-    <span class="btn-glass__icon" aria-hidden="true">
-      <svg viewBox="0 0 24 24"><path d="M5 9h14l-1 11H6L5 9Z"/><path d="M9 9V7a3 3 0 0 1 6 0v2"/></svg>
-    </span>
-    <span class="btn-glass__copy">
-      <strong>Магазин</strong>
-      <small>Зброя та спорядження</small>
-    </span>
-  </a>
-</div>
-</div>
-  
 </header>
 
 <footer class="site-footer">
@@ -140,7 +126,7 @@
     <img src="/assets/NG.png" alt="NG GTA 5" class="footer-logo">
   </a>
   <br>
-  <a href="/info/legal" class="footer-link" style="gap:6px;">
+  <a href="/info/legal/" class="footer-link" style="gap:6px;">
       ⚖️ Правова інформація
     </a>
 </footer>
@@ -163,9 +149,9 @@
   </div>
 </div>
   
-<script src="/auth.js" defer></script>
-<script src="authtip.js" defer></script>
-<script src="/profile.js" defer></script>
+<script src="/auth.js?v=20260926" defer></script>
+<script src="/authtip.js?v=20260926" defer></script>
+<script src="/profile.js?v=20260926b" defer></script>
 <script>
 (function(){
   const loader = document.getElementById("vload");
@@ -190,63 +176,10 @@
 
   let done = false;
 
+  // Поява слова-маски CASTRO (CSS-анімація на body.home-intro-done)
   function runHomeIntro(){
-    if(managedArrival){
-      document.body.classList.add("home-intro-done");
-      document.documentElement.classList.remove("home-intro-pending");
-      return;
-    }
-
-    const logo = document.querySelector(".logo--gif");
-    const title = document.querySelector(".hero-content h1");
-    const subtitle = document.querySelector(".hero-content .subtitle");
-    const buttons = [...document.querySelectorAll(".actions .btn-glass")];
-
-    document.body.classList.add("home-intro-run");
-
-    if(!Element.prototype.animate || !logo || !title || !subtitle){
-      const steps = [
-        [80, "home-intro-step-logo"],
-        [520, "home-intro-step-title"],
-        [680, "home-intro-step-subtitle"],
-        [820, "home-intro-step-button-1"],
-        [900, "home-intro-step-button-2"],
-        [980, "home-intro-step-button-3"],
-        [1480, "home-intro-done"]
-      ];
-      steps.forEach(([delay, className]) => setTimeout(() => {
-        document.body.classList.add(className);
-        if(className === "home-intro-done") document.documentElement.classList.remove("home-intro-pending");
-      }, delay));
-      return;
-    }
-
-    const animations = [
-      logo.animate([
-        { opacity:0, transform:"scale(.76)", filter:"blur(9px) brightness(2)" },
-        { opacity:1, transform:"scale(1)", filter:"blur(0) brightness(1)" }
-      ], { duration:720, delay:80, easing:"cubic-bezier(.2,.72,.2,1)", fill:"forwards" }),
-      title.animate([
-        { opacity:0, transform:"translateY(12px)", filter:"blur(4px)" },
-        { opacity:1, transform:"translateY(0)", filter:"blur(0)" }
-      ], { duration:480, delay:520, easing:"cubic-bezier(.2,.72,.2,1)", fill:"forwards" }),
-      subtitle.animate([
-        { opacity:0, transform:"translateY(10px)" },
-        { opacity:.85, transform:"translateY(0)" }
-      ], { duration:450, delay:680, easing:"ease-out", fill:"forwards" })
-    ];
-
-    buttons.forEach((button, index) => animations.push(button.animate([
-      { opacity:0, transform:"translateY(14px) scale(.985)" },
-      { opacity:1, transform:"translateY(0) scale(1)" }
-    ], { duration:460, delay:820 + index * 80, easing:"cubic-bezier(.2,.72,.2,1)", fill:"forwards" })));
-
-    Promise.allSettled(animations.map(animation => animation.finished))
-      .finally(() => {
-        document.body.classList.add("home-intro-done");
-        document.documentElement.classList.remove("home-intro-pending");
-        animations.forEach(animation => animation.cancel());
-      });
+    document.body.classList.add("home-intro-done");
+    document.documentElement.classList.remove("home-intro-pending");
   }
 
   // Ховаємо красиво (розсіювання)
@@ -264,7 +197,7 @@
   const introObserver = new MutationObserver(() => {
     if(!loader.classList.contains("is-hide")) return;
     introObserver.disconnect();
-    setTimeout(runHomeIntro, 420);
+    setTimeout(runHomeIntro, managedArrival ? 0 : 300);
   });
   introObserver.observe(loader, { attributes: true, attributeFilter: ["class"] });
 
@@ -298,7 +231,8 @@
 })();
 </script>
   
-<script src="/button-fx.js"></script>
-<script src="/cursor.js"></script>
+<script src="/home.js?v=20260926m"></script>
+<script src="/button-fx.js?v=20260926"></script>
+<script src="/cursor.js?v=20260926"></script>
 </body>
 </html>

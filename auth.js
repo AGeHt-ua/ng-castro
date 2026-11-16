@@ -92,12 +92,9 @@
     window.location.reload();
   });
 
-userBox.addEventListener("click", () => {
-  // Наприклад, відкрити модалку профілю
-  const modal = document.getElementById("profile-modal");
-  if (modal) modal.classList.remove("hidden");
-});
-  
+  // Відкриття модалки профілю по кліку на userBox обробляє profile.js (openModal),
+  // тут дублювати не потрібно — інакше модалка показувалась порожньою до завантаження даних.
+
   // init
   setLoading(true);
   fetchMe().finally(() => setLoading(false));

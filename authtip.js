@@ -92,9 +92,19 @@
 
       const gap = 16;
       const preferLeft = r.right > window.innerWidth * 0.6;
+      const roomSide = preferLeft ? r.left - gap - 12 : window.innerWidth - r.right - gap - 12;
 
-      let left = preferLeft ? Math.round(r.left - bubbleW - gap) : Math.round(r.right + gap);
-      let top  = Math.round(r.top + r.height / 2 - 54);
+      let left;
+      let top;
+      if (roomSide >= bubbleW) {
+        // Є місце збоку від кнопки
+        left = preferLeft ? Math.round(r.left - bubbleW - gap) : Math.round(r.right + gap);
+        top  = Math.round(r.top + r.height / 2 - 54);
+      } else {
+        // Вузький екран: ставимо під кнопкою, щоб не перекривати її
+        left = preferLeft ? Math.round(r.right - bubbleW) : Math.round(r.left);
+        top  = Math.round(r.bottom + 10);
+      }
 
       if (left < 12) left = 12;
       if (left + bubbleW > window.innerWidth - 12) left = Math.round(window.innerWidth - bubbleW - 12);
@@ -195,18 +205,42 @@
       }
     };
 
-    // Старт: даємо auth.js встигнути fetchMe + emitAuth
-    setTimeout(() => { evaluate(); }, 700);
+    // Не показуємо підказку поверх лоадера / до завершення інтро головної
+    const pageReady = () => {
+      const loader = document.getElementById("vload");
+      const loaderHidden = !loader || loader.classList.contains("is-hide");
+      const root = document.documentElement;
+      return loaderHidden &&
+        !root.classList.contains("home-intro-pending") &&
+        !root.classList.contains("page-transition-entering");
+    };
 
-    // На зміну стану
-    window.addEventListener("castro-auth", () => {
-      // auth.js міняє UI (hidden/class) синхронно, але надійніше — через мікротаск
-      setTimeout(() => { evaluate(); }, 0);
+    const whenPageReady = () => new Promise((resolve) => {
+      if (pageReady()) return resolve();
+      const obs = new MutationObserver(() => {
+        if (!pageReady()) return;
+        obs.disconnect();
+        resolve();
+      });
+      obs.observe(document.documentElement, { attributes: true, attributeFilter: ["class"], subtree: true });
     });
+
+    let started = false;
+    const evaluateWhenReady = () => {
+      if (!started) return;
+      setTimeout(() => { evaluate(); }, 0);
+    };
+
+    // Старт: чекаємо лоадер і даємо auth.js встигнути fetchMe + emitAuth
+    whenPageReady().then(() => setTimeout(() => {
+      started = true;
+      evaluate();
+    }, 700));
+
+    // На зміну стану (auth.js міняє UI синхронно, але надійніше — через макротаск)
+    window.addEventListener("castro-auth", evaluateWhenReady);
 
     // Після збереження профілю (profile.js диспатчить) — перевіряємо знову
-    window.addEventListener("castro-profile", () => {
-      setTimeout(() => { evaluate(); }, 0);
-    });
+    window.addEventListener("castro-profile", evaluateWhenReady);
   });
 })();

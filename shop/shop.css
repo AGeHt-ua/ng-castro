@@ -754,7 +754,7 @@ textarea{ min-height:90px; resize:vertical; }
   .rateRight{ width:100%; justify-content:space-between; }
 }
 
-/* CASTRO inline logo (hero.gif) */
+/* CASTRO inline logo (castro-logo.webp) */
 .castro--logo{
   display: inline-flex;
   align-items: center;
@@ -1834,4 +1834,29 @@ body.order.shop-intro-reveal > .auth{
 @keyframes shopIntroAuth{
   from{ opacity:0; transform:translateY(-10px); filter:blur(5px); }
   to{ opacity:1; transform:none; filter:none; }
+}
+
+/* =========================
+   SHOP EXTRAS
+   ========================= */
+.adminOpenBtn{
+  border: 1px solid rgba(224,24,45,.35);
+  background: rgba(224,24,45,.12);
+  color: rgba(255,255,255,.92);
+}
+
+.couponRow{
+  display:grid;
+  grid-template-columns: minmax(0,1fr) auto;
+  gap:8px;
+  align-items:center;
+}
+
+.couponBox .hint{
+  white-space: normal;
+  line-height: 1.45;
+}
+
+@media (max-width: 520px){
+  .couponRow{ grid-template-columns: 1fr; }
 }

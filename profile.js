@@ -186,7 +186,8 @@ if (window.__CASTRO_PROFILE_LOADED__) {
     const did = authUser?.id ? String(authUser.id) : "—";
 
     elName.textContent = displayName;
-    elSub.innerHTML = `Discord: ${tag}<br>ID: ${did}`;
+    const escHtml = (v) => String(v).replace(/[&<>"']/g, (m) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[m]));
+    elSub.innerHTML = `<span>Discord <b>${escHtml(tag)}</b></span><span>ID <b>${escHtml(did)}</b></span>`;
 
     const url = discordAvatarUrl(authUser);
     elA.innerHTML = "";
@@ -207,15 +208,28 @@ if (window.__CASTRO_PROFILE_LOADED__) {
     if (elLast) elLast.textContent = st.lastDate ? new Date(st.lastDate).toLocaleString("uk-UA") : "—";
   };
 
+  // Кілька модулів викликають fetchMe майже одночасно (init, castro-auth, модалка) —
+  // об'єднуємо паралельні запити і тримаємо результат 2 с, щоб не спамити /auth/me.
+  let __meInflight = null;
+  let __meCache = null;
   const fetchMe = async () => {
-    try {
-      const res = await fetch(ME_URL, { method: "GET", credentials: "include", cache: "no-store" });
-      const j = await res.json().catch(() => null);
-      if (!res.ok || !j?.ok) return null;
-      return j.user || null;
-    } catch {
-      return null;
-    }
+    if (__meCache && Date.now() - __meCache.at < 2000) return __meCache.user;
+    if (__meInflight) return __meInflight;
+
+    __meInflight = (async () => {
+      try {
+        const res = await fetch(ME_URL, { method: "GET", credentials: "include", cache: "no-store" });
+        const j = await res.json().catch(() => null);
+        const user = (res.ok && j?.ok) ? (j.user || null) : null;
+        __meCache = { user, at: Date.now() };
+        return user;
+      } catch {
+        return null;
+      } finally {
+        __meInflight = null;
+      }
+    })();
+    return __meInflight;
   };
 
   const fetchJoinProfile = async (uid) => {
@@ -257,7 +271,16 @@ if (window.__CASTRO_PROFILE_LOADED__) {
   const mention = (user) => (user?.id ? String(user.id) : "");
 
   // ========= Profile KV helpers =========
-  const loadProfile = async () => {
+  // Паралельні виклики loadProfile() отримують один і той самий запит.
+  let __profileInflight = null;
+  const loadProfile = () => {
+    if (!__profileInflight) {
+      __profileInflight = loadProfileFresh().finally(() => { __profileInflight = null; });
+    }
+    return __profileInflight;
+  };
+
+  const loadProfileFresh = async () => {
     let authP = {};
     try {
       const res = await fetch(PROFILE_URL, { method: "GET", credentials: "include", cache: "no-store" });
@@ -321,9 +344,9 @@ if (window.__CASTRO_PROFILE_LOADED__) {
     const st = String(p?.applicationStatus || "").toLowerCase();
 
     const label = (s) => {
-      if (s === "accepted") return "Розглянута ✅";
-      if (s === "rejected") return "Відхилена ❌";
-      if (s === "pending") return "Очікує розгляду ⏳";
+      if (s === "accepted") return "Розглянута";
+      if (s === "rejected") return "Відхилена";
+      if (s === "pending") return "Очікує розгляду";
       if (s === "cancelled") return "Скасована";
       return "Немає заявки";
     };
@@ -343,8 +366,8 @@ if (window.__CASTRO_PROFILE_LOADED__) {
     const decidedTxt = p?.applicationUpdatedAt ? new Date(p.applicationUpdatedAt).toLocaleString("uk-UA") : null;
 
     appMetaEl.innerHTML =
-      `🕒 Подано: <b>${createdTxt}</b>` +
-      (decidedTxt && st !== "pending" ? `<br>✔ Розглянуто: <b>${decidedTxt}</b>` : "");
+      `Подано: <b>${createdTxt}</b>` +
+      (decidedTxt && st !== "pending" ? `<br>Розглянуто: <b>${decidedTxt}</b>` : "");
 
     if (appCancelBtn) appCancelBtn.style.display = (st === "pending") ? "" : "none";
   };
@@ -358,7 +381,7 @@ if (window.__CASTRO_PROFILE_LOADED__) {
     try {
       const p = await loadProfile();
       const modal = document.getElementById("profile-modal");
-      const authUser = await fetchMe();
+      const authUser = await fetchMe(); // береться з кешу, loadProfile щойно його оновив
 
       renderOrdersPretty(p.orders || []);
       renderApp(p);
@@ -541,20 +564,44 @@ if (window.__CASTRO_PROFILE_LOADED__) {
   };
 
   const setJoinPending = async () => {
-    // The join Worker persists the application before it responds. Reload its
-    // authoritative state instead of storing a second client-written copy.
-    const profile = await loadProfile();
-    window.dispatchEvent(new Event("castro-profile"));
-    return profile;
+    setPfLoading(true);
+    try {
+      const p = await loadProfile();
+      const st = String(p?.applicationStatus || "").toLowerCase();
+
+      if (st === "accepted") return p;
+      if (st === "pending") return p;
+
+      const now = new Date().toISOString();
+      const next = { ...(p || {}) };
+      next.applicationStatus = "pending";
+      next.applicationCreatedAt = next.applicationCreatedAt || now;
+      next.applicationUpdatedAt = now;
+
+      const saved = await saveProfile(next);
+      window.dispatchEvent(new Event("castro-profile"));
+      return saved;
+    } finally {
+      setPfLoading(false);
+    }
   };
 
   const cancelJoinPending = async () => {
     setPfLoading(true);
     try {
-      const res = await fetch(`${APP_BASE}/cancel`, { method: "POST", credentials: "include" });
-      const data = await res.json().catch(() => null);
-      if (!res.ok || !data?.ok) throw new Error(data?.error || "cancel_failed");
-      const saved = await loadProfile();
+      const p = await loadProfile();
+      const st = String(p?.applicationStatus || "").toLowerCase();
+      if (st !== "pending") return p;
+
+      const now = Date.now();
+      const until = new Date(now + COOLDOWN_MS).toISOString();
+
+      const next = { ...(p || {}) };
+      next.applicationStatus = "cancelled";
+      next.applicationUpdatedAt = new Date().toISOString();
+      next.joinCooldownUntil = until;
+
+      const saved = await saveProfile(next);
       window.dispatchEvent(new Event("castro-profile"));
       return saved;
     } finally {
@@ -636,19 +683,26 @@ if (window.__CASTRO_PROFILE_LOADED__) {
       return;
     }
 
+    const esc = (s) =>
+      String(s ?? "").replace(/[&<>"']/g, (m) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[m]));
+
     wrap.innerHTML = arr.map((o) => {
-      const id = o?.orderId || o?.id || "—";
-      const d = fmtDate(o?.date);
-      const statusText = orderStatusText(o);
+      const id = esc(o?.orderId || o?.id || "—");
+      const d = esc(fmtDate(o?.date));
+      const statusText = esc(orderStatusText(o));
       const cls = statusClass(o?.status);
 
       return `
-        <button class="porder porder--receipt" type="button" data-order-id="${String(id)}" aria-label="Відкрити чек #${String(id)}">
+        <button class="porder porder--receipt" type="button" data-order-id="${id}" aria-label="Відкрити чек #${id}">
           <div class="porder__top">
             <div class="porder__left">
               <div class="porder__tag">ЧЕК</div>
-              <div class="porder__id">#${String(id)}</div>
+              <div class="porder__id">#${id}</div>
             </div>
+            <div class="porder__right">
+              <span class="pbadge ${cls}">${statusText}</span>
+            </div>
+          </div>
 
           <div class="porder__meta">
             <div class="porder__date">${d}</div>
@@ -902,8 +956,16 @@ if (window.__CASTRO_PROFILE_LOADED__) {
     });
 
     document.addEventListener("keydown", (e) => {
-      if (e.key === "Escape") closeReceipt();
+      if (e.key !== "Escape") return;
+      // Якщо відкрите фото — Escape закриває тільки його
+      if (isOpen("pf-imgview")) return;
+      closeReceipt();
     });
+  };
+
+  const isOpen = (id) => {
+    const el = document.getElementById(id);
+    return !!el && !el.classList.contains("hidden");
   };
 
   const closeModal = () => {
@@ -925,11 +987,15 @@ if (window.__CASTRO_PROFILE_LOADED__) {
     const appCancelBtn = document.getElementById("pf-app-cancel");
     if (!modal || !inpIc || !inpSid) return;
 
+    // Показуємо модалку одразу (зі станом завантаження), а не після всіх запитів
+    modal.classList.remove("hidden");
     document.body.classList.add("modal-open");
     setPfLoading(true);
 
     try {
       const p = await loadProfile();
+      // Користувач міг закрити модалку, поки йшло завантаження
+      if (modal.classList.contains("hidden")) return;
       const authUser = await fetchMe();
 
       const profileHelp = document.getElementById("pf-profile-help");
@@ -991,8 +1057,7 @@ if (window.__CASTRO_PROFILE_LOADED__) {
       setPfLoading(false);
     }
 
-    modal.classList.remove("hidden");
-    inpIc.focus();
+    if (!modal.classList.contains("hidden")) inpIc.focus();
   };
 
   window.openProfileModal = openModal;
@@ -1013,7 +1078,7 @@ if (window.__CASTRO_PROFILE_LOADED__) {
     guide.setAttribute("aria-live", "polite");
     guide.innerHTML = `
       <button class="profileGuide__close" type="button" aria-label="Закрити підказку">✕</button>
-      <div class="profileGuide__eyebrow">КРОК 2 З 2</div>
+      <div class="profileGuide__eyebrow">Крок 2 / 2</div>
       <div class="profileGuide__title">Профіль ще не налаштовано</div>
       <div class="profileGuide__text">
         Без IC імені та Static ID заявка, замовлення і відгуки недоступні.
@@ -1023,7 +1088,7 @@ if (window.__CASTRO_PROFILE_LOADED__) {
         <li>Вкажіть <b>Ім’я Прізвище</b> персонажа.</li>
         <li>Введіть числовий <b>Static ID</b> і збережіть.</li>
       </ol>
-      <button class="profileGuide__action" type="button">⚙️ Налаштувати профіль</button>
+      <button class="profileGuide__action" type="button">Налаштувати профіль</button>
       <div class="profileGuide__note">Static ID — постійний числовий ID вашого персонажа.</div>
     `;
     document.body.appendChild(guide);
@@ -1139,7 +1204,7 @@ if (window.__CASTRO_PROFILE_LOADED__) {
           localStorage.setItem("ic", ic);
           localStorage.setItem("sid", sid);
         } else {
-          fillInputs('input[name="nick"], input[name="nicknameId"], #nick', nickValue);
+          if (nickValue) fillInputs('input[name="nick"], input[name="nicknameId"], #nick', nickValue);
           lockAutofilled(false);
           localStorage.removeItem("ic");
           localStorage.removeItem("sid");
@@ -1156,7 +1221,8 @@ if (window.__CASTRO_PROFILE_LOADED__) {
 
         lockAutofilled(true);
       } else {
-        fillInputs('input[name="nick"], input[name="nicknameId"], #nick', nickValue);
+        // Гість: не затираємо те, що користувач уже встиг ввести вручну
+        if (nickValue) fillInputs('input[name="nick"], input[name="nicknameId"], #nick', nickValue);
         lockAutofilled(false);
       }
     } finally {
@@ -1184,26 +1250,21 @@ if (window.__CASTRO_PROFILE_LOADED__) {
 
         <div class="pmodal__card">
           <div class="pmodal__head">
-            <div class="pmodal__title">⚙️ Налаштування профілю</div>
-            <button class="pmodal__x" type="button" data-close>✕</button>
+            <div class="pmodal__title">Налаштування профілю</div>
+            <button class="pmodal__x" type="button" data-close aria-label="Закрити профіль">✕</button>
           </div>
 
           <div class="pmodal__body">
             <div class="pfhero" id="pfhero">
               <div class="pfhero__fx" aria-hidden="true">
-                <div class="pfhero__fire"></div>
-                <div class="pfhero__dust"></div>
-                <div class="pfhero__logo"></div>
-                <div class="pfhero__chain pfhero__chain--top"></div>
-                <div class="pfhero__chain pfhero__chain--bottom"></div>
-                <div class="pfhero__shine"></div>
+                <div class="pfhero__word">CASTRO</div>
               </div>
 
               <div id="pf-avatar" class="pfhero__avatar">👤</div>
 
               <div class="pfhero__meta">
                 <div id="pf-name" class="pfhero__name">Користувач</div>
-                <div id="pf-sub" class="pfhero__sub">Discord: — • ID: —</div>
+                <div id="pf-sub" class="pfhero__sub"><span>Discord <b>—</b></span><span>ID <b>—</b></span></div>
               </div>
             </div>
 
@@ -1277,8 +1338,8 @@ if (window.__CASTRO_PROFILE_LOADED__) {
               <div class="preceipt__backdrop" data-receipt-close></div>
               <div class="preceipt__card">
                 <div class="preceipt__head">
-                  <div class="preceipt__title">🧾 Чек</div>
-                  <button class="preceipt__x" type="button" data-receipt-close>✕</button>
+                  <div class="preceipt__title">Чек замовлення</div>
+                  <button class="preceipt__x" type="button" data-receipt-close aria-label="Закрити чек">✕</button>
                 </div>
                 <div id="pf-receipt-body" class="preceipt__body"></div>
               </div>
@@ -1321,7 +1382,10 @@ if (window.__CASTRO_PROFILE_LOADED__) {
     });
 
     document.addEventListener("keydown", (e) => {
-      if (e.key === "Escape") closeModal();
+      if (e.key !== "Escape") return;
+      // Escape спершу закриває верхній шар (фото / чек), а не весь профіль
+      if (isOpen("pf-imgview") || isOpen("pf-receipt")) return;
+      closeModal();
     });
 
     const btnEdit = document.getElementById("pf-edit");
@@ -1400,7 +1464,7 @@ if (window.__CASTRO_PROFILE_LOADED__) {
             setEditMode(false);
           } catch {}
 
-          showSaveHint("✅ Збережено", true);
+          showSaveHint("Збережено", true);
 
           await autofillForms(getUser ? getUser() : null);
           window.dispatchEvent(new Event("castro-profile"));
@@ -1411,7 +1475,7 @@ if (window.__CASTRO_PROFILE_LOADED__) {
           } catch {}
         } catch (err) {
           console.error(err);
-          showSaveHint("❌ Не вдалося зберегти", false);
+          showSaveHint("Не вдалося зберегти", false);
         }
       });
     }

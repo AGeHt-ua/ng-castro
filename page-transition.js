@@ -25,7 +25,7 @@
     const loaderPreload = document.createElement("link");
     loaderPreload.rel = "preload";
     loaderPreload.as = "image";
-    loaderPreload.href = "/assets/hero.gif";
+    loaderPreload.href = "/assets/castro-logo.webp";
     loaderPreload.dataset.castroLoaderPreload = "";
     document.head.append(loaderPreload);
   }
