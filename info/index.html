@@ -21,7 +21,7 @@
   <link rel="stylesheet" href="/auth.css?v=20260926b">
   <link rel="stylesheet" href="/profile.css?v=20261116">
   <link rel="stylesheet" href="/castro.css?v=20260926h">
-  <link rel="stylesheet" href="/info/family.css?v=20260926c">
+  <link rel="stylesheet" href="/info/family.css?v=20261117">
   <link rel="stylesheet" href="/page-transition.css?v=20260926">
   <link rel="stylesheet" href="/cursor.css?v=20260926">
   <link rel="stylesheet" href="/screen-scale.css?v=20260926">
@@ -486,12 +486,31 @@
 </main>
 
 <!-- Карта: де особняк -->
-<div class="fm-lb fm-lb--single" id="fmMap" role="dialog" aria-modal="true" aria-label="Особняк на карті" hidden>
-  <button class="fm-lb__close" type="button" aria-label="Закрити">✕</button>
-  <figure>
-    <img alt="Особняк Family Castro на карті — провулок Джентрі, Західний Вайнвуд" data-src="/assets/mansion-map.webp">
-    <figcaption><small>Західний Вайнвуд</small><b>Провулок Джентрі</b></figcaption>
-  </figure>
+<div class="fm-map" id="fmMap" role="dialog" aria-modal="true" aria-label="Особняк на карті" hidden>
+  <div class="fm-map__panel">
+    <span class="fm-map__corners" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+    <header class="fm-map__bar">
+      <span class="fm-map__live"><i></i>GPS • Сигнал</span>
+      <span class="fm-map__title">Штаб <b>CASTRO</b></span>
+      <button class="fm-map__close" type="button" aria-label="Закрити">✕</button>
+    </header>
+    <div class="fm-map__view" style="--x:51.17%; --y:55.8%">
+      <div class="fm-map__stage">
+        <img alt="Особняк Family Castro на карті — провулок Джентрі, Західний Вайнвуд" data-src="/assets/mansion-map.webp?v=2" width="1450" height="1289">
+        <span class="fm-map__pin" aria-hidden="true"><i></i><i></i><i></i><b></b></span>
+        <span class="fm-map__tag" aria-hidden="true"><small>Особняк</small>Family Castro</span>
+      </div>
+      <span class="fm-map__cross fm-map__cross--x" aria-hidden="true"></span>
+      <span class="fm-map__cross fm-map__cross--y" aria-hidden="true"></span>
+      <span class="fm-map__scan" aria-hidden="true"></span>
+      <span class="fm-map__vignette" aria-hidden="true"></span>
+    </div>
+    <footer class="fm-map__foot">
+      <div class="fm-map__addr"><small>Західний Вайнвуд</small><b>Провулок Джентрі</b></div>
+      <div class="fm-map__coords" aria-hidden="true">X <span>51.17</span> • Y <span>55.80</span></div>
+      <button class="cbtn cbtn--red fm-map__zoom" type="button" aria-pressed="false">🔍 Наблизити</button>
+    </footer>
+  </div>
 </div>
 
 <!-- Лайтбокс галереї -->
@@ -515,7 +534,7 @@
 <script src="/auth.js?v=20260926" defer></script>
 <script src="/profile.js?v=20261116" defer></script>
 <script src="/castro.js?v=20260926f"></script>
-<script src="/info/family.js?v=20260926b"></script>
+<script src="/info/family.js?v=20261117"></script>
 <script src="/cursor.js?v=20260926"></script>
 </body>
 </html>

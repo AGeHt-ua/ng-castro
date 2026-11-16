@@ -65,13 +65,22 @@
   const mapBtn = document.querySelector("[data-map-open]");
   if (map && mapBtn) {
     const mapImg = map.querySelector("img");
+    const zoomBtn = map.querySelector(".fm-map__zoom");
+    const view = map.querySelector(".fm-map__view");
+    const closeBtn = map.querySelector(".fm-map__close");
     let mapFocus = null;
+    const setZoom = (on) => {
+      map.classList.toggle("is-zoomed", on);
+      zoomBtn.setAttribute("aria-pressed", String(on));
+      zoomBtn.textContent = on ? "↺ Віддалити" : "🔍 Наблизити";
+    };
     const openMap = () => {
       mapFocus = document.activeElement;
-      if (!mapImg.src) mapImg.src = mapImg.dataset.src;
+      if (!mapImg.getAttribute("src")) mapImg.src = mapImg.dataset.src;
+      setZoom(false);
       map.hidden = false;
       document.body.classList.add("fm-lock");
-      map.querySelector(".fm-lb__close").focus();
+      closeBtn.focus();
     };
     const closeMap = () => {
       map.hidden = true;
@@ -79,8 +88,10 @@
       mapFocus?.focus();
     };
     mapBtn.addEventListener("click", openMap);
-    map.querySelector(".fm-lb__close").addEventListener("click", closeMap);
-    map.addEventListener("click", (e) => { if (e.target === map || e.target.tagName === "FIGURE") closeMap(); });
+    closeBtn.addEventListener("click", closeMap);
+    zoomBtn.addEventListener("click", () => setZoom(!map.classList.contains("is-zoomed")));
+    view.addEventListener("click", () => setZoom(!map.classList.contains("is-zoomed")));
+    map.addEventListener("click", (e) => { if (e.target === map) closeMap(); });
     document.addEventListener("keydown", (e) => { if (!map.hidden && e.key === "Escape") closeMap(); });
   }
 
