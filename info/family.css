@@ -147,6 +147,8 @@
 .fm-facts dt{ font-size:10px; font-weight:800; letter-spacing:.22em; text-transform:uppercase; color:var(--c-dim); }
 .fm-facts dd{ margin:6px 0 0; font:400 22px/1.05 var(--c-display); text-transform:uppercase; letter-spacing:.02em; }
 .fm-hq__rule{ margin:20px 0 0; padding-left:14px; border-left:2px solid var(--c-red); font-size:14px; color:var(--c-muted); }
+.fm-hq__actions{ margin-top:24px; display:flex; flex-wrap:wrap; gap:12px; }
+.fm-lb--single{ grid-template-columns:minmax(0, 1fr); }
 
 /* ---------- Символ ---------- */
 .fm-emblem{ display:grid; grid-template-columns:minmax(260px, 420px) minmax(0, 1fr); gap:clamp(30px, 6vw, 80px); align-items:center; }

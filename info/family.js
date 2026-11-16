@@ -60,6 +60,30 @@
     });
   }));
 
+  // ---------- Штаб: особняк на карті ----------
+  const map = document.getElementById("fmMap");
+  const mapBtn = document.querySelector("[data-map-open]");
+  if (map && mapBtn) {
+    const mapImg = map.querySelector("img");
+    let mapFocus = null;
+    const openMap = () => {
+      mapFocus = document.activeElement;
+      if (!mapImg.src) mapImg.src = mapImg.dataset.src;
+      map.hidden = false;
+      document.body.classList.add("fm-lock");
+      map.querySelector(".fm-lb__close").focus();
+    };
+    const closeMap = () => {
+      map.hidden = true;
+      document.body.classList.remove("fm-lock");
+      mapFocus?.focus();
+    };
+    mapBtn.addEventListener("click", openMap);
+    map.querySelector(".fm-lb__close").addEventListener("click", closeMap);
+    map.addEventListener("click", (e) => { if (e.target === map || e.target.tagName === "FIGURE") closeMap(); });
+    document.addEventListener("keydown", (e) => { if (!map.hidden && e.key === "Escape") closeMap(); });
+  }
+
   // ---------- Галерея: лайтбокс ----------
   const lb = document.getElementById("fmLightbox");
   const shots = [...document.querySelectorAll(".fm-gallery .shot")];
