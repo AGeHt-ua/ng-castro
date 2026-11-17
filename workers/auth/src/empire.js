@@ -63,6 +63,44 @@ export const GRACE_MINUTES = 15;           // нові гравці — без �
 export const GAME_MIN_SECONDS = 8;
 export const GAME_MAX_SECONDS = 300;
 
+// ---------- Рейди: напади сімей NG на особняк і власні напади ----------
+export const RAID = {
+  minHq: 2,                    // з якого рівня штабу сім'я стає помітною
+  firstMinutes: [20, 60],      // перший рейд після досягнення штабу 2
+  intervalHours: [12, 24],     // далі — раз на 12–24 год
+  warnMinutes: 15,             // попередження до нападу
+  debuffMinutes: 60,           // штраф: дохід −50% на годину
+  debuffMult: 0.5,
+  attackCooldownMinutes: 10,   // власний напад — раз на 10 хв
+  battleMinSeconds: 25,
+  battleMaxSeconds: 420,
+  defendRewardMinutes: 15,     // захист: 15 хв доходу імперії
+  attackRewardMinutes: 4,      // напад: 4 хв доходу імперії
+  bossBonus: 1.5,
+};
+// Сім'ї NG (назви з форуму NG, розділ «Сімейні Role Play біографії»)
+export const FAMILIES = [
+  { id: "medellin", name: "Medellin", style: "swarm", color: "#ffb02e" },
+  { id: "insane", name: "Insane", style: "swarm", color: "#ff3ea5" },
+  { id: "akatske", name: "Akatske", style: "swarm", color: "#e0182d" },
+  { id: "katsu", name: "Katsu", style: "swarm", color: "#c04bff" },
+  { id: "grizzly", name: "Grizzly", style: "armored", color: "#8a5a2b" },
+  { id: "armani", name: "Armani", style: "armored", color: "#d9d9de" },
+  { id: "kingsley", name: "Kingsley", style: "armored", color: "#2f6bff" },
+  { id: "belmont", name: "Belmont", style: "armored", color: "#22c55e" },
+  { id: "syndicat", name: "Syndicat", style: "vehicle", color: "#7a7f8a" },
+  { id: "gentlemen", name: "The Gentlemen", style: "vehicle", color: "#f2c14e" },
+  { id: "darkmonarchs", name: "Dark Monarchs", style: "vehicle", color: "#6b2bff" },
+  { id: "sacrum", name: "Sacrum", style: "vehicle", color: "#3fb6ff" },
+];
+const FAMILY_BY_ID = Object.fromEntries(FAMILIES.map((f) => [f.id, f]));
+export const ARSENAL = {
+  weapon: { name: "Стартова зброя", max: 4, base: 150000, mult: 18 },
+  squad: { name: "Бійці з самого початку", max: 3, base: 300000, mult: 22 },
+  gate: { name: "Броня воріт", max: 5, base: 100000, mult: 12 },
+};
+export const arsenalCost = (item, level) => Math.round(ARSENAL[item].base * Math.pow(ARSENAL[item].mult, level));
+
 export const milestoneMult = (level) => Math.pow(2, MILESTONES.filter((m) => level >= m).length);
 export const businessIncome = (b, level) => (level > 0 ? b.income * level * milestoneMult(level) : 0);
 // ціна переходу level → level+1 (для level 0 — розблокування)
@@ -72,12 +110,44 @@ const isDown = (incidents, id) => !!(incidents && incidents[id] && incidents[id]
 export const ratePerSecond = (levels, hq, incidents) =>
   BUSINESSES.reduce((sum, b) => sum + (isDown(incidents, b.id) ? 0 : businessIncome(b, levels[b.id] || 0)), 0) * hqMult(hq);
 
-export const freshState = (now) => ({ cash: START_CASH, earned: 0, levels: { wash: 1 }, hq: 1, incidents: {}, cooldowns: {}, updated_at: now, created_at: now });
+export const freshState = (now) => ({ cash: START_CASH, earned: 0, levels: { wash: 1 }, hq: 1, incidents: {}, cooldowns: {},
+  raid: null, attack: { ready_at: 0 }, debuff: null, battle: null, arsenal: { weapon: 0, squad: 0, gate: 0 }, stats: { won: 0, lost: 0, attacks: 0, attacksWon: 0 },
+  updated_at: now, created_at: now });
+
+const ensureExtra = (state) => {
+  state.incidents ||= {}; state.cooldowns ||= {};
+  state.attack ||= { ready_at: 0 };
+  state.arsenal = { weapon: 0, squad: 0, gate: 0, ...(state.arsenal || {}) };
+  state.stats = { won: 0, lost: 0, attacks: 0, attacksWon: 0, ...(state.stats || {}) };
+};
+const overlapSeconds = (a0, a1, b0, b1) => Math.max(0, (Math.min(a1, b1) - Math.max(a0, b0)) / 1000);
+export const totalIncome = (state) => BUSINESSES.reduce((sum, b) => sum + businessIncome(b, state.levels[b.id] || 0), 0) * hqMult(state.hq);
+const randBetween = (random, [a, b]) => a + random() * (b - a);
+const pickFamily = (random) => FAMILIES[Math.floor(random() * FAMILIES.length)];
+
+// Розклад рейду + автоматична поразка, якщо час нападу минув без захисту
+const raidTick = (state, now, random) => {
+  if (state.hq < RAID.minHq) return;
+  if (!state.raid) {
+    state.raid = { next_at: Math.round(now + randBetween(random, RAID.firstMinutes) * 60e3), family: pickFamily(random).id };
+    return;
+  }
+  const defending = state.battle?.mode === "defend" && now - state.battle.at < RAID.battleMaxSeconds * 1000;
+  if (now >= state.raid.next_at && !defending) {
+    const at = state.raid.next_at;
+    state.debuff = { from: at, until: at + RAID.debuffMinutes * 60e3, family: state.raid.family };
+    state.stats.lost += 1;
+    let next = at + randBetween(random, RAID.intervalHours) * 3600e3;
+    if (next < now) next = now + randBetween(random, RAID.intervalHours) * 3600e3;
+    state.raid = { next_at: Math.round(next), family: pickFamily(random).id, lostAt: at };
+    if (state.battle?.mode === "defend") state.battle = null;
+  }
+};
 
 // Нарахувати дохід за час, що минув. Повертає скільки додано і за скільки секунд.
 export const settle = (state, now, random = Math.random) => {
-  state.incidents ||= {};
-  state.cooldowns ||= {};
+  ensureExtra(state);
+  raidTick(state, now, random);
   const elapsed = Math.max(0, (now - state.updated_at) / 1000);
   const seconds = Math.min(elapsed, OFFLINE_CAP_SECONDS);
   const windowStart = now - seconds * 1000;
@@ -105,11 +175,15 @@ export const settle = (state, now, random = Math.random) => {
         started.push(b.id);
       }
     }
-    gain += income * activeSeconds;
+    const debuffLoss = state.debuff
+      ? overlapSeconds(windowStart, windowStart + activeSeconds * 1000, state.debuff.from, state.debuff.until) * (1 - RAID.debuffMult)
+      : 0;
+    gain += income * Math.max(0, activeSeconds - debuffLoss);
   }
   state.cash += gain;
   state.earned += gain;
   state.updated_at = now;
+  if (state.debuff && state.debuff.until <= now) state.debuff = null;
   return { gain, seconds, capped: elapsed > OFFLINE_CAP_SECONDS, started };
 };
 
@@ -158,6 +232,72 @@ export const finishIncidentGame = (state, id, token, score, now) => {
   return { passed: true, score: clean, stars, bonus };
 };
 
+// ---------- Бій ----------
+export const raidStatus = (state, now) => {
+  if (!state.raid || state.hq < RAID.minHq) return "none";
+  return now >= state.raid.next_at - RAID.warnMinutes * 60e3 ? "warning" : "scheduled";
+};
+
+export const startBattle = (state, mode, now, familyId, random = Math.random) => {
+  ensureExtra(state);
+  if (state.hq < RAID.minHq) throw new Error("hq_too_low");
+  let family;
+  if (mode === "defend") {
+    if (raidStatus(state, now) !== "warning") throw new Error("no_raid");
+    family = state.raid.family;
+  } else if (mode === "attack") {
+    if (now < (state.attack.ready_at || 0)) throw new Error("attack_cooldown");
+    family = FAMILY_BY_ID[familyId] ? familyId : pickFamily(random).id;
+    state.attack.ready_at = now + RAID.attackCooldownMinutes * 60e3; // пауза з моменту старту
+  } else throw new Error("bad_mode");
+  state.battle = { token: randomToken(), at: now, mode, family };
+  return { token: state.battle.token, mode, family: FAMILY_BY_ID[family], arsenal: state.arsenal };
+};
+
+export const finishBattle = (state, token, result, now, random = Math.random) => {
+  ensureExtra(state);
+  const battle = state.battle;
+  if (!battle || battle.token !== token) throw new Error("bad_token");
+  const took = (now - battle.at) / 1000;
+  state.battle = null;
+  if (took < RAID.battleMinSeconds || took > RAID.battleMaxSeconds) throw new Error("bad_timing");
+  const won = !!result?.won;
+  const boss = won && !!result?.boss;
+  let reward = 0;
+  if (battle.mode === "defend") {
+    if (won) {
+      reward = Math.round(totalIncome(state) * RAID.defendRewardMinutes * 60 * (boss ? RAID.bossBonus : 1));
+      state.stats.won += 1;
+    } else {
+      state.debuff = { from: now, until: now + RAID.debuffMinutes * 60e3, family: battle.family };
+      state.stats.lost += 1;
+    }
+    state.raid = { next_at: Math.round(now + randBetween(random, RAID.intervalHours) * 3600e3), family: pickFamily(random).id };
+  } else {
+    state.stats.attacks += 1;
+    if (won) {
+      reward = Math.round(totalIncome(state) * RAID.attackRewardMinutes * 60 * (boss ? RAID.bossBonus : 1));
+      state.stats.attacksWon += 1;
+    }
+  }
+  state.cash += reward;
+  state.earned += reward;
+  return { won, boss, reward, mode: battle.mode, family: FAMILY_BY_ID[battle.family] };
+};
+
+export const buyArsenal = (state, item) => {
+  ensureExtra(state);
+  const cfg = ARSENAL[item];
+  if (!cfg) throw new Error("unknown_item");
+  const level = state.arsenal[item] || 0;
+  if (level >= cfg.max) return { bought: false, max: true };
+  const cost = arsenalCost(item, level);
+  if (state.cash < cost) return { bought: false, cost };
+  state.cash -= cost;
+  state.arsenal[item] = level + 1;
+  return { bought: true, cost, level: level + 1 };
+};
+
 // Найняти підміну без міні-гри.
 export const hireForIncident = (state, id, now) => {
   if (!INCIDENTS[id] || !state.incidents?.[id]) throw new Error("no_incident");
@@ -201,10 +341,16 @@ export const publicConfig = () => ({
   ranks: RANKS,
   offlineCap: OFFLINE_CAP_SECONDS,
   incidents: INCIDENTS,
+  raid: RAID,
+  families: FAMILIES,
+  arsenal: ARSENAL,
 });
 
 export const view = (state) => {
+  ensureExtra(state);
   const rank = rankFor(state.earned);
+  const now = state.updated_at;
+  const debuffOn = state.debuff && state.debuff.from <= now && state.debuff.until > now;
   return {
     cash: state.cash,
     earned: state.earned,
@@ -212,7 +358,14 @@ export const view = (state) => {
     hq: state.hq,
     hqCost: state.hq < HQ_MAX ? hqCost(state.hq) : null,
     hqMult: hqMult(state.hq),
-    rate: ratePerSecond(state.levels, state.hq, state.incidents),
+    rate: ratePerSecond(state.levels, state.hq, state.incidents) * (debuffOn ? RAID.debuffMult : 1),
+    raid: state.raid ? { status: raidStatus(state, now), next_at: state.raid.next_at, warn_at: state.raid.next_at - RAID.warnMinutes * 60e3, family: FAMILY_BY_ID[state.raid.family], lostAt: state.raid.lostAt || null } : null,
+    attack: { ready_at: state.attack.ready_at || 0 },
+    debuff: debuffOn ? { until: state.debuff.until, family: FAMILY_BY_ID[state.debuff.family] || null } : null,
+    arsenal: state.arsenal,
+    arsenalCosts: Object.fromEntries(Object.keys(ARSENAL).map((k) => [k, state.arsenal[k] >= ARSENAL[k].max ? null : arsenalCost(k, state.arsenal[k])])),
+    stats: state.stats,
+    battle: state.battle ? { mode: state.battle.mode, family: state.battle.family } : null,
     incidents: Object.fromEntries(Object.entries(state.incidents || {}).map(([id, inc]) => [id, { type: inc.type, started_at: inc.started_at, hireCost: hireCost(state, id) }])),
     rank,
     server_time: state.updated_at,
@@ -225,7 +378,12 @@ const parseRow = (row) => ({
   earned: Number(row.earned) || 0,
   levels: (() => { try { return JSON.parse(row.levels || "{}"); } catch { return {}; } })(),
   hq: Math.max(1, Math.min(HQ_MAX, Number(row.hq) || 1)),
-  ...(() => { try { const x = JSON.parse(row.incidents || "{}"); return { incidents: x.active || {}, cooldowns: x.cooldowns || {} }; } catch { return { incidents: {}, cooldowns: {} }; } })(),
+  ...(() => {
+    try {
+      const x = JSON.parse(row.incidents || "{}");
+      return { incidents: x.active || {}, cooldowns: x.cooldowns || {}, raid: x.raid || null, attack: x.attack || { ready_at: 0 }, debuff: x.debuff || null, battle: x.battle || null, arsenal: x.arsenal || {}, stats: x.stats || {} };
+    } catch { return { incidents: {}, cooldowns: {} }; }
+  })(),
   updated_at: Number(row.updated_at) || Date.now(),
   created_at: Number(row.created_at) || Date.now(),
 });
@@ -242,7 +400,7 @@ export const saveState = async (db, userId, user, state) => {
      ON CONFLICT(user_id) DO UPDATE SET name = excluded.name, avatar = excluded.avatar, cash = excluded.cash,
        earned = excluded.earned, levels = excluded.levels, hq = excluded.hq, incidents = excluded.incidents, updated_at = excluded.updated_at`,
   ).bind(userId, String(user?.name || "").slice(0, 64), user?.avatar || null, state.cash, state.earned,
-    JSON.stringify(state.levels), state.hq, JSON.stringify({ active: state.incidents || {}, cooldowns: state.cooldowns || {} }),
+    JSON.stringify(state.levels), state.hq, JSON.stringify({ active: state.incidents || {}, cooldowns: state.cooldowns || {}, raid: state.raid || null, attack: state.attack || null, debuff: state.debuff || null, battle: state.battle || null, arsenal: state.arsenal || null, stats: state.stats || null }),
     state.updated_at, state.created_at).run();
 };
 

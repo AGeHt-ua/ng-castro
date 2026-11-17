@@ -11,7 +11,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&display=swap">
-  <link rel="stylesheet" href="/cabinet/game/game.css?v=20261117e">
+  <link rel="stylesheet" href="/cabinet/game/game.css?v=20261117f">
   <script type="importmap">
     {
       "imports": {
@@ -51,6 +51,14 @@
     </div>
   </header>
 
+  <!-- Тривога: рейд на особняк -->
+  <div class="gx-raid" id="raidBar" hidden>
+    <span class="gx-raid__siren" aria-hidden="true"></span>
+    <div class="gx-raid__text"><small id="raidKicker">Розвідка доповідає</small><b id="raidTitle">Рейд!</b></div>
+    <b class="gx-raid__timer" id="raidTimer">15:00</b>
+    <button type="button" class="gx-btn gx-btn--red" id="raidDefend"><b>🛡️ Захищати</b></button>
+  </div>
+
   <!-- Панель вибраного обʼєкта -->
   <aside class="gx-panel" id="panel" hidden>
     <button class="gx-panel__close" type="button" id="panelClose" aria-label="Закрити">✕</button>
@@ -71,6 +79,23 @@
       <span class="gx-mg__icon" id="gIcon">🎮</span>
       <div class="gx-mg__text"><small id="gKicker">Попрацюй сам</small><b id="gName">—</b><em id="gDesc"></em></div>
       <button type="button" class="gx-btn" id="gPlay"><b>Грати</b></button>
+    </div>
+    <div class="gx-war" id="pRaid" hidden>
+      <div class="gx-war__block">
+        <div class="gx-war__head"><span>🛡️</span><b>Захист особняка</b></div>
+        <p id="rStatus">—</p>
+        <button type="button" class="gx-btn gx-btn--red" id="rDefend" hidden><b>Захищати</b></button>
+      </div>
+      <div class="gx-war__block">
+        <div class="gx-war__head"><span>⚔️</span><b>Напад</b><em id="rAttackCd"></em></div>
+        <p class="gx-war__note">Обери сім'ю NG і штурмуй її особняк. Раз на 10 хв.</p>
+        <div class="gx-fams" id="rFamilies"></div>
+      </div>
+      <div class="gx-war__block">
+        <div class="gx-war__head"><span>🧰</span><b>Арсенал</b></div>
+        <div class="gx-arsenal" id="rArsenal"></div>
+      </div>
+      <p class="gx-war__stats" id="rStats"></p>
     </div>
     <div class="gx-panel__stats">
       <div><small>Рівень</small><b id="pLevel">0</b></div>
@@ -121,6 +146,6 @@
 
   <div class="gx-toast" id="toast" role="status" aria-live="polite"></div>
 
-  <script type="module" src="/cabinet/game/game.js?v=20261117e"></script>
+  <script type="module" src="/cabinet/game/game.js?v=20261117f"></script>
 </body>
 </html>

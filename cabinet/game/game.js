@@ -4,6 +4,7 @@ import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 import { CSS2DRenderer, CSS2DObject } from "three/addons/renderers/CSS2DRenderer.js";
 import * as E from "/workers/auth/src/empire.js";
 import { playCarWash } from "/cabinet/game/minigames/carwash.js?v=20261117d";
+import { playRaid } from "/cabinet/game/minigames/raid.js?v=20261117f";
 import { EffectComposer } from "three/addons/postprocessing/EffectComposer.js";
 import { RenderPass } from "three/addons/postprocessing/RenderPass.js";
 import { UnrealBloomPass } from "three/addons/postprocessing/UnrealBloomPass.js";
@@ -58,7 +59,7 @@ const api = async (path, body) => {
 };
 const demoApi = async (path, body) => {
   const now = Date.now();
-  if (!demoState) { demoState = E.freshState(now - 3 * 3600e3); demoState.cash = 2e7; demoState.levels = { wash: 32, garage: 12, club: 1 }; demoState.earned = 3e5; demoState.incidents = { wash: { type: "sick", started_at: now - 40 * 60e3 } }; }
+  if (!demoState) { demoState = E.freshState(now - 3 * 3600e3); demoState.cash = 2e7; demoState.levels = { wash: 32, garage: 12, club: 1 }; demoState.earned = 3e5; demoState.incidents = { wash: { type: "sick", started_at: now - 40 * 60e3 } }; demoState.hq = 2; demoState.raid = { next_at: now + 9 * 60e3, family: "medellin" }; }
   if (path === "/game/state") {
     const offline = E.settle(demoState, now);
     return { status: 200, data: { ok: true, player: { id: "demo", name: "Dominic Castro", avatar: null }, config: E.publicConfig(), state: E.view(demoState), offline: offline.seconds >= 60 ? offline : null, place: { place: 1, total: 12 } } };
@@ -67,6 +68,15 @@ const demoApi = async (path, body) => {
     E.settle(demoState, now);
     const result = E.upgrade(demoState, body.target, body.count);
     return { status: 200, data: { ok: true, result, state: E.view(demoState) } };
+  }
+  if (path.startsWith("/game/battle/") || path === "/game/arsenal") {
+    E.settle(demoState, now, () => 0.99);
+    try {
+      const result = path === "/game/battle/start" ? E.startBattle(demoState, body.mode, now, body.family)
+        : path === "/game/battle/finish" ? E.finishBattle(demoState, body.token, body, now + 60e3)
+          : E.buyArsenal(demoState, body.item);
+      return { status: 200, data: { ok: true, result, state: E.view(demoState) } };
+    } catch (error) { return { status: 409, data: { ok: false, error: error.message, state: E.view(demoState) } }; }
   }
   if (path.startsWith("/game/incident/")) {
     E.settle(demoState, now, () => 1);
@@ -247,6 +257,22 @@ const buildHQ = (hq) => {
   hqGroup.userData.top = villa.userData.top;
   hqLight.position.y = villa.userData.top - 3;
 };
+
+// Тривога над віллою: червоні прожектори й мигалка
+const raidLights = new THREE.Group();
+raidLights.visible = false;
+const raidBeams = [];
+for (let i = 0; i < 3; i += 1) {
+  const pivot = new THREE.Group();
+  pivot.position.set(Math.cos((i / 3) * Math.PI * 2) * 9, 1, Math.sin((i / 3) * Math.PI * 2) * 9);
+  const beam = new THREE.Mesh(new THREE.ConeGeometry(1.6, 30, 16, 1, true), new THREE.MeshBasicMaterial({ color: 0xff1a2a, transparent: true, opacity: 0.12, side: THREE.DoubleSide, depthWrite: false, blending: THREE.AdditiveBlending }));
+  beam.geometry.translate(0, -15, 0); beam.rotation.x = Math.PI;
+  pivot.add(beam); raidLights.add(pivot); raidBeams.push(pivot);
+}
+const sirenLight = new THREE.PointLight(0xff1a2a, 0, 40, 1.4);
+sirenLight.position.set(0, 18, 0);
+raidLights.add(sirenLight);
+scene.add(raidLights);
 
 // ---------- Бізнеси ----------
 const plots = new Map(); // id -> { group, label, pos, level, top }
@@ -461,7 +487,11 @@ const rankProgress = () => {
 
 const renderHud = () => {
   $("cash").textContent = fmt(liveCash());
-  $("rate").textContent = `+${fmt(game.state.rate)} / сек`;
+  const debuff = game.state.debuff;
+  const debuffLeft = debuff ? Math.max(0, Math.ceil((debuff.until - (game.state.server_time + (performance.now() - game.syncedAt))) / 60000)) : 0;
+  $("rate").textContent = debuff && debuffLeft > 0 ? `+${fmt(game.state.rate)} / сек • −50% ще ${debuffLeft} хв` : `+${fmt(game.state.rate)} / сек`;
+  $("rate").classList.toggle("is-debuff", !!debuff && debuffLeft > 0);
+  renderRaidBar();
   $("rank").textContent = game.state.rank.name;
   $("rankBar").style.width = `${rankProgress()}%`;
 };
@@ -484,6 +514,7 @@ const renderPanel = () => {
     : b.desc;
   $("pLevel").textContent = isHQ ? `${lvl}/${game.config.hqMax}` : lvl;
   renderGameCard(id, lvl);
+  renderWar(isHQ);
   const inc = !isHQ && game.state.incidents?.[id];
   const incCfg = inc && game.config.incidents?.[id];
   panel.classList.toggle("is-down", !!inc);
@@ -657,6 +688,104 @@ const playBusinessGame = (id) => {
   }
 };
 
+// ---------- Рейди: захист особняка і напади ----------
+const serverNow = () => game.state.server_time + (performance.now() - game.syncedAt);
+const mmss = (ms) => { const t = Math.max(0, Math.ceil(ms / 1000)); return `${Math.floor(t / 60)}:${String(t % 60).padStart(2, "0")}`; };
+const STYLE_ICON = { swarm: "⚡", armored: "🛡️", vehicle: "🚙" };
+
+const renderRaidBar = () => {
+  const raid = game.state.raid;
+  const warn = raid && raid.status === "warning" && !game.state.battle;
+  const left = raid ? raid.next_at - serverNow() : 0;
+  $("raidBar").hidden = !(warn && left > 0);
+  raidLights.visible = !$("raidBar").hidden;
+  if ($("raidBar").hidden) return;
+  $("raidBar").style.setProperty("--fc", raid.family?.color || "#e0182d");
+  $("raidKicker").textContent = "Розвідка доповідає";
+  $("raidTitle").textContent = `Сім'я ${raid.family?.name || "?"} йде на особняк!`;
+  $("raidTimer").textContent = mmss(left);
+};
+
+const renderWar = (isHQ) => {
+  const box = $("pRaid");
+  box.hidden = !isHQ;
+  if (!isHQ) return;
+  const st = game.state;
+  const minHq = game.config.raid?.minHq || 2;
+  const now = serverNow();
+  if (st.hq < minHq) {
+    $("rStatus").textContent = `Рейди й напади відкриються зі штабу ${minHq} рівня — тоді сім'ї NG тебе помітять.`;
+    $("rDefend").hidden = true;
+  } else if (st.raid?.status === "warning") {
+    $("rStatus").innerHTML = `⚠️ <b style="color:${esc(st.raid.family?.color || "#fff")}">${esc(st.raid.family?.name || "")}</b> нападе через <b>${mmss(st.raid.next_at - now)}</b>. Не захистиш — дохід −50% на годину.`;
+    $("rDefend").hidden = false;
+  } else if (st.raid) {
+    $("rStatus").textContent = st.debuff ? `Особняк пограбовано: дохід −50% ще ${Math.ceil((st.debuff.until - now) / 60000)} хв.` : "Розвідка: поки тихо. Про напад попередять за 15 хв.";
+    $("rDefend").hidden = true;
+  } else {
+    $("rStatus").textContent = "Розвідка стежить за містом.";
+    $("rDefend").hidden = true;
+  }
+  const cd = (st.attack?.ready_at || 0) - now;
+  const canAttack = st.hq >= minHq && cd <= 0 && !game.busy;
+  $("rAttackCd").textContent = st.hq < minHq ? "" : cd > 0 ? `через ${mmss(cd)}` : "готово";
+  const fams = game.config.families || [];
+  const html = fams.map((f) => `<button type="button" class="gx-fam" data-fam="${esc(f.id)}" style="--fc:${esc(f.color)}" ${canAttack ? "" : "disabled"} title="${esc(f.name)}"><i>${STYLE_ICON[f.style] || "⚔️"}</i>${esc(f.name)}</button>`).join("");
+  if ($("rFamilies").dataset.sig !== `${canAttack}`) { $("rFamilies").innerHTML = html; $("rFamilies").dataset.sig = `${canAttack}`; }
+  const ars = game.config.arsenal || {};
+  const cash = liveCash();
+  $("rArsenal").innerHTML = Object.entries(ars).map(([key, cfg]) => {
+    const lvl = st.arsenal?.[key] || 0;
+    const cost = st.arsenalCosts?.[key];
+    return `<div class="gx-ars"><span>${esc(cfg.name)}</span><em>${"●".repeat(lvl)}${"○".repeat(cfg.max - lvl)}</em>
+      <button type="button" class="gx-btn" data-ars="${esc(key)}" ${cost == null || cash < cost || game.busy ? "disabled" : ""}><b>${cost == null ? "MAX" : fmt(cost)}</b></button></div>`;
+  }).join("");
+  const s = st.stats || {};
+  $("rStats").textContent = `Захистів: ${s.won || 0} ✓ / ${s.lost || 0} ✗ • Нападів: ${s.attacksWon || 0} з ${s.attacks || 0}`;
+};
+
+const runBattle = async (mode, familyId) => {
+  if (game.busy) return;
+  const fam = mode === "defend" ? game.state.raid?.family : (game.config.families || []).find((f) => f.id === familyId);
+  let token = null;
+  const res = await playRaid({
+    mode, family: fam, arsenal: game.state.arsenal || {},
+    onStart: async () => {
+      const { data } = await api("/game/battle/start", { mode, family: familyId });
+      if (data?.state) { game.state = data.state; game.syncedAt = performance.now(); }
+      if (!data?.ok) { toast(data?.error === "attack_cooldown" ? "Напад ще не готовий" : data?.error === "no_raid" ? "Рейду вже немає" : "Не вдалося почати бій"); return false; }
+      token = data.result.token;
+      return true;
+    },
+  });
+  if (res.cancelled || !token) { if (token) await api("/game/battle/finish", { token, won: false }); return; }
+  game.busy = true;
+  try {
+    const { data } = await api("/game/battle/finish", { token, won: res.won, boss: res.boss });
+    if (data?.state) { game.state = data.state; game.syncedAt = performance.now(); }
+    if (!data?.ok) { toast(data?.error === "bad_timing" ? "Бій не зараховано (надто швидко)" : "Не вдалося зарахувати бій"); return; }
+    const r = data.result;
+    if (r.won) showModal({ icon: r.mode === "defend" ? "🛡️" : "⚔️", kicker: r.mode === "defend" ? `${r.family?.name} відбито` : `Особняк ${r.family?.name} взято`, title: `+${fmt(r.reward)}`, text: r.boss ? "Бос знищений — нагорода ×1,5. Сім'я пишається тобою." : "Перемога! Розбий боса наступного разу — буде ×1,5.", ok: "Чудово" });
+    else if (r.mode === "defend") showModal({ icon: "💀", kicker: "Особняк пограбовано", title: "−50% доходу", text: `${r.family?.name} прорвались. Годину бізнеси приносять половину. Прокачай арсенал у штабі.`, ok: "Зрозуміло" });
+    else toast(`Напад на ${r.family?.name} провалився. Спробуй через 10 хв.`);
+    refreshWorld();
+  } finally {
+    game.busy = false;
+    renderPanel(); renderHud(); renderList();
+  }
+};
+
+const buyArsenalItem = async (item) => {
+  if (game.busy) return;
+  game.busy = true;
+  try {
+    const { data } = await api("/game/arsenal", { item });
+    if (data?.state) { game.state = data.state; game.syncedAt = performance.now(); }
+    if (!data?.ok || !data.result.bought) toast("Не вистачає грошей");
+    else toast(`🧰 ${game.config.arsenal[item].name}: рівень ${data.result.level}`);
+  } finally { game.busy = false; renderPanel(); renderHud(); }
+};
+
 // ---------- Події: підміна (гра) або найм ----------
 const fixIncident = async (id) => {
   if (game.busy || !isDown(id)) return;
@@ -740,6 +869,10 @@ $("mOk").addEventListener("click", () => { $("modal").hidden = true; });
 $("iPlay").addEventListener("click", () => fixIncident(game.selected));
 $("iHire").addEventListener("click", () => hireIncident(game.selected));
 $("gPlay").addEventListener("click", () => playBusinessGame(game.selected));
+$("raidDefend").addEventListener("click", () => runBattle("defend"));
+$("rDefend").addEventListener("click", () => runBattle("defend"));
+$("rFamilies").addEventListener("click", (e) => { const b = e.target.closest("[data-fam]"); if (b && !b.disabled) runBattle("attack", b.dataset.fam); });
+$("rArsenal").addEventListener("click", (e) => { const b = e.target.closest("[data-ars]"); if (b && !b.disabled) buyArsenalItem(b.dataset.ars); });
 addEventListener("keydown", (e) => {
   if (e.key === "Escape") { if (!$("modal").hidden) $("modal").hidden = true; else if (game.selected) select(null); else closeSheets(); }
 });
@@ -815,6 +948,10 @@ const loop = () => {
 
   });
   city.update(dt, t);
+  if (raidLights.visible) {
+    raidBeams.forEach((p, i) => { p.rotation.z = Math.sin(t * 1.2 + i * 2) * 0.5; p.rotation.x = Math.cos(t * 0.9 + i) * 0.4; });
+    sirenLight.intensity = Math.sin(t * 8) > 0 ? 120 : 10;
+  }
   for (let i = bursts.length - 1; i >= 0; i -= 1) {
     const bst = bursts[i];
     bst.life -= dt;

@@ -242,6 +242,25 @@ const handleGame = async (request, env, url) => {
     return json(request, env, { ok: true, result, state: Empire.view(state) });
   }
 
+  if (request.method === "POST" && (url.pathname.startsWith("/game/battle/") || url.pathname === "/game/arsenal")) {
+    let body;
+    try { body = await request.json(); } catch { return json(request, env, { ok: false, error: "bad_json" }, 400); }
+    const { state } = await Empire.loadState(env.GAME_DB, userId, now);
+    Empire.settle(state, now);
+    let result;
+    try {
+      if (url.pathname === "/game/battle/start") result = Empire.startBattle(state, body?.mode === "attack" ? "attack" : "defend", now, String(body?.family || ""));
+      else if (url.pathname === "/game/battle/finish") result = Empire.finishBattle(state, String(body?.token || ""), { won: !!body?.won, boss: !!body?.boss }, now);
+      else if (url.pathname === "/game/arsenal") result = Empire.buyArsenal(state, String(body?.item || ""));
+      else return json(request, env, { ok: false, error: "Not found" }, 404);
+    } catch (error) {
+      await Empire.saveState(env.GAME_DB, userId, player, state);
+      return json(request, env, { ok: false, error: error.message || "battle_error", state: Empire.view(state) }, 409);
+    }
+    await Empire.saveState(env.GAME_DB, userId, player, state);
+    return json(request, env, { ok: true, result, state: Empire.view(state) });
+  }
+
   if (request.method === "GET" && url.pathname === "/game/top") {
     const { state } = await Empire.loadState(env.GAME_DB, userId, now);
     return json(request, env, { ok: true, top: await Empire.topPlayers(env.GAME_DB), me: { id: userId, ...(await Empire.placeOf(env.GAME_DB, state.earned)) } });
